@@ -1,0 +1,82 @@
+:root{
+  /* --- Brand: red. --red-500 #cc0000 is the primary, given by Kepler.
+         The 6xx-8xx steps are the darker halves of the wordmark gradient;
+         --red-450 is the brighter red found in the print material. --- */
+  --red-450:#e52c1a;
+  --red-500:#cc0000;
+  --red-600:#b30000;
+  --red-700:#990000;
+  --red-800:#800000;
+  --red-050:#fdeaea;
+  --red-100:#f7cccc;
+
+  /* --- Brand: chrome (sampled from the 20-year mark) --- */
+  --chrome-000:#ffffff;
+  --chrome-100:#edeeee;
+  --chrome-200:#d4d4d6;
+  --chrome-300:#b7b8ba;
+  --chrome-400:#aeb7b6;
+  --chrome-500:#909195;
+  --chrome-600:#797a7f;
+  --chrome-700:#56585d;
+
+  /* --- Neutrals. --ink-700 #2c2e35 is Kepler's real print dark (the most-used
+         colour across the brochure, business card and forms); --ink-500,
+         --ink-300, --ink-100 and --ink-050 are also sampled from print. --- */
+  --ink-900:#16171b;
+  --ink-800:#212329;
+  --ink-700:#2c2e35;
+  --ink-600:#393d3d;
+  --ink-500:#595b61;
+  --ink-400:#85878b;
+  --ink-300:#9fa0a3;
+  --ink-200:#c6c7ca;
+  --ink-100:#e2e2e3;
+  --ink-050:#f2f2f2;
+  --white:#ffffff;
+
+  /* --- Semantic status --- */
+  --green-500:#1f8a4c;
+  --green-050:#e7f4ec;
+  --amber-500:#c8820c;
+  --amber-050:#fdf3e0;
+  --blue-500:#1d63c8;
+  --blue-050:#e9f0fb;
+
+  /* --- Brand gradients. --grad-red is the wordmark's own gradient, extracted
+         from the logo artwork; use it for the mark, not for UI surfaces. --- */
+  --grad-red:linear-gradient(90deg,#e22614 0%,#e02614 56%,#cb2112 76%,#bd1e10 93%,#b91d10 100%); /* @kind color */
+  --grad-chrome:linear-gradient(105deg,#909195 0%,#d4d4d6 15%,#edeeee 24%,#aaabae 40%,#8f9094 46%,#e5e5e6 70%,#9e9fa2 85%,#56585d 100%); /* @kind color */
+  --grad-chrome-bright:linear-gradient(105deg,#909195 0%,#cfd0d2 13%,#ffffff 24%,#b5b6b9 46%,#cbccce 72%,#8f9094 93%,#797a7f 100%); /* @kind color */
+
+  /* --- Semantic aliases --- */
+  --brand:var(--red-500);
+  --brand-hover:var(--red-600);
+  --brand-press:var(--red-800);
+  --brand-subtle:var(--red-050);
+
+  --text-heading:var(--ink-900);
+  --text-body:var(--ink-700);
+  --text-muted:var(--ink-400);
+  --text-inverse:var(--white);
+  --text-inverse-muted:var(--ink-300);
+  --text-brand:var(--red-600);
+  --text-link:var(--red-600);
+  --text-link-hover:var(--red-800);
+
+  --surface-page:var(--white);
+  --surface-sunken:var(--ink-050);
+  --surface-card:var(--white);
+  --surface-dark:var(--ink-800);
+  --surface-darker:var(--ink-900);
+  --surface-inset:var(--ink-100);
+
+  --border-subtle:var(--ink-100);
+  --border-default:var(--ink-200);
+  --border-strong:var(--ink-400);
+  --border-dark:#393d3d;
+
+  --focus-ring:var(--red-500);
+  --overlay-scrim:rgba(22,23,27,.72);
+  --protection-gradient:linear-gradient(180deg,rgba(22,23,27,0) 0%,rgba(22,23,27,.55) 55%,rgba(22,23,27,.92) 100%); /* @kind color */
+}

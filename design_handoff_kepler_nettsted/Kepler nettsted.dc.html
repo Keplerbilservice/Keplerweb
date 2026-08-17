@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/colors.css">
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/typography.css">
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/radius.css">
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/elevation.css">
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/motion.css">
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/base.css">
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/styles.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+<style>
+body{margin:0;background:#fff;font-family:Barlow,sans-serif}
+a{color:var(--red-600);text-decoration:none}
+a:hover{color:var(--red-800)}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column;background:#fff">
+
+  <header style="position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--ink-100)">
+    <div style="background:var(--ink-900)">
+      <div style="max-width:1440px;margin:0 auto;padding:0 24px;height:44px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+        <div style="font-family:Barlow,sans-serif;font-size:16px;color:var(--ink-300)">Man–fre 07.30–17.00 · Andebuveien 63, 3170 Sem</div>
+        <div style="display:flex;align-items:center;gap:22px">
+          <div onClick="{{ goAktuelt }}" style="cursor:pointer;font-family:Barlow,sans-serif;font-size:16px;color:var(--ink-200)">Aktuelt</div>
+          <div onClick="{{ goKontakt }}" style="cursor:pointer;font-family:Barlow,sans-serif;font-size:16px;color:var(--ink-200)">Kontakt</div>
+          <a href="tel:+4733334400" style="font-family:Archivo,sans-serif;font-size:16px;font-weight:700;color:#fff">33 33 44 00</a>
+        </div>
+      </div>
+    </div>
+    <div style="max-width:1440px;margin:0 auto;padding:0 24px;height:84px;display:flex;align-items:center;gap:32px">
+      <div onClick="{{ goForside }}" style="cursor:pointer;display:flex;align-items:center;flex:none">
+        <img src="assets/logo-kepler-wordmark.svg" alt="Kepler Bilservice" style="width:150px;display:block">
+      </div>
+      <nav style="display:flex;align-items:center;gap:2px;flex:none">
+        <sc-for list="{{ nav }}" as="item" hint-placeholder-count="5">
+          <div onClick="{{ item.go }}" style="cursor:pointer;font-family:Archivo,sans-serif;font-size:19px;font-weight:700;letter-spacing:.01em;color:{{ item.color }};padding:10px 14px;border-radius:4px;border-bottom:3px solid {{ item.rule }};white-space:nowrap">{{ item.label }}</div>
+        </sc-for>
+      </nav>
+      <div style="flex:1;display:flex;align-items:center;gap:10px;background:var(--ink-050);border:1px solid var(--ink-100);border-radius:6px;padding:0 16px;height:48px;min-width:200px">
+        <span class="material-symbols-outlined" style="font-size:24px;color:var(--ink-400)">search</span>
+        <input placeholder="Søk i tjenester og priser" style="flex:1;border:none;background:transparent;outline:none;font-family:Barlow,sans-serif;font-size:18px;color:var(--ink-900);min-width:0">
+      </div>
+      <a href="https://kundeweb.norbits.no/Identity/Account/LoginWithSms?returnUrl=%2Fkeplerbilservice%2FNewAppointment" style="flex:none;font-family:Archivo,sans-serif;font-size:19px;font-weight:800;letter-spacing:.02em;color:#fff;background:var(--red-500);padding:14px 24px;border-radius:4px;white-space:nowrap" style-hover="background:var(--red-600)">Bestill time</a>
+    </div>
+  </header>
+
+  <main style="flex:1">
+
+    <sc-if value="{{ isForside }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <section style="position:relative;min-height:720px;display:flex;align-items:flex-end;background:#16171b;overflow:hidden">
+          <sc-if value="{{ heroErBilde }}" hint-placeholder-val="{{ true }}">
+            <img src="{{ heroBilde }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.72">
+          </sc-if>
+          <sc-if value="{{ heroErKarusell }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;inset:0">
+              <sc-for list="{{ karusell }}" as="b" hint-placeholder-count="1">
+                <img src="{{ b.src }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:{{ b.opacity }};transition:opacity 600ms ease">
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ heroErVideo }}" hint-placeholder-val="{{ false }}">
+            <video src="{{ heroVideo }}" autoplay muted loop playsinline poster="{{ heroBilde }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.72"></video>
+          </sc-if>
+          <div style="position:absolute;inset:0;background:{{ heroGradient }}"></div>
+          <sc-if value="{{ heroErKarusell }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;right:32px;bottom:96px;display:flex;gap:10px;z-index:3">
+              <sc-for list="{{ karusell }}" as="b" hint-placeholder-count="3">
+                <div onClick="{{ b.go }}" style="cursor:pointer;width:12px;height:12px;border-radius:999px;background:{{ b.dot }};border:1px solid rgba(255,255,255,.6)"></div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ heroHarSkraa }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;left:0;right:0;bottom:-1px;height:{{ skraaHoyde }};background:#fff;clip-path:polygon(0 100%,100% 0,100% 100%);z-index:2"></div>
+          </sc-if>
+          <div style="position:relative;max-width:1440px;margin:0 auto;padding:96px 24px 88px;width:100%">
+            <div style="font-family:Archivo,sans-serif;font-size:20px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--chrome-300)">Kepler Bilservice AS</div>
+            <div style="width:44px;height:3px;background:var(--red-500);margin:14px 0 20px"></div>
+            <h1 style="font-family:Archivo,sans-serif;font-size:clamp(44px,4.6vw,76px);line-height:1.02;font-weight:800;letter-spacing:-.03em;color:#fff;margin:0;max-width:22ch;text-wrap:balance">Vedlikehold lønner seg<br>– unngå unødvendige kostnader!</h1>
+            <p style="font-size:22px;line-height:1.65;color:var(--ink-200);margin:26px 0 0;max-width:56ch;text-wrap:pretty">I dag beholder mange bilen lenger. Da er det ikke bare hva du kjører som betyr noe – men hvordan du tar vare på det. Hos Kepler sørger vi for at bilen din holder seg i god stand, varer lenger og koster deg mindre over tid.</p>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:30px">
+              <sc-if value="{{ harKampanjer }}" hint-placeholder-val="{{ true }}">
+                <div onClick="{{ goKampanjer }}" style="cursor:pointer;font-family:Archivo,sans-serif;font-size:23px;font-weight:800;color:#fff;background:var(--red-500);padding:14px 26px;border-radius:4px;box-shadow:0 6px 20px rgba(204,0,0,.35)">Se kampanjer</div>
+              </sc-if>
+              <sc-if value="{{ ingenKampanjer }}" hint-placeholder-val="{{ false }}">
+                <a href="https://kundeweb.norbits.no/Identity/Account/LoginWithSms?returnUrl=%2Fkeplerbilservice%2FNewAppointment" style="font-family:Archivo,sans-serif;font-size:23px;font-weight:800;color:#fff;background:var(--red-500);padding:14px 26px;border-radius:4px;box-shadow:0 6px 20px rgba(204,0,0,.35)">Bestill time</a>
+              </sc-if>
+              <div onClick="{{ goTjenester }}" style="cursor:pointer;font-family:Archivo,sans-serif;font-size:23px;font-weight:800;color:#fff;border:1px solid rgba(255,255,255,.4);padding:14px 26px;border-radius:4px">Se våre tjenester</div>
+            </div>
+          </div>
+        </section>
+
+        <sc-if value="{{ harKampanjer }}" hint-placeholder-val="{{ true }}">
+        <section style="max-width:1440px;margin:0 auto;padding:80px 24px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:28px">
+            <div>
+              <div style="font-family:Archivo,sans-serif;font-size:20px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red-500)">Kampanjetilbud</div>
+              <div style="width:44px;height:3px;background:var(--red-500);margin:12px 0 14px"></div>
+              <h2 style="font-family:Archivo,sans-serif;font-size:35px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);margin:0">Spar penger nå!</h2>
+            </div>
+            <div onClick="{{ goKampanjer }}" style="cursor:pointer;font-family:Archivo,sans-serif;font-size:22px;font-weight:800;color:var(--red-600)">Vis alle tjenester</div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px">
+            <sc-for list="{{ kampanjer }}" as="t" hint-placeholder-count="3">
+              <div onClick="{{ goTjeneste }}" style="cursor:pointer;border:1px solid var(--ink-100);border-radius:10px;overflow:hidden;background:#fff;display:flex;flex-direction:column" style-hover="border-color:var(--ink-200);box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-2px)">
+                <div style="position:relative;height:290px;background:var(--ink-050);overflow:hidden">
+                  <img src="{{ t.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+                  <div style="position:absolute;left:0;top:14px;background:var(--red-500);color:#fff;font-family:Archivo,sans-serif;font-size:19px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:6px 12px">Kampanje pris!</div>
+                </div>
+                <div style="padding:30px 32px 34px;display:flex;flex-direction:column;gap:10px;flex:1">
+                  <div style="font-size:20px;line-height:1.5;color:var(--ink-600)">{{ t.tekst }}</div>
+                  <div style="margin-top:auto;padding-top:18px;display:flex;flex-direction:column;gap:6px">
+                    <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+                      <span style="font-size:22px;color:var(--ink-400);text-decoration:line-through">{{ t.for }}</span>
+                      <span style="font-family:Archivo,sans-serif;font-size:34px;font-weight:800;color:var(--red-500)">{{ t.pris }}</span>
+                    </div>
+                    <div style="align-self:flex-start;font-family:Archivo,sans-serif;font-size:15px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--red-600);background:var(--red-050);padding:6px 12px;border-radius:999px">{{ t.spar }}</div>
+                    <div style="font-family:Archivo,sans-serif;font-size:32px;line-height:1.15;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);margin-top:8px">{{ t.navn }}</div>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+
+        </sc-if>
+
+        <section style="max-width:1440px;margin:0 auto;padding:80px 24px">
+          <div style="font-family:Archivo,sans-serif;font-size:20px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-400)">Finn riktig tjeneste</div>
+          <div style="width:44px;height:3px;background:var(--red-500);margin:12px 0 28px"></div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px">
+            <sc-for list="{{ kategorier }}" as="k" hint-placeholder-count="6">
+              <div onClick="{{ k.go }}" style="cursor:pointer;border:1px solid var(--ink-100);border-radius:10px;overflow:hidden;background:#fff;display:flex;flex-direction:column" style-hover="border-color:var(--ink-200);box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-2px)">
+                <div style="height:290px;background:var(--ink-050);overflow:hidden">
+                  <img src="{{ k.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+                </div>
+                <div style="padding:34px 36px 38px;display:flex;flex-direction:column;gap:8px">
+                  <div style="font-family:Archivo,sans-serif;font-size:19px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-400)">Se våre tjenester innen</div>
+                  <div style="font-family:Archivo,sans-serif;font-size:33px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900)">{{ k.navn }}</div>
+                  <div style="font-size:24px;line-height:1.55;color:var(--ink-500)">{{ k.tekst }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+
+        <section style="background:var(--ink-800)">
+          <div style="max-width:1440px;margin:0 auto;padding:80px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:56px;align-items:center">
+            <div>
+              <div style="font-family:Archivo,sans-serif;font-size:20px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--chrome-300)">Kompetanse gir trygghet</div>
+              <div style="width:44px;height:3px;background:var(--red-500);margin:12px 0 20px"></div>
+              <h2 style="font-family:Archivo,sans-serif;font-size:41px;line-height:1.08;font-weight:800;letter-spacing:-.025em;color:#fff;margin:0">Du kan se bilen din bli jobbet med</h2>
+              <p style="font-size:25px;line-height:1.65;color:var(--ink-200);margin:20px 0 0;max-width:52ch">Kundemottaket har glassvegg inn mot verkstedet. Over 20 års erfaring og over 60 års samlet kompetanse står bak hver behandling, med prisgaranti og dokumenterte resultater.</p>
+              <div style="display:flex;gap:40px;margin-top:32px">
+                <div><div style="font-family:Archivo,sans-serif;font-size:37px;font-weight:800;color:#fff">20+</div><div style="font-size:21px;color:var(--ink-300)">års erfaring</div></div>
+                <div><div style="font-family:Archivo,sans-serif;font-size:37px;font-weight:800;color:#fff">16 år</div><div style="font-size:21px;color:var(--ink-300)">garanti på antirust</div></div>
+                <div><div style="font-family:Archivo,sans-serif;font-size:37px;font-weight:800;color:#fff">NBF</div><div style="font-size:21px;color:var(--ink-300)">medlem</div></div>
+              </div>
+            </div>
+            <img src="assets/photos/polering-frontrute.jpg" alt="" style="width:100%;height:380px;object-fit:cover;border-radius:6px;display:block">
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isKategori }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <section style="position:relative;min-height:380px;display:flex;align-items:flex-end;background:#16171b;overflow:hidden">
+          <img src="{{ kat.img }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55">
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(22,23,27,0) 0%,rgba(22,23,27,.6) 55%,rgba(22,23,27,.94) 100%)"></div>
+          <div style="position:relative;max-width:1440px;margin:0 auto;padding:0 24px 56px;width:100%">
+            <div style="font-family:Archivo,sans-serif;font-size:20px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--chrome-300)">{{ kat.eyebrow }}</div>
+            <div style="width:44px;height:3px;background:var(--red-500);margin:14px 0 18px"></div>
+            <h1 style="font-family:Archivo,sans-serif;font-size:48px;line-height:1.05;font-weight:800;letter-spacing:-.025em;color:#fff;margin:0">{{ kat.tittel }}</h1>
+            <p style="font-size:25px;line-height:1.65;color:var(--ink-200);margin:18px 0 0;max-width:60ch;text-wrap:pretty">{{ kat.ingress }}</p>
+          </div>
+        </section>
+
+        <section style="max-width:1440px;margin:0 auto;padding:72px 24px">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px">
+            <sc-for list="{{ kat.tjenester }}" as="t" hint-placeholder-count="6">
+              <div onClick="{{ goTjeneste }}" style="cursor:pointer;border:1px solid var(--ink-100);border-radius:10px;overflow:hidden;background:#fff;display:flex;flex-direction:column" style-hover="border-color:var(--ink-200);box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-2px)">
+                <div style="padding:30px 32px 34px;display:flex;flex-direction:column;gap:10px;flex:1">
+                  <div style="align-self:flex-start;background:var(--red-500);color:#fff;font-family:Archivo,sans-serif;font-size:16px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:6px 12px">Kampanje pris!</div>
+                  <div style="font-size:20px;line-height:1.5;color:var(--ink-600)">{{ t.tekst }}</div>
+                  <div style="margin-top:auto;padding-top:18px;display:flex;flex-direction:column;gap:6px">
+                    <span style="font-family:Archivo,sans-serif;font-size:32px;font-weight:800;color:var(--red-500)">{{ t.pris }}</span>
+                    <div style="font-family:Archivo,sans-serif;font-size:30px;line-height:1.15;font-weight:800;letter-spacing:-.02em;color:var(--ink-900)">{{ t.navn }}</div>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+
+        <section style="background:var(--ink-050);border-top:1px solid var(--ink-100)">
+          <div style="max-width:1440px;margin:0 auto;padding:56px 24px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap">
+            <div>
+              <h2 style="font-family:Archivo,sans-serif;font-size:35px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);margin:0">Usikker på hva bilen din trenger?</h2>
+              <p style="font-size:24px;line-height:1.6;color:var(--ink-600);margin:10px 0 0">Ring oss, så finner vi ut av det sammen. Prisgaranti og dokumenterte resultater.</p>
+            </div>
+            <div style="display:flex;gap:12px">
+              <a href="tel:+4733334400" style="font-family:Archivo,sans-serif;font-size:23px;font-weight:800;color:var(--ink-900);border:1px solid var(--ink-200);background:#fff;padding:14px 24px;border-radius:4px">Ring 33 33 44 00</a>
+              <a href="https://kundeweb.norbits.no/Identity/Account/LoginWithSms?returnUrl=%2Fkeplerbilservice%2FNewAppointment" style="font-family:Archivo,sans-serif;font-size:23px;font-weight:800;color:#fff;background:var(--red-500);padding:14px 24px;border-radius:4px">Bestill time</a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isTjenester }}" hint-placeholder-val="{{ true }}">
+      <div style="max-width:1440px;margin:0 auto;padding:64px 24px 80px">
+        <div style="font-family:Archivo,sans-serif;font-size:20px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-400)">Alle tjenester</div>
+        <div style="width:44px;height:3px;background:var(--red-500);margin:12px 0 18px"></div>
+        <h1 style="font-family:Archivo,sans-serif;font-size:45px;font-weight:800;letter-spacing:-.025em;color:var(--ink-900);margin:0">Finn riktig tjeneste</h1>
+        <p style="font-size:25px;line-height:1.65;color:var(--ink-600);margin:14px 0 0;max-width:62ch">Alt vi tilbyr, samlet på ett sted. Velg kategori for å snevre inn.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin:28px 0 32px">
+          <sc-for list="{{ filtre }}" as="f" hint-placeholder-count="5">
+            <div onClick="{{ f.go }}" style="cursor:pointer;font-family:Archivo,sans-serif;font-size:21px;font-weight:700;letter-spacing:.04em;padding:9px 16px;border-radius:999px;border:1px solid {{ f.border }};background:{{ f.bg }};color:{{ f.color }}">{{ f.label }}</div>
+          </sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px">
+          <sc-for list="{{ alle }}" as="t" hint-placeholder-count="9">
+            <div onClick="{{ goTjeneste }}" style="cursor:pointer;border:1px solid var(--ink-100);border-radius:10px;background:#fff;display:flex;flex-direction:column;padding:30px 32px" style-hover="border-color:var(--ink-200);box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-2px)">
+              <div style="align-self:flex-start;background:var(--red-500);color:#fff;font-family:Archivo,sans-serif;font-size:16px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:6px 12px">Kampanje pris!</div>
+              <div style="font-size:20px;line-height:1.5;color:var(--ink-600);margin-top:12px">{{ t.tekst }}</div>
+              <div style="margin-top:auto;padding-top:18px;display:flex;flex-direction:column;gap:6px">
+                <span style="font-family:Archivo,sans-serif;font-size:32px;font-weight:800;color:var(--red-500)">{{ t.pris }}</span>
+                <div style="font-family:Archivo,sans-serif;font-size:30px;line-height:1.15;font-weight:800;letter-spacing:-.02em;color:var(--ink-900)">{{ t.navn }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isKampanjer }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <section style="background:var(--ink-900)">
+          <div style="max-width:1440px;margin:0 auto;padding:64px 24px">
+            <div style="font-family:Archivo,sans-serif;font-size:20px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red-450)">Kampanjetilbud</div>
+            <div style="width:44px;height:3px;background:var(--red-500);margin:12px 0 18px"></div>
+            <h1 style="font-family:Archivo,sans-serif;font-size:46px;font-weight:800;letter-spacing:-.025em;color:#fff;margin:0">Spar penger nå!</h1>
+            <p style="font-size:25px;line-height:1.65;color:var(--ink-200);margin:14px 0 0;max-width:58ch">Benytt deg av våre kampanjetilbud og få bilpleie til reduserte priser. Tilbudene gjelder så lenge de står oppført her.</p>
+          </div>
+        </section>
+        <section style="max-width:1440px;margin:0 auto;padding:64px 24px 80px">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px">
+            <sc-for list="{{ kampanjer }}" as="t" hint-placeholder-count="3">
+              <div onClick="{{ goTjeneste }}" style="cursor:pointer;border:1px solid var(--ink-100);border-radius:10px;overflow:hidden;background:#fff;display:flex;flex-direction:column" style-hover="border-color:var(--ink-200);box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-2px)">
+                <div style="position:relative;height:290px;background:var(--ink-050);overflow:hidden">
+                  <img src="{{ t.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+                  <div style="position:absolute;left:0;top:14px;background:var(--red-500);color:#fff;font-family:Archivo,sans-serif;font-size:19px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:6px 12px">Kampanje pris!</div>
+                </div>
+                <div style="padding:30px 32px 34px;display:flex;flex-direction:column;gap:10px;flex:1">
+                  <div style="font-size:20px;line-height:1.5;color:var(--ink-600)">{{ t.tekst }}</div>
+                  <div style="margin-top:auto;padding-top:18px;display:flex;flex-direction:column;gap:6px">
+                    <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+                      <span style="font-size:22px;color:var(--ink-400);text-decoration:line-through">{{ t.for }}</span>
+                      <span style="font-family:Archivo,sans-serif;font-size:34px;font-weight:800;color:var(--red-500)">{{ t.pris }}</span>
+                    </div>
+                    <div style="align-self:flex-start;font-family:Archivo,sans-serif;font-size:15px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--red-600);background:var(--red-050);padding:6px 12px;border-radius:999px">{{ t.spar }}</div>
+                    <div style="font-family:Archivo,sans-serif;font-size:32px;line-height:1.15;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);margin-top:8px">{{ t.navn }}</div>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isTjeneste }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <section style="position:relative;min-height:420px;display:flex;align-items:flex-end;background:#16171b;overflow:hidden">
+          <img src="assets/photos/polering-frontrute.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55">
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(22,23,27,0) 0%,rgba(22,23,27,.6) 55%,rgba(22,23,27,.94) 100%)"></div>
+          <div style="position:relative;max-width:1440px;margin:0 auto;padding:0 24px 56px;width:100%">
+            <div style="display:inline-block;background:var(--red-500);color:#fff;font-family:Archivo,sans-serif;font-size:19px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:6px 12px;margin-bottom:18px">Kampanje pris!</div>
+            <div style="font-family:Archivo,sans-serif;font-size:20px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--chrome-300)">Prisgunstig alternativ</div>
+            <h1 style="font-family:Archivo,sans-serif;font-size:50px;line-height:1.03;font-weight:800;letter-spacing:-.025em;color:#fff;margin:12px 0 0">Kepler lakkforsegling</h1>
+            <p style="font-size:26px;line-height:1.65;color:var(--ink-200);margin:16px 0 0;max-width:56ch">Kepler lakkforsegling er et prisgunstig og holdbart alternativ!</p>
+          </div>
+        </section>
+
+        <div style="max-width:1440px;margin:0 auto;padding:64px 24px 80px;display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:56px;align-items:start">
+          <div style="display:flex;flex-direction:column;gap:36px">
+            <div>
+              <h2 style="font-family:Archivo,sans-serif;font-size:33px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);margin:0 0 12px">Hva vi gjør</h2>
+              <p style="font-size:25px;line-height:1.65;color:var(--ink-700);margin:0;max-width:65ch">Lakken vaskes ned, renses for industrielt nedfall og behandles med clay før polering. Deretter legges forseglingen på i to lag og herdes. Behandlingen tar én dag, og bilen leveres tilbake kontrollert i lyshall.</p>
+            </div>
+            <div>
+              <h2 style="font-family:Archivo,sans-serif;font-size:33px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);margin:0 0 16px">Slik gjør vi det</h2>
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <sc-for list="{{ steg }}" as="s" hint-placeholder-count="4">
+                  <div style="display:flex;gap:24px;align-items:flex-start;padding:18px 0;border-bottom:1px solid var(--ink-100)">
+                    <div style="font-family:Archivo,sans-serif;font-size:22px;font-weight:800;color:var(--red-500);width:28px;flex:none">{{ s.nr }}</div>
+                    <div>
+                      <div style="font-family:Archivo,sans-serif;font-size:25px;font-weight:800;color:var(--ink-900)">{{ s.tittel }}</div>
+                      <div style="font-size:23px;line-height:1.6;color:var(--ink-600);margin-top:4px">{{ s.tekst }}</div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div>
+              <h2 style="font-family:Archivo,sans-serif;font-size:33px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);margin:0 0 12px">Dette får du</h2>
+              <ul style="margin:0;padding-left:20px;font-size:24px;line-height:1.8;color:var(--ink-700)">
+                <li>Beskyttelse mot vær, veisalt og industrielt nedfall</li>
+                <li>Enklere vask og bedre glans gjennom hele året</li>
+                <li>Dokumentert behandling med bilder, levert som rapport</li>
+                <li>Prisgaranti og 12 måneders garanti på behandlingen</li>
+              </ul>
+            </div>
+          </div>
+
+          <aside style="position:sticky;top:96px;border:1px solid var(--ink-100);border-radius:10px;padding:28px;display:flex;flex-direction:column;gap:16px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.05)">
+            <div style="display:flex;align-items:baseline;gap:12px">
+              <span style="font-size:25px;color:var(--ink-400);text-decoration:line-through">7.590,-</span>
+              <span style="font-family:Archivo,sans-serif;font-size:40px;font-weight:800;letter-spacing:-.02em;color:var(--red-500)">fra kr. 3.990,-</span>
+            </div>
+            <div style="height:1px;background:var(--ink-100)"></div>
+            <div style="display:flex;justify-content:space-between;font-size:23px;color:var(--ink-600)"><span>Varighet</span><span style="color:var(--ink-900);font-weight:600">1 dag</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:23px;color:var(--ink-600)"><span>Garanti</span><span style="color:var(--ink-900);font-weight:600">12 måneder</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:23px;color:var(--ink-600)"><span>Betaling</span><span style="color:var(--ink-900);font-weight:600">Klarna</span></div>
+            <a href="https://kundeweb.norbits.no/Identity/Account/LoginWithSms?returnUrl=%2Fkeplerbilservice%2FNewAppointment" style="font-family:Archivo,sans-serif;font-size:23px;font-weight:800;color:#fff;background:var(--red-500);padding:15px 24px;border-radius:4px;text-align:center;margin-top:6px">Bestill time</a>
+            <a href="tel:+4733334400" style="font-family:Archivo,sans-serif;font-size:23px;font-weight:800;color:var(--ink-900);border:1px solid var(--ink-200);padding:15px 24px;border-radius:4px;text-align:center">Ring 33 33 44 00</a>
+          </aside>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isKontakt }}" hint-placeholder-val="{{ true }}">
+      <div style="max-width:1440px;margin:0 auto;padding:64px 24px 80px;display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:56px;align-items:start">
+        <div>
+          <div style="font-family:Archivo,sans-serif;font-size:20px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-400)">Kontakt oss</div>
+          <div style="width:44px;height:3px;background:var(--red-500);margin:12px 0 18px"></div>
+          <h1 style="font-family:Archivo,sans-serif;font-size:45px;font-weight:800;letter-spacing:-.025em;color:var(--ink-900);margin:0">Kepler Bilservice AS</h1>
+          <p style="font-size:25px;line-height:1.65;color:var(--ink-600);margin:14px 0 32px;max-width:52ch">Kom innom for en uforpliktende prat. Kundemottaket har glassvegg inn mot verkstedet, så du kan følge med mens bilen din blir jobbet med.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px 32px">
+            <div><div style="font-family:Archivo,sans-serif;font-size:19px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-400)">Adresse</div><div style="font-size:24px;color:var(--ink-900);margin-top:6px">Andebuveien 63<br>3170 Sem</div></div>
+            <div><div style="font-family:Archivo,sans-serif;font-size:19px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-400)">Telefon</div><div style="font-size:24px;margin-top:6px"><a href="tel:+4733334400">33 33 44 00</a></div></div>
+            <div><div style="font-family:Archivo,sans-serif;font-size:19px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-400)">Åpningstider</div><div style="font-size:24px;color:var(--ink-900);margin-top:6px">Man–fre 07.30–17.00</div></div>
+            <div><div style="font-family:Archivo,sans-serif;font-size:19px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-400)">E-post</div><div style="font-size:24px;margin-top:6px"><a href="mailto:kundeservice@kepler.no">kundeservice@kepler.no</a></div></div>
+          </div>
+        </div>
+        <div style="border:1px solid var(--ink-100);border-radius:10px;padding:28px;display:flex;flex-direction:column;gap:14px;background:#fff">
+          <div style="font-family:Archivo,sans-serif;font-size:34px;font-weight:800;color:var(--ink-900)">Send oss en melding</div>
+          <input placeholder="Navn" style="font-family:Barlow,sans-serif;font-size:23px;padding:13px 14px;border:1px solid var(--ink-200);border-radius:6px;outline:none">
+          <input placeholder="E-post" style="font-family:Barlow,sans-serif;font-size:23px;padding:13px 14px;border:1px solid var(--ink-200);border-radius:6px;outline:none">
+          <input placeholder="Registreringsnummer" style="font-family:'IBM Plex Mono',monospace;font-size:23px;padding:13px 14px;border:1px solid var(--ink-200);border-radius:6px;outline:none">
+          <textarea placeholder="Hva gjelder det?" rows="5" style="font-family:Barlow,sans-serif;font-size:23px;padding:13px 14px;border:1px solid var(--ink-200);border-radius:6px;outline:none;resize:vertical"></textarea>
+          <div style="font-size:21px;line-height:1.55;color:var(--ink-500)">Jeg samtykker til at mine opplysninger behandles i henhold til personvernerklæringen.</div>
+          <div style="font-family:Archivo,sans-serif;font-size:23px;font-weight:800;color:#fff;background:var(--red-500);padding:14px 24px;border-radius:4px;text-align:center;cursor:pointer">Send melding</div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isAktuelt }}" hint-placeholder-val="{{ true }}">
+      <div style="max-width:1440px;margin:0 auto;padding:64px 24px 80px">
+        <div style="font-family:Archivo,sans-serif;font-size:20px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-400)">Aktuelt</div>
+        <div style="width:44px;height:3px;background:var(--red-500);margin:12px 0 18px"></div>
+        <h1 style="font-family:Archivo,sans-serif;font-size:45px;font-weight:800;letter-spacing:-.025em;color:var(--ink-900);margin:0 0 36px">Nyheter fra Kepler Bilservice</h1>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px">
+          <sc-for list="{{ nyheter }}" as="n" hint-placeholder-count="3">
+            <div style="border:1px solid var(--ink-100);border-radius:10px;overflow:hidden;background:#fff;display:flex;flex-direction:column;cursor:pointer" style-hover="border-color:var(--ink-200);box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-2px)">
+              <img src="{{ n.img }}" alt="" style="width:100%;height:290px;object-fit:cover;display:block">
+              <div style="padding:34px 36px 38px;display:flex;flex-direction:column;gap:8px">
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:20px;color:var(--ink-400)">{{ n.dato }}</div>
+                <div style="font-family:Archivo,sans-serif;font-size:31px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900)">{{ n.tittel }}</div>
+                <div style="font-size:24px;line-height:1.55;color:var(--ink-500)">{{ n.tekst }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+  </main>
+
+  <footer style="background:var(--ink-900);color:var(--ink-300)">
+    <div style="max-width:1440px;margin:0 auto;padding:64px 24px 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:40px">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <img src="assets/logo-kepler-wordmark.svg" alt="Kepler" style="width:124px;filter:brightness(0) invert(1);display:block">
+        <div style="font-size:22px;line-height:1.7">Andebuveien 63, 3170 Sem<br><a href="tel:33334400" style="color:#fff">33 33 44 00</a><br><a href="mailto:kundeservice@kepler.no" style="color:#fff">kundeservice@kepler.no</a><br>Man–fre 07.30–17.00</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="font-family:Archivo,sans-serif;font-size:19px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff">Våre tjenester</div>
+        <div style="font-size:22px;line-height:1.9;color:var(--ink-300)">Lakkforsegling<br>Antirust<br>Gratis rustsjekk<br>Bilpleie<br>Bilsalg<br>Smart Repair<br>Bobil og caravan</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="font-family:Archivo,sans-serif;font-size:19px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff">Annet</div>
+        <div style="font-size:22px;line-height:1.9;color:var(--ink-300)">Garantier<br>Siste nytt<br>Kurs<br>Samfunnsansvar<br>For bedriftskunder<br>Kampanjetilbud</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="font-family:Archivo,sans-serif;font-size:19px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff">Nyheter på mail</div>
+        <div style="font-size:22px;line-height:1.6">Motta nyheter, kampanjer og invitasjoner til våre events.</div>
+        <a href="http://eepurl.com/iivQ-X" style="font-family:Archivo,sans-serif;font-size:21px;font-weight:800;color:#fff;border:1px solid rgba(255,255,255,.3);padding:11px 16px;border-radius:4px;text-align:center">Meld deg på</a>
+        <div style="font-size:21px;line-height:1.6;color:var(--ink-400);margin-top:6px">Medlem av Norges Bilbransjeforbund – for din trygghet.</div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.12)">
+      <div style="max-width:1440px;margin:0 auto;padding:20px 24px;font-size:21px;color:var(--ink-400)">© 2026 Kepler Bilservice AS · Personvernerklæring</div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440},&quot;heroMedia&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Bilde&quot;,&quot;Karusell&quot;,&quot;Video&quot;],&quot;default&quot;:&quot;Bilde&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hero&quot;},&quot;gradientStyrke&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:65,&quot;min&quot;:0,&quot;max&quot;:100,&quot;step&quot;:5,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Hero&quot;},&quot;skraaKant&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Hero&quot;},&quot;skraaHoyde&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:90,&quot;min&quot;:30,&quot;max&quot;:180,&quot;step&quot;:10,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Hero&quot;},&quot;videoUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hero&quot;},&quot;kampanjerAktive&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Innhold&quot;}}">
+class Component extends DCLogic {
+  state = { page: 'forside', slide: 0 };
+  componentDidMount() {
+    this.timer = setInterval(() => {
+      if ((this.props.heroMedia || 'Bilde') === 'Karusell') {
+        this.setState(s => ({ slide: ((s.slide || 0) + 1) % 4 }));
+      }
+    }, 5000);
+  }
+  componentWillUnmount() { clearInterval(this.timer); }
+  go(p) { return () => { this.setState({ page: p }); window.scrollTo(0, 0); }; }
+  renderVals() {
+    const p = this.state.page;
+    const nav = [
+      ['bilpleie', 'Bilpleie'], ['antirust', 'Antirust'], ['smart', 'Smart Repair'],
+      ['bilsalg', 'Bilsalg'], ['tjenester', 'Alle tjenester'], ['kampanjer', 'Kampanjer']
+    ].map(([id, label]) => ({
+      label, go: this.go(id),
+      color: p === id ? 'var(--ink-900)' : 'var(--ink-600)',
+      rule: p === id ? 'var(--red-500)' : 'transparent'
+    }));
+    const kategorier = {
+      bilpleie: {
+        eyebrow: 'Bilpleie', tittel: 'Bilpleie og lakkbeskyttelse', img: 'assets/photos/handtork-solvbil.jpg',
+        ingress: 'Kepler leverer et bredt spekter av bilpleietjenester og lakkbeskyttelse. Uansett hvilken tjeneste du trenger, kan du være trygg på at bilen er i de beste hender.',
+        tjenester: [
+          { navn: 'Kepler lakkforsegling', kategori: 'Prisgunstig alternativ', tekst: 'Kepler lakkforsegling er et prisgunstig og holdbart alternativ!', pris: 'fra kr. 3.990,-' },
+          { navn: 'Kepler Pure Grade', kategori: 'Lakkforsegling', tekst: 'Det beste fra to verdener: high-tech beskyttelse og visuell perfeksjon.', pris: 'fra kr. 15.990,-' },
+          { navn: 'Graphene Keramisk coating', kategori: 'Evershine', tekst: 'Årevis med beskyttelse takket være høyt innhold av virkestoffer.', pris: 'fra kr. 12.990,-' },
+          { navn: 'Evershine Felg Coating', kategori: 'Evershine', tekst: 'Penere felger og enklere vedlikehold i lang tid.', pris: 'fra kr. 2.490,-' },
+          { navn: 'Evershine Glass Coating', kategori: 'Evershine', tekst: 'Klar og god sikt for en tryggere kjøretur.', pris: 'fra kr. 1.490,-' },
+          { navn: 'Lakkrens', kategori: 'Tilleggstjeneste', tekst: 'Gir lakken nytt liv. Tilleggstjeneste til lakkforsegling.', pris: 'fra kr. 3.590,-' },
+          { navn: 'Innvendig vask og rens', kategori: 'Interiør', tekst: 'Grundig innvendig vask og rens av bilens interiør.', pris: 'fra kr. 6.190,-' },
+          { navn: 'Utvendig og innvendig vask', kategori: 'Full shine av bilen', tekst: 'Ren og pen bil med et sunt og friskt innemiljø.', pris: 'fra kr. 2.990,-' },
+          { navn: 'Solfilm', kategori: 'Film og folie', tekst: 'Økt komfort og effektiv solbeskyttelse.', pris: 'fra kr. 3.190,-' }
+        ]
+      },
+      antirust: {
+        eyebrow: 'Antirust', tittel: 'Beskytt bilen mot rust nå', img: 'https://www.kepler.no/images/kepler-express.jpg',
+        ingress: 'Vi utfører understellsbehandlinger med prisgaranti og dokumenterte resultater. Vår lange erfaring gir tryggere metoder, bedre pris og en beskyttelse du kan stole på!',
+        tjenester: [
+          { navn: 'Gratis rustsjekk', kategori: 'Gratis rustsjekk', tekst: 'Uforpliktende visuell kontroll av utsatte områder.', pris: 'Gratis' },
+          { navn: 'Fluid Film Express', kategori: 'Lanolinbasert rustbeskyttelse', tekst: 'Suveren krypevne, selvhelende og 100 % miljøvennlig.', pris: 'fra kr. 3.990,-' },
+          { navn: 'Fluid Film Pluss', kategori: 'Utvidet understellsbehandling', tekst: 'Vår mest omfattende Fluid Film-behandling. Inntil 16 års garanti!', pris: 'fra kr. 8.990,-' },
+          { navn: 'Kepler Premium antirust', kategori: 'Komplett antirustprogram', tekst: 'Vår mest omfattende understellsbehandling. Inntil 16 års garanti!', pris: 'kr. 11.990,-' }
+        ]
+      },
+      smart: {
+        eyebrow: 'Smart Repair', tittel: 'Et rimeligere alternativ etter skade', img: 'assets/photos/smart-repair-front.jpg',
+        ingress: 'Smart Repair er et rimeligere alternativ til tradisjonell oppretting etter skade. Vi reparerer det som er skadet, i stedet for å bytte hele delen.',
+        tjenester: [
+          { navn: 'PDR bulkoppretting', kategori: 'Smart Repair', tekst: 'Fjerner bulker uten å skade bilens originale lakk.', pris: 'fra kr. 2.890,-' },
+          { navn: 'Spot Paint', kategori: 'Smart Repair', tekst: 'Gunstig utbedring av mindre lakkskader.', pris: 'fra kr. 3.590,-' },
+          { navn: 'Felgreparasjon', kategori: 'Smart Repair', tekst: 'Kantkjørte felger repareres raskt og profesjonelt.', pris: 'fra kr. 2.990,-' },
+          { navn: 'Touch-up av panser', kategori: 'Smart Repair', tekst: 'For steinsprutskader i lakken på panseret.', pris: 'fra kr. 1.990,-' },
+          { navn: 'Lyktefornyelse', kategori: 'Smart Repair', tekst: 'Slitte og matte lykter får nytt liv.', pris: 'fra kr. 2.990,-' },
+          { navn: 'Retting og lakkering', kategori: 'Smart Repair', tekst: 'For skader som ikke kan repareres med Smart Repair.', pris: 'Etter befaring' }
+        ]
+      },
+      bilsalg: {
+        eyebrow: 'Bilsalg', tittel: 'Vi kjøper og selger bilen din', img: 'assets/photos/klargjoring-hvit-bil.jpg',
+        ingress: 'Vi gjør salget ditt raskt og enkelt. Start bilsalget med et godt førsteinntrykk – velg profesjonell salgsklargjøring hos Kepler.',
+        tjenester: [
+          { navn: 'Salgsklargjøring', kategori: 'Bilsalg', tekst: 'Start bilsalget ditt med et godt førsteinntrykk!', pris: 'fra kr. 6.990,-' },
+          { navn: 'Leasing innlevering', kategori: 'Bilsalg', tekst: 'Klargjøring før innlevering, så du unngår trekk.', pris: 'Etter befaring' },
+          { navn: 'Innbytte og kjøp', kategori: 'Bilsalg', tekst: 'Vi kjøper bilen din direkte. Uforpliktende vurdering.', pris: 'Etter befaring' }
+        ]
+      }
+    };
+    const kampanjer = (this.props.kampanjerAktive ?? true) ? [
+      { navn: 'Kepler lakkforsegling', kategori: 'Prisgunstig alternativ', tekst: 'Kepler lakkforsegling er et prisgunstig og holdbart alternativ!', for: '7.590,-', pris: 'fra kr. 3.990,-', spar: 'Spar 3.600,-', img: 'assets/photos/polering-frontrute.jpg' },
+      { navn: 'Fluid Film Express', kategori: 'Lanolinbasert rustbeskyttelse', tekst: 'Suveren krypevne, selvhelende og 100 % miljøvennlig.', for: '4.990,-', pris: 'fra kr. 3.990,-', spar: 'Spar 1.000,-', img: 'https://www.kepler.no/images/kepler-express.jpg' },
+      { navn: 'AC service', kategori: 'Bilpleie', tekst: 'Full service på klimaanlegget til kampanjepris.', for: '3.490,-', pris: 'fra kr. 1.990,-', spar: 'Spar 1.500,-', img: 'assets/photos/handtork-solvbil.jpg' },
+      { navn: 'Skinnbehandling', kategori: 'Interiør', tekst: 'Rens og næring til skinnet i bilen.', for: '2.690,-', pris: 'kr. 1.790,-', spar: 'Spar 900,-', img: 'assets/photos/klargjoring-hvit-bil.jpg' }
+    ] : [];
+    const media = this.props.heroMedia || 'Bilde';
+    const bilder = [
+      'https://www.kepler.no/images/kepler-express.jpg',
+      'assets/photos/polering-frontrute.jpg',
+      'assets/photos/handtork-solvbil.jpg',
+      'assets/photos/klargjoring-hvit-bil.jpg'
+    ];
+    const aktiv = this.state.slide || 0;
+    const styrke = (this.props.gradientStyrke ?? 65) / 100;
+    return {
+      nav,
+      heroErBilde: media === 'Bilde',
+      heroErKarusell: media === 'Karusell',
+      heroErVideo: media === 'Video',
+      heroBilde: bilder[0],
+      heroVideo: this.props.videoUrl || 'https://cdn.coverr.co/videos/coverr-a-man-washing-a-car-4907/1080p.mp4',
+      karusell: bilder.map((src, i) => ({
+        src, opacity: i === aktiv ? 0.72 : 0,
+        dot: i === aktiv ? 'var(--red-500)' : 'rgba(255,255,255,.35)',
+        go: () => this.setState({ slide: i })
+      })),
+      heroGradient: 'linear-gradient(180deg,rgba(22,23,27,0) 0%,rgba(22,23,27,' + (styrke * 0.85).toFixed(2) + ') 55%,rgba(22,23,27,' + Math.min(1, styrke * 1.42).toFixed(2) + ') 100%)',
+      heroHarSkraa: this.props.skraaKant ?? false,
+      skraaHoyde: (this.props.skraaHoyde ?? 90) + 'px',
+      harKampanjer: kampanjer.length > 0,
+      ingenKampanjer: kampanjer.length === 0,
+      isForside: p === 'forside',
+      isKategori: !!kategorier[p],
+      kat: kategorier[p] || kategorier.bilpleie,
+      steg: [
+        { nr: '01', tittel: 'Nedvask', tekst: 'Bilen vaskes ned med avfetting og sjampo, felger og hjulhus rengjøres.' },
+        { nr: '02', tittel: 'Clay og sliping', tekst: 'Industrielt nedfall trekkes ut av lakken med clay før lettere sliping av ripene.' },
+        { nr: '03', tittel: 'Polering', tekst: 'Maskinpolering gir tilbake dybden i lakken og fjerner svirvler.' },
+        { nr: '04', tittel: 'Forsegling', tekst: 'Forseglingen legges i to lag og herdes før bilen kontrolleres i lyshall.' }
+      ],
+      nyheter: [
+        { dato: '12.06.2026', tittel: 'Nytt kurslokale på Sem', tekst: 'Vi har satt opp eget kurslokale for sertifisering av forhandlere og partnere.', img: 'assets/photos/klargjoring-hvit-bil.jpg' },
+        { dato: '28.04.2026', tittel: 'Evershine Graphene i ny formulering', tekst: 'Høyere innhold av virkestoffer gir lengre levetid og enklere vedlikehold.', img: 'assets/photos/polering-frontrute.jpg' },
+        { dato: '05.03.2026', tittel: 'Gratis rustsjekk hele våren', tekst: 'Uforpliktende visuell kontroll av utsatte områder på din bilmodell.', img: 'assets/photos/smart-repair-front.jpg' },
+        { dato: '19.01.2026', tittel: 'Kepler fyller 20 år', tekst: 'Tjue år på Sem, og fortsatt samme glassvegg inn mot verkstedet.', img: 'assets/photos/handtork-solvbil.jpg' }
+      ],
+      isTjenester: p === 'tjenester',
+      isKampanjer: p === 'kampanjer',
+      isTjeneste: p === 'tjeneste',
+      isKontakt: p === 'kontakt',
+      isAktuelt: p === 'aktuelt',
+      filtre: [['alle', 'Alle'], ['bilpleie', 'Bilpleie'], ['antirust', 'Antirust'], ['smart', 'Smart Repair'], ['bilsalg', 'Bilsalg']].map(([id, label]) => ({
+        label, go: () => this.setState({ filter: id }),
+        bg: this.state.filter === id ? 'var(--ink-900)' : '#fff',
+        color: this.state.filter === id ? '#fff' : 'var(--ink-700)',
+        border: this.state.filter === id ? 'var(--ink-900)' : 'var(--ink-200)'
+      })),
+      alle: (this.state.filter === 'alle' || !this.state.filter)
+        ? Object.values(kategorier).flatMap(k => k.tjenester)
+        : kategorier[this.state.filter].tjenester,
+      goForside: this.go('forside'),
+      goAktuelt: this.go('aktuelt'),
+      goKontakt: this.go('kontakt'),
+      goTjenester: this.go('tjenester'),
+      goKampanjer: this.go('kampanjer'),
+      goTjeneste: this.go('tjeneste'),
+      kategorier: [
+        { navn: 'Bilpleie', tekst: 'Et bredt spekter av bilpleietjenester og lakkbeskyttelse.', img: 'assets/photos/handtork-solvbil.jpg', go: this.go('bilpleie') },
+        { navn: 'Antirust', tekst: 'Beskytt bilen mot rust nå, unngå dyre reparasjoner senere.', img: 'https://www.kepler.no/images/kepler-express.jpg', go: this.go('antirust') },
+        { navn: 'Lakkbeskyttelse', tekst: 'Forsegling og coating i ypperste klasse, utviklet av Kepler.', img: 'assets/photos/polering-frontrute.jpg', go: this.go('bilpleie') },
+        { navn: 'Film og folie', tekst: 'Solfilm gir både beskyttelse og tøft utseende.', img: 'assets/photos/klargjoring-hvit-bil.jpg', go: this.go('bilpleie') },
+        { navn: 'Smart Repair', tekst: 'Et rimeligere alternativ til tradisjonell oppretting etter skade.', img: 'assets/photos/smart-repair-front.jpg', go: this.go('smart') },
+        { navn: 'Bilsalg', tekst: 'Vi kjøper og selger bilen din, raskt og enkelt.', img: 'assets/photos/klargjoring-hvit-bil.jpg', go: this.go('bilsalg') }
+      ],
+      kampanjer
+    };
+  }
+}
+
+</script>
+</body>
+</html>

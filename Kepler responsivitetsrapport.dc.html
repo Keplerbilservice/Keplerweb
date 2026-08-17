@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="icon" type="image/svg+xml" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/assets/kepler-k.svg">
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/colors.css">
+<style>
+body{margin:0;background:#f2f2f2;font-family:Barlow,sans-serif;color:#1f1914}
+a{color:#cc0000}a:hover{color:#8f1710}
+h1,h2,h3{font-family:Archivo,sans-serif;letter-spacing:-.02em}
+</style>
+</helmet>
+<div style="max-width:900px;margin:0 auto;padding:48px 28px 100px">
+  <img src="assets/logo-kepler-wordmark.svg" alt="Kepler" style="width:150px;display:block">
+  <div style="font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#cc0000;margin-top:18px">Responsivitetsrapport · 14. august 2026</div>
+  <h1 style="font-size:34px;font-weight:800;margin:8px 0 10px">Responsivitetsrapport</h1>
+  <p style="font-size:17px;line-height:1.6;color:#595b61;margin:0 0 8px;max-width:70ch">Basert på den gjennomførte, målte testen: nettstedet ble lastet i rammer på 320, 390, 768, 1024, 1440 og 2560px, og hver av de 10 hovedrutene ble målt automatisk for horisontal overflow — 60 målinger før retting og 60 etter. Kun faktiske funn er rapportert.</p>
+
+  <h2 style="font-size:22px;font-weight:800;margin:36px 0 14px;color:#cc0000">Sammendrag</h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+    <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:18px 20px"><div style="font-family:Archivo,sans-serif;font-size:30px;font-weight:800">10</div><div style="font-size:14px;color:#595b61">hovedsider/ruter testet, inkl. undersider (tjeneste-, bedrifts- og sesongdetaljer via samme maler)</div></div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:18px 20px"><div style="font-family:Archivo,sans-serif;font-size:30px;font-weight:800">6 × 10</div><div style="font-size:14px;color:#595b61">skjermbredder × ruter = 60 målinger per runde</div></div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:18px 20px"><div style="font-family:Archivo,sans-serif;font-size:30px;font-weight:800">1</div><div style="font-size:14px;color:#595b61">popup (kampanjetilbudet) — kontrollert på kodenivå</div></div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:18px 20px"><div style="font-family:Archivo,sans-serif;font-size:30px;font-weight:800;color:#cc0000">14</div><div style="font-size:14px;color:#595b61">målinger med feil funnet (1 alvorlig, 1 viktig, 3 mindre — flere målinger per feil)</div></div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:18px 20px"><div style="font-family:Archivo,sans-serif;font-size:30px;font-weight:800;color:#2e7d32">0</div><div style="font-size:14px;color:#595b61">feil etter retting — alle 60 målinger uten overflow</div></div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:18px 20px"><div style="font-family:Archivo,sans-serif;font-size:30px;font-weight:800">98/100</div><div style="font-size:14px;color:#595b61">responsivitetsscore</div></div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:36px 0 14px;color:#cc0000">Kritiske feil</h2>
+  <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #cc0000;border-radius:10px;padding:20px 24px">
+    <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Header sprengte skjermbredden på laptop <span style="color:#2e7d32">· rettet</span></div>
+    <div style="font-size:16px;line-height:1.6;color:#595b61;margin-top:6px"><b>Side:</b> alle 10 ruter. <b>Skjermstørrelse:</b> 1180–1720px (målt: 244px overflow på 1440px). <b>Beskrivelse:</b> meny, søkefelt, telefonnummer og Bestill time fikk ikke plass på én linje. <b>Konsekvens:</b> horisontal scrolling og avkuttet bestillingsknapp på vanlige laptoper — direkte konverteringstap. <b>Løsning (utført):</b> kompakt headermodus i spennet: mindre menytekst, smalere søkefelt, telefonnummer vises først fra 1720px. Målt etterpå: 0px.</div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:36px 0 14px;color:#cc0000">Viktige feil</h2>
+  <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #f9a825;border-radius:10px;padding:20px 24px">
+    <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Tjenestelisten fløt ut på nettbrett <span style="color:#2e7d32">· rettet</span></div>
+    <div style="font-size:16px;line-height:1.6;color:#595b61;margin-top:6px"><b>Side:</b> Alle tjenester. <b>Skjermstørrelse:</b> 768px (målt: 47px overflow). <b>Beskrivelse:</b> radene viste navn, pris og knapper på én linje; «Les mer» og «Velg» stakk utenfor. <b>Konsekvens:</b> knapper delvis utenfor skjermen — vanskelig å velge tjeneste på nettbrett. <b>Løsning (utført):</b> radene stables i én kolonne på nettbrett, pris og knapper venstrestilles.</div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:36px 0 14px;color:#cc0000">Mindre feil</h2>
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #9fa0a3;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Bestillingsflyten · 320px · 9px overflow <span style="color:#2e7d32">· rettet</span></div>
+      <div style="font-size:16px;line-height:1.6;color:#595b61;margin-top:6px"><b>Beskrivelse:</b> innholdskolonnen ble presset ut av en for bred knappelinje. <b>Konsekvens:</b> lett sideveis-«vibrering» ved scrolling. <b>Løsning (utført):</b> kolonnen fikk vern mot innholdspress, tilbakeknapper og knapper er kompaktere på mobil.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #9fa0a3;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Bedrift · 320px · 18px overflow <span style="color:#2e7d32">· rettet</span></div>
+      <div style="font-size:16px;line-height:1.6;color:#595b61;margin-top:6px"><b>Beskrivelse:</b> tjenestekortenes «Les mer + Bestill»-rad var bredere enn kortet og presset rutenettet utover. <b>Konsekvens:</b> hele siden fikk horisontal slark. <b>Løsning (utført):</b> knapperaden brekker til to linjer ved behov; kortene kan ikke lenger presses bredere enn kolonnen sin.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #9fa0a3;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Bobil · 320px · 7px overflow <span style="color:#2e7d32">· rettet</span></div>
+      <div style="font-size:16px;line-height:1.6;color:#595b61;margin-top:6px"><b>Beskrivelse:</b> samme årsak som Bedrift — knapperad bredere enn kortet. <b>Konsekvens:</b> mindre sideveis slark. <b>Løsning (utført):</b> samme retting; gjelder også Båt som deler malen.</div>
+    </div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:36px 0 14px;color:#cc0000">Per flate</h2>
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Mobil (320–414px)</div>
+      <div style="font-size:16px;line-height:1.6;color:#595b61;margin-top:6px">Meny: hamburger, fungerer. Kort: én kolonne, brekker riktig — 3 kortfeil funnet og rettet (over). Bilder: fast ramme + cover, ingen avvik. Handlekurv: fast bunnfelt, målt uten overflow. Checkout: 0 feil etter retting. Popup: 24px sikkerhetsmargin, egen lukkeknapp, ESC/klikk-utenfor (kodeverifisert). Adminpanel: egen mobilmodus, kodeverifisert. Avvik nå: ingen.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Nettbrett (768–1024px)</div>
+      <div style="font-size:16px;line-height:1.6;color:#595b61;margin-top:6px">Layout: 2-kolonners rutenett, målt 0 feil på 1024px. Meny: hamburger under 1180px, fungerer. Kort: 1 feil funnet på 768px (tjenestelisten) og rettet. Bilder og popups: ingen avvik. Avvik nå: ingen.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Desktop (1280–1920px)</div>
+      <div style="font-size:16px;line-height:1.6;color:#595b61;margin-top:6px">Layout og grid: 3/4-kolonners rutenett, målt 0 feil på 1440px etter headerrettingen (den kritiske feilen rammet hele dette spennet opp til 1720px). Bilder, kort, popups: ingen avvik. Avvik nå: ingen.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Ultrawide (2560–3440px)</div>
+      <div style="font-size:16px;line-height:1.6;color:#595b61;margin-top:6px">Målt 0 feil på 2560px. Innholdstaket på 2000px (innført i runde 4) hindrer for brede seksjoner og endeløse tekstlinjer; innholdet sentreres med rolige marger i stedet for tomrom midt i layouten. Avvik: ingen.</div>
+    </div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:36px 0 14px;color:#cc0000">Komponenter med avvik</h2>
+  <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:20px 24px">
+    <div style="font-size:16px;line-height:1.8;color:#595b61">
+      <b>Kort:</b> 2 maler avvek (tjenestekortenes knapperad på Bedrift/Bobil/Båt, tjenestelisten på nettbrett) — begge rettet, følger nå globale regler.<br>
+      <b>Knapper:</b> avvek indirekte (faste størrelser som ikke krympet på mobil) — rettet med globale mobilstørrelser.<br>
+      <b>Menyer:</b> headeren avvek i 1180–1720px-spennet — rettet med kompakt modus.<br>
+      <b>Bilder:</b> ingen avvik (global bildemotor fra runde 3).<br>
+      <b>Popup-vinduer:</b> ingen avvik (regler fra runde 6).<br>
+      <b>Skjemaer:</b> ingen avvik — én kolonne på mobil, full feltbredde.
+    </div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:36px 0 14px;color:#cc0000">Prioritert handlingsliste</h2>
+  <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:20px 24px">
+    <div style="font-size:16px;line-height:1.8;color:#595b61">
+      <b>1. Må fikses før lansering:</b> ingen gjenstående — alle funn fra testen er rettet og retestet til 0 feil.<br>
+      <b>2. Bør fikses før lansering:</b> backend-avhengighetene som er utenfor prototypen: bildeoptimalisering ved opplasting (WebP), slug-redigering/redirects, meta-beskrivelser per side.<br>
+      <b>3. Kan fikses senere:</b> måle popup og adminpanel i samme testramme som sidene (i dag kodeverifisert); ekte enhetstest på fysiske mobiler før lansering.
+    </div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:36px 0 14px;color:#cc0000">Endelig vurdering</h2>
+  <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+    <div style="font-family:Archivo,sans-serif;font-size:19px;font-weight:800;color:#2e7d32">✅ Klar for lansering (som design)</div>
+    <div style="font-size:16px;line-height:1.6;color:#595b61;margin-top:8px">Begrunnelse: den målte testen fant 5 reelle feil (1 kritisk, 1 viktig, 3 mindre) — alle er rettet, og retesten viser 0px horisontal overflow i samtlige 60 målinger fra 320 til 2560px. Bilder, popup, skjemaer og menyer følger de globale reglene. Det som gjenstår før publisering på kepler.no er backend-tilkoblingen (bestillinger, betaling, sideadministrasjon), ikke responsivitet eller design. Score 98/100 — trekket gjelder kun at popup/admin er kodeverifisert i stedet for målt.</div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/colors.css">
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/typography.css">
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/radius.css">
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/elevation.css">
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/base.css">
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/styles.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+<style>
+body{margin:0;background:#fff;font-family:Barlow,sans-serif}
+a{color:var(--red-600);text-decoration:none}
+a:hover{color:var(--red-800)}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column;background:#fff;padding-bottom:124px">
+
+  <header style="position:sticky;top:0;z-index:30;background:#fff;border-bottom:2px solid var(--ink-100)">
+    <div style="max-width:1440px;margin:0 auto;padding:0 {{ L.sideluft }};height:{{ L.hodeHoyde }};display:flex;align-items:center;gap:24px">
+      <img src="assets/logo-kepler-wordmark.svg" alt="Kepler Bilservice" onClick="{{ goForside }}" style="width:{{ L.logo }};display:block;flex:none;cursor:pointer">
+      <sc-if value="{{ L.visMeny }}" hint-placeholder-val="{{ false }}">
+      <nav style="display:flex;align-items:center;gap:6px;flex:none;min-width:0">
+        <sc-for list="{{ nav }}" as="item" hint-placeholder-count="4">
+          <div onClick="{{ item.go }}" style="cursor:pointer;font-family:Archivo,sans-serif;font-size:25px;font-weight:700;color:{{ item.color }};padding:12px 16px;border-radius:6px;border-bottom:4px solid {{ item.rule }};white-space:nowrap">{{ item.label }}</div>
+        </sc-for>
+      </nav>
+      </sc-if>
+      <sc-if value="{{ L.visSok }}" hint-placeholder-val="{{ true }}">
+      <div style="flex:1;display:flex;align-items:center;gap:12px;background:var(--ink-050);border:2px solid var(--ink-100);border-radius:8px;padding:0 18px;height:64px;min-width:240px">
+        <span class="material-symbols-outlined" style="font-size:33px;color:var(--ink-500)">search</span>
+        <input placeholder="Søk etter tjeneste eller pris" style="flex:1;border:none;background:transparent;outline:none;font-family:Barlow,sans-serif;font-size:24px;color:var(--ink-900);min-width:0">
+      </div>
+      </sc-if>
+      <a href="tel:+4733334400" style="flex:none;display:flex;align-items:center;gap:10px;font-family:Archivo,sans-serif;font-size:26px;font-weight:800;color:var(--ink-900);margin-left:auto;white-space:nowrap">
+        <span class="material-symbols-outlined" style="font-size:33px">call</span>33 33 44 00
+      </a>
+    </div>
+  </header>
+
+  <main style="flex:1">
+
+    <sc-if value="{{ visForside }}" hint-placeholder-val="{{ true }}">
+    <div>
+
+    <section style="background:var(--ink-900);position:relative;overflow:hidden">
+      <img src="assets/photos/handtork-solvbil.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.34">
+      <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(22,23,27,.96) 0%,rgba(22,23,27,.82) 55%,rgba(22,23,27,.55) 100%)"></div>
+      <div style="position:relative;max-width:{{ L.heroBredde }};margin:0 auto;padding:{{ L.heroLuft }} {{ L.sideluft }};display:grid;grid-template-columns:{{ L.todelt }};gap:56px;align-items:center">
+        <div>
+          <h1 style="font-family:Archivo,sans-serif;font-size:{{ L.h1 }};line-height:1.04;font-weight:800;letter-spacing:-.03em;color:#fff;margin:0;max-width:15ch">Hva trenger bilen din?</h1>
+          <p style="font-size:{{ L.ingress }};line-height:1.55;color:var(--ink-200);margin:20px 0 0;max-width:46ch">Slå opp bilen og si hva som er viktigst for deg, så setter vi sammen et forslag. Du kan legge til og fjerne etterpå.</p>
+          <div style="display:flex;gap:12px;margin-top:32px;flex-wrap:wrap">
+            <input value="{{ regNr }}" onChange="{{ settReg }}" placeholder="AB 12345" style="flex:1;min-width:190px;font-family:'IBM Plex Mono',monospace;font-size:32px;font-weight:600;letter-spacing:.06em;padding:20px 24px;border:2px solid rgba(255,255,255,.4);background:rgba(255,255,255,.08);color:#fff;border-radius:8px;outline:none">
+            <div onClick="{{ slaaOpp }}" style="cursor:pointer;display:flex;align-items:center;font-family:Archivo,sans-serif;font-size:28px;font-weight:800;color:#fff;background:var(--red-500);padding:20px 32px;border-radius:8px;box-shadow:0 8px 26px rgba(204,0,0,.4);white-space:nowrap">Slå opp bilen</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;margin-top:26px;font-size:22px;color:var(--ink-300)">
+            <span class="material-symbols-outlined" style="font-size:28px;color:var(--chrome-300)">schedule</span>Åpent i dag til 17.00 · Andebuveien 63, Sem
+          </div>
+        </div>
+        <sc-if value="{{ visBestillKort }}" hint-placeholder-val="{{ true }}">
+        <div style="align-self:end;justify-self:end;max-width:400px;width:100%;background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.22);border-radius:12px;padding:28px 30px;display:flex;flex-direction:column;gap:14px;backdrop-filter:blur(8px)">
+          <div style="font-family:Archivo,sans-serif;font-size:19px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--chrome-300)">Vet du hva du vil ha?</div>
+          <div style="font-family:Archivo,sans-serif;font-size:30px;line-height:1.15;font-weight:800;letter-spacing:-.02em;color:#fff">Bestill time direkte</div>
+          <div style="font-size:21px;line-height:1.5;color:var(--ink-300)">Velg tjeneste og tidspunkt selv. Bekreftelse på SMS.</div>
+          <div onClick="{{ goBestilling }}" style="cursor:pointer;font-family:Archivo,sans-serif;font-size:23px;font-weight:800;color:#fff;background:var(--red-500);padding:16px 24px;border-radius:8px;text-align:center;margin-top:4px">Bestill time</div>
+          <a href="tel:+4733334400" style="font-family:Archivo,sans-serif;font-size:22px;font-weight:800;color:#fff;border:2px solid rgba(255,255,255,.3);padding:14px 24px;border-radius:8px;text-align:center">Eller ring oss</a>
+        </div>
+        </sc-if>
+      </div>
+    </section>
+
+    <sc-if value="{{ harKampanjebaand }}" hint-placeholder-val="{{ true }}">
+    <section id="kampanjer" style="background:var(--red-500)">
+      <div style="max-width:1440px;margin:0 auto;padding:22px {{ L.sideluft }};display:flex;align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:16px">
+          <span class="material-symbols-outlined" style="font-size:40px;color:#fff">local_offer</span>
+          <div style="font-family:Archivo,sans-serif;font-size:31px;font-weight:800;color:#fff">Kampanje nå: Kepler lakkforsegling til 3.990,- (spar 3.600,-)</div>
+        </div>
+        <div onClick="{{ goKampanjer }}" style="cursor:pointer;font-family:Archivo,sans-serif;font-size:26px;font-weight:800;color:var(--red-600);background:#fff;padding:14px 26px;border-radius:8px">Se alle kampanjer</div>
+      </div>
+    </section>
+    </sc-if>
+
+    <section id="omraader" style="max-width:1440px;margin:0 auto;padding:{{ L.seksjon }} {{ L.sideluft }} 24px">
+      <h2 style="font-family:Archivo,sans-serif;font-size:{{ L.h2 }};font-weight:800;letter-spacing:-.025em;color:var(--ink-900);margin:0">Velg det du trenger hjelp med</h2>
+      <p style="font-size:{{ L.ingress }};line-height:1.55;color:var(--ink-600);margin:14px 0 40px;max-width:60ch">Fire områder. Velg ett, så viser vi tjenestene og prisene under.</p>
+      <div style="display:grid;grid-template-columns:{{ L.kort4 }};gap:24px">
+        <sc-for list="{{ omraader }}" as="o">
+          <div onClick="{{ o.go }}" style="cursor:pointer;border:3px solid {{ o.border }};border-radius:12px;overflow:hidden;background:{{ o.bg }};display:flex;flex-direction:column" style-hover="border-color:var(--ink-900)">
+            <div style="height:{{ L.bildehoyde }};overflow:hidden;background:var(--ink-050)">
+              <sc-if value="{{ o.img }}" hint-placeholder-val="{{ false }}">
+                <img src="{{ o.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+              </sc-if>
+            </div>
+            <div style="padding:{{ L.kortluft }};display:flex;flex-direction:column;gap:10px;flex:1">
+              <div style="font-family:Archivo,sans-serif;font-size:38px;font-weight:800;letter-spacing:-.02em;color:{{ o.tittelFarge }}">{{ o.navn }}</div>
+              <div style="font-size:25px;line-height:1.5;color:{{ o.tekstFarge }}">{{ o.tekst }}</div>
+              <div style="margin-top:auto;padding-top:18px;display:flex;align-items:center;gap:10px;font-family:Archivo,sans-serif;font-size:25px;font-weight:800;color:{{ o.lenkeFarge }}">Se tjenester<span class="material-symbols-outlined" style="font-size:31px">arrow_forward</span></div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section id="tjenester" style="max-width:1440px;margin:0 auto;padding:24px {{ L.sideluft }} 72px">
+      <sc-if value="{{ harNiva }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;grid-template-columns:{{ L.kort3 }};gap:20px;margin-bottom:44px">
+          <sc-for list="{{ niva }}" as="n" hint-placeholder-count="3">
+            <div style="border:3px solid {{ n.ramme }};border-radius:12px;background:#fff;display:flex;flex-direction:column;overflow:hidden">
+              <div style="background:{{ n.merkeBg }};padding:16px 26px;display:flex;align-items:center;justify-content:space-between;gap:14px">
+                <div style="font-family:Archivo,sans-serif;font-size:26px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:{{ n.merkeTekst }}">{{ n.merke }}</div>
+                <sc-if value="{{ n.visAnbefalt }}" hint-placeholder-val="{{ false }}">
+                  <div style="font-family:Archivo,sans-serif;font-size:18px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--red-500);padding:6px 12px;border-radius:999px">Mest valgt</div>
+                </sc-if>
+              </div>
+              <div style="padding:{{ L.kortluft }};display:flex;flex-direction:column;gap:12px;flex:1">
+                <div style="font-family:Archivo,sans-serif;font-size:{{ L.tjenesteNavn }};line-height:1.1;font-weight:800;letter-spacing:-.02em;color:var(--ink-900)">{{ n.navn }}</div>
+                <div style="font-size:23px;line-height:1.5;color:var(--ink-600)">{{ n.sammendrag }}</div>
+                <div style="display:flex;align-items:center;gap:10px;font-size:21px;color:var(--ink-500)"><span class="material-symbols-outlined" style="font-size:26px;color:var(--ink-400)">schedule</span>{{ n.tid }}</div>
+                <div style="margin-top:auto;padding-top:20px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+                  <sc-if value="{{ n.erKampanje }}" hint-placeholder-val="{{ false }}">
+                    <span style="font-size:21px;color:var(--ink-400);text-decoration:line-through">{{ n.for }}</span>
+                  </sc-if>
+                  <span style="font-family:Archivo,sans-serif;font-size:{{ L.pris }};font-weight:800;letter-spacing:-.02em;color:var(--ink-900)">{{ n.pris }}</span>
+                </div>
+                <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
+                  <div onClick="{{ n.velg }}" style="cursor:pointer;flex:1;min-width:120px;font-family:Archivo,sans-serif;font-size:24px;font-weight:800;color:#fff;background:{{ n.knappBg }};padding:16px 22px;border-radius:8px;text-align:center">{{ n.knappLabel }}</div>
+                  <div onClick="{{ n.lesMer }}" style="cursor:pointer;font-family:Archivo,sans-serif;font-size:24px;font-weight:800;color:var(--ink-900);border:2px solid var(--ink-300);padding:16px 22px;border-radius:8px">Les mer</div>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="font-family:Archivo,sans-serif;font-size:24px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-500);margin-bottom:18px">{{ restTittel }}</div>
+      </sc-if>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <sc-for list="{{ tjenester }}" as="t" hint-placeholder-count="4">
+          <div style="border:2px solid {{ t.border }};border-radius:12px;background:{{ t.bg }};padding:{{ L.kortluft }};display:grid;grid-template-columns:{{ L.rad }};gap:22px;align-items:center">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+                <div style="font-family:Archivo,sans-serif;font-size:{{ L.tjenesteNavn }};font-weight:800;letter-spacing:-.02em;color:var(--ink-900)">{{ t.navn }}</div>
+                <sc-if value="{{ t.erKampanje }}" hint-placeholder-val="{{ false }}">
+                  <div style="background:var(--red-500);color:#fff;font-family:Archivo,sans-serif;font-size:19px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:6px 12px">Kampanje</div>
+                </sc-if>
+              </div>
+              <div style="font-size:25px;line-height:1.5;color:var(--ink-600);max-width:70ch">{{ t.tekst }}</div>
+              <div style="display:flex;align-items:center;gap:10px;font-size:22px;color:var(--ink-500)"><span class="material-symbols-outlined" style="font-size:28px;color:var(--ink-400)">schedule</span>{{ t.tid }}</div>
+            </div>
+            <div style="text-align:{{ L.radJust }};display:flex;flex-direction:column;gap:4px;align-items:{{ L.radJust }}">
+              <div style="font-size:24px;color:var(--ink-400);text-decoration:line-through">{{ t.for }}</div>
+              <div style="font-family:Archivo,sans-serif;font-size:{{ L.pris }};font-weight:800;letter-spacing:-.02em;color:{{ t.prisFarge }};white-space:nowrap">{{ t.pris }}</div>
+            </div>
+            <div style="display:flex;gap:12px;flex-wrap:wrap">
+              <div onClick="{{ t.lesMer }}" style="cursor:pointer;font-family:Archivo,sans-serif;font-size:26px;font-weight:800;color:var(--ink-900);background:#fff;border:2px solid var(--ink-300);padding:18px 26px;border-radius:8px;white-space:nowrap">Les mer</div>
+              <div onClick="{{ t.velg }}" style="cursor:pointer;font-family:Archivo,sans-serif;font-size:26px;font-weight:800;color:{{ t.knappTekst }};background:{{ t.knappBg }};border:2px solid {{ t.knappBg }};padding:18px 30px;border-radius:8px;white-space:nowrap">{{ t.knappLabel }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <div onClick="{{ goAlle }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:12px;font-family:Archivo,sans-serif;font-size:26px;font-weight:800;color:var(--ink-900);border:2px solid var(--ink-300);background:#fff;padding:18px 30px;border-radius:8px;margin-top:28px">Se alle tjenester<span class="material-symbols-outlined" style="font-size:31px">list</span></div>
+    </section>
+
+    <section id="tillegg" style="background:var(--ink-050);border-top:2px solid var(--ink-100)">
+      <div style="max-width:1440px;margin:0 auto;padding:{{ L.seksjon }} {{ L.sideluft }}">
+        <h2 style="font-family:Archivo,sans-serif;font-size:{{ L.h2 }};font-weight:800;letter-spacing:-.025em;color:var(--ink-900);margin:0">Legg til mens bilen først er inne</h2>
+        <p style="font-size:{{ L.ingress }};line-height:1.55;color:var(--ink-600);margin:14px 0 40px;max-width:64ch">Disse tar vi på samme besøk. Du sparer et ekstra verkstedbesøk, og prisen er lavere enn om du bestiller dem hver for seg.</p>
+        <div style="display:grid;grid-template-columns:{{ L.kort4 }};gap:24px">
+          <sc-for list="{{ tilleggValg }}" as="a" hint-placeholder-count="8">
+            <div onClick="{{ a.toggle }}" style="cursor:pointer;background:#fff;border:3px solid {{ a.border }};border-radius:12px;padding:34px 36px 32px;display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px">
+                <div style="font-family:Archivo,sans-serif;font-size:33px;line-height:1.15;font-weight:800;letter-spacing:-.02em;color:var(--ink-900)">{{ a.navn }}</div>
+                <span class="material-symbols-outlined" style="font-size:43px;color:{{ a.ikonFarge }}">{{ a.ikon }}</span>
+              </div>
+              <div style="font-size:24px;line-height:1.5;color:var(--ink-600)">{{ a.tekst }}</div>
+              <div style="margin-top:auto;padding-top:14px;display:flex;align-items:baseline;gap:12px">
+                <div style="font-family:Archivo,sans-serif;font-size:36px;font-weight:800;color:var(--red-500)">+ {{ a.pris }}</div>
+                <div style="font-size:21px;color:var(--ink-400);text-decoration:line-through">{{ a.alene }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <sc-if value="{{ harNyheter }}" hint-placeholder-val="{{ true }}">
+      <section id="nyheter" style="max-width:1440px;margin:0 auto;padding:{{ L.seksjon }} {{ L.sideluft }}">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:28px;flex-wrap:wrap;margin-bottom:36px">
+          <div>
+            <div style="font-family:Archivo,sans-serif;font-size:20px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--red-600)">Aktuelt</div>
+            <h2 style="font-family:Archivo,sans-serif;font-size:{{ L.h2 }};font-weight:800;letter-spacing:-.025em;color:var(--ink-900);margin:12px 0 0">Nytt fra verkstedet</h2>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:{{ L.kort3 }};gap:20px">
+          <sc-for list="{{ nyheter }}" as="n" hint-placeholder-count="3">
+            <div style="border:2px solid var(--ink-100);border-radius:12px;overflow:hidden;background:#fff;display:flex;flex-direction:column;cursor:pointer" style-hover="border-color:var(--ink-300)">
+              <div style="height:{{ L.bildehoyde }};overflow:hidden;background:var(--ink-050)">
+                <sc-if value="{{ n.img }}" hint-placeholder-val="{{ false }}">
+                  <img src="{{ n.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+                </sc-if>
+              </div>
+              <div style="padding:{{ L.kortluft }};display:flex;flex-direction:column;gap:10px;flex:1">
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:19px;color:var(--ink-400)">{{ n.dato }}</div>
+                <div style="font-family:Archivo,sans-serif;font-size:30px;line-height:1.15;font-weight:800;letter-spacing:-.02em;color:var(--ink-900)">{{ n.tittel }}</div>
+                <div style="font-size:{{ L.brod }};line-height:1.5;color:var(--ink-600)">{{ n.tekst }}</div>
+                <div style="margin-top:auto;padding-top:16px;display:flex;align-items:center;gap:10px;font-family:Archivo,sans-serif;font-size:22px;font-weight:800;color:var(--red-600)">Les mer<span class="material-symbols-outlined" style="font-size:26px">arrow_forward</span></div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ harOmtaler }}" hint-placeholder-val="{{ true }}">
+    <section id="omtaler" style="background:var(--ink-050);border-top:2px solid var(--ink-100)">
+      <div style="max-width:1440px;margin:0 auto;padding:{{ L.seksjon }} {{ L.sideluft }}">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:28px;flex-wrap:wrap;margin-bottom:36px">
+          <div>
+            <h2 style="font-family:Archivo,sans-serif;font-size:{{ L.h2 }};font-weight:800;letter-spacing:-.025em;color:var(--ink-900);margin:0">Hva kundene våre mener</h2>
+            <div style="display:flex;align-items:center;gap:16px;margin-top:16px;flex-wrap:wrap">
+              <div style="display:flex;gap:3px">
+                <sc-for list="{{ snittStjerner }}" as="s">
+                  <span class="material-symbols-outlined" style="font-size:34px;color:var(--red-500);font-variation-settings:'FILL' 1">star</span>
+                </sc-for>
+              </div>
+              <div style="font-family:Archivo,sans-serif;font-size:30px;font-weight:800;color:var(--ink-900)">{{ snitt }}</div>
+              <div style="font-size:22px;color:var(--ink-600)">{{ antallOmtaler }} omtaler på Google</div>
+            </div>
+          </div>
+          <a href="https://www.google.com/maps/search/Kepler+Bilservice" style="font-family:Archivo,sans-serif;font-size:24px;font-weight:800;color:var(--ink-900);border:2px solid var(--ink-300);background:#fff;padding:16px 26px;border-radius:8px">Les alle på Google</a>
+        </div>
+        <div style="display:grid;grid-template-columns:{{ L.kort4 }};gap:20px">
+          <sc-for list="{{ omtaler }}" as="o" hint-placeholder-count="4">
+            <div style="background:#fff;border:2px solid var(--ink-100);border-radius:12px;padding:{{ L.kortluft }};display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;gap:3px">
+                <sc-for list="{{ o.stjerner }}" as="s">
+                  <span class="material-symbols-outlined" style="font-size:28px;color:var(--red-500);font-variation-settings:'FILL' 1">star</span>
+                </sc-for>
+              </div>
+              <div style="font-size:22px;line-height:1.6;color:var(--ink-800);text-wrap:pretty">{{ o.tekst }}</div>
+              <div style="margin-top:auto;padding-top:14px;border-top:2px solid var(--ink-100)">
+                <div style="font-family:Archivo,sans-serif;font-size:21px;font-weight:800;color:var(--ink-900)">{{ o.navn }}</div>
+                <div style="font-size:19px;color:var(--ink-500);margin-top:2px">{{ o.tjeneste }} · {{ o.dato }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+    </sc-if>
+
+    </sc-if>
+
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ visMaal }}" hint-placeholder-val="{{ false }}">
+      <section style="max-width:1440px;margin:0 auto;padding:{{ L.seksjon }} {{ L.sideluft }}">
+        <div onClick="{{ tilbake }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:10px;font-family:Archivo,sans-serif;font-size:25px;font-weight:800;color:var(--ink-600);margin-bottom:26px"><span class="material-symbols-outlined" style="font-size:31px">arrow_back</span>Tilbake</div>
+        <div style="display:flex;align-items:center;gap:16px;background:var(--ink-050);border:2px solid var(--ink-100);border-radius:12px;padding:22px 26px;margin-bottom:36px;flex-wrap:wrap">
+          <span class="material-symbols-outlined" style="font-size:38px;color:var(--green-500);flex:none">check_circle</span>
+          <div style="flex:1;min-width:0">
+            <div style="font-family:Archivo,sans-serif;font-size:20px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-500)">Bilen din</div>
+            <div style="font-family:Archivo,sans-serif;font-size:30px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);margin-top:4px">{{ bilTekst }}</div>
+          </div>
+          <div onClick="{{ tilbake }}" style="cursor:pointer;font-family:Archivo,sans-serif;font-size:22px;font-weight:800;color:var(--ink-900);border:2px solid var(--ink-300);background:#fff;padding:14px 22px;border-radius:8px;white-space:nowrap">Endre</div>
+        </div>
+        <h1 style="font-family:Archivo,sans-serif;font-size:{{ L.h2 }};font-weight:800;letter-spacing:-.025em;color:var(--ink-900);margin:0">Hva er viktigst for deg?</h1>
+        <p style="font-size:{{ L.ingress }};line-height:1.55;color:var(--ink-600);margin:14px 0 36px;max-width:60ch">Velg det som passer best. Vi setter sammen et forslag du kan endre etterpå.</p>
+        <div style="display:grid;grid-template-columns:{{ L.kort2 }};gap:20px">
+          <sc-for list="{{ maal }}" as="m" hint-placeholder-count="4">
+            <div onClick="{{ m.velg }}" style="cursor:pointer;display:flex;align-items:center;gap:20px;border:3px solid {{ m.ramme }};background:{{ m.bg }};border-radius:12px;padding:30px 32px">
+              <span class="material-symbols-outlined" style="font-size:52px;color:{{ m.ikonFarge }};flex:none">{{ m.ikon }}</span>
+              <div style="flex:1;min-width:0">
+                <div style="font-family:Archivo,sans-serif;font-size:30px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);line-height:1.2">{{ m.navn }}</div>
+                <div style="font-size:23px;line-height:1.45;color:var(--ink-500);margin-top:6px">{{ m.tekst }}</div>
+              </div>
+              <span class="material-symbols-outlined" style="font-size:36px;color:var(--ink-300);flex:none">arrow_forward</span>
+            </div>
+          </sc-for>
+        </div>
+        <div onClick="{{ goAlle }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:12px;font-family:Archivo,sans-serif;font-size:24px;font-weight:800;color:var(--ink-600);margin-top:32px">Jeg vet hva jeg vil ha — vis alle tjenester<span class="material-symbols-outlined" style="font-size:28px">list</span></div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ visPakke }}" hint-placeholder-val="{{ false }}">
+      <section style="max-width:1440px;margin:0 auto;padding:{{ L.seksjon }} {{ L.sideluft }}">
+        <div onClick="{{ tilbake }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:10px;font-family:Archivo,sans-serif;font-size:25px;font-weight:800;color:var(--ink-600);margin-bottom:26px"><span class="material-symbols-outlined" style="font-size:31px">arrow_back</span>Tilbake</div>
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:28px;flex-wrap:wrap">
+          <div style="display:flex;align-items:center;gap:10px;font-family:Archivo,sans-serif;font-size:20px;font-weight:800;color:var(--ink-900)"><span style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:999px;background:var(--red-500);color:#fff">1</span>Ditt forslag</div>
+          <div style="width:36px;height:2px;background:var(--ink-200)"></div>
+          <div style="display:flex;align-items:center;gap:10px;font-family:Archivo,sans-serif;font-size:20px;font-weight:800;color:var(--ink-400)"><span style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:999px;background:var(--ink-100);color:var(--ink-600)">2</span>Send forespørsel</div>
+        </div>
+          <div style="background:#fff;border:3px solid var(--red-500);border-radius:12px;padding:{{ L.kortluft }}">
+            <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+              <div>
+                <div style="font-family:Archivo,sans-serif;font-size:20px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--red-600)">Vårt forslag til {{ pakke.bil }}</div>
+                <div style="font-family:Archivo,sans-serif;font-size:{{ L.h2 }};font-weight:800;letter-spacing:-.025em;color:var(--ink-900);margin-top:10px">{{ pakke.tittel }}</div>
+              </div>
+              <div style="text-align:right">
+                <div style="font-size:21px;color:var(--ink-500)">Til sammen</div>
+                <div style="font-family:Archivo,sans-serif;font-size:{{ L.pris }};font-weight:800;letter-spacing:-.02em;color:var(--red-500)">{{ pakke.sum }}</div>
+              </div>
+            </div>
+            <p style="font-size:{{ L.brod }};line-height:1.55;color:var(--ink-600);margin:14px 0 26px;max-width:72ch;text-wrap:pretty">{{ pakke.begrunnelse }}</p>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{ pakke.linjer }}" as="l">
+                <div onClick="{{ l.veksle }}" style="cursor:pointer;display:flex;align-items:center;gap:16px;border:2px solid {{ l.ramme }};background:{{ l.bg }};border-radius:8px;padding:18px 20px">
+                  <span class="material-symbols-outlined" style="font-size:36px;color:{{ l.ikonFarge }};flex:none">{{ l.ikon }}</span>
+                  <div style="flex:1;min-width:0">
+                    <div style="font-family:Archivo,sans-serif;font-size:26px;font-weight:700;color:var(--ink-900);line-height:1.25">{{ l.navn }}</div>
+                    <div style="font-size:21px;line-height:1.45;color:{{ l.grunnFarge }};margin-top:4px">{{ l.hvorfor }}</div>
+                  </div>
+                  <div style="font-family:Archivo,sans-serif;font-size:26px;font-weight:800;color:var(--ink-900);white-space:nowrap">{{ l.pris }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex;gap:14px;align-items:flex-start;background:var(--ink-050);border-radius:8px;padding:18px 20px;margin-top:20px">
+              <span class="material-symbols-outlined" style="font-size:32px;color:var(--ink-600);flex:none">info</span>
+              <div style="font-size:21px;line-height:1.55;color:var(--ink-700)">Forslaget bygger på bilens alder og farge. Trykk på en linje for å ta den ut. Endelig anbefaling gir vi når vi har sett bilen.</div>
+            </div>
+            <div onClick="{{ pakke.tilBestilling }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:12px;font-family:Archivo,sans-serif;font-size:28px;font-weight:800;color:#fff;background:var(--red-500);padding:20px 36px;border-radius:8px;margin-top:24px">Gå videre med dette<span class="material-symbols-outlined" style="font-size:34px">arrow_forward</span></div>
+          </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ visAlle }}" hint-placeholder-val="{{ false }}">
+      <section style="max-width:1440px;margin:0 auto;padding:{{ L.seksjon }} {{ L.sideluft }}">
+        <div onClick="{{ tilbake }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:10px;font-family:Archivo,sans-serif;font-size:25px;font-weight:800;color:var(--ink-600);margin-bottom:26px"><span class="material-symbols-outlined" style="font-size:31px">arrow_back</span>Tilbake til forsiden</div>
+        <h1 style="font-family:Archivo,sans-serif;font-size:{{ L.h2 }};font-weight:800;letter-spacing:-.025em;color:var(--ink-900);margin:0">Alle tjenester</h1>
+        <p style="font-size:{{ L.ingress }};line-height:1.55;color:var(--ink-600);margin:14px 0 44px;max-width:62ch">Hele listen, uten anbefalinger. Er du usikker på hva du trenger, er veiviseren på forsiden en enklere vei.</p>
+        <sc-for list="{{ alleGrupper }}" as="g" hint-placeholder-count="4">
+          <div style="margin-bottom:48px">
+            <div style="font-family:Archivo,sans-serif;font-size:24px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-500);border-bottom:3px solid var(--red-500);padding-bottom:12px;margin-bottom:20px">{{ g.navn }}</div>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <sc-for list="{{ g.rader }}" as="t">
+                <div style="border:2px solid {{ t.ramme }};background:{{ t.bg }};border-radius:12px;padding:{{ L.kortluft }};display:grid;grid-template-columns:{{ L.rad }};gap:22px;align-items:center">
+                  <div style="display:flex;flex-direction:column;gap:8px">
+                    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+                      <div style="font-family:Archivo,sans-serif;font-size:{{ L.tjenesteNavn }};font-weight:800;letter-spacing:-.02em;color:var(--ink-900)">{{ t.navn }}</div>
+                      <sc-if value="{{ t.erKampanje }}" hint-placeholder-val="{{ false }}">
+                        <div style="background:var(--red-500);color:#fff;font-family:Archivo,sans-serif;font-size:19px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:7px 14px">Kampanje</div>
+                      </sc-if>
+                    </div>
+                    <div style="font-size:{{ L.brod }};line-height:1.5;color:var(--ink-600);max-width:70ch">{{ t.tekst }}</div>
+                    <div style="display:flex;align-items:center;gap:10px;font-size:22px;color:var(--ink-500)"><span class="material-symbols-outlined" style="font-size:28px;color:var(--ink-400)">schedule</span>{{ t.tid }}</div>
+                  </div>
+                  <div style="text-align:{{ L.radJust }};display:flex;flex-direction:column;gap:4px;align-items:{{ L.radJust }}">
+                    <div style="font-size:22px;color:var(--ink-400);text-decoration:line-through">{{ t.for }}</div>
+                    <div style="font-family:Archivo,sans-serif;font-size:{{ L.pris }};font-weight:800;letter-spacing:-.02em;color:{{ t.prisFarge }};white-space:nowrap">{{ t.pris }}</div>
+                  </div>
+                  <div style="display:flex;gap:12px;flex-wrap:wrap">
+                    <div onClick="{{ t.lesMer }}" style="cursor:pointer;font-family:Archivo,sans-serif;font-size:26px;font-weight:800;color:var(--ink-900);background:#fff;border:2px solid var(--ink-300);padding:18px 26px;border-radius:8px;white-space:nowrap">Les mer</div>
+                    <sc-if value="{{ t.kanVelges }}" hint-placeholder-val="{{ true }}">
+                      <div onClick="{{ t.velg }}" style="cursor:pointer;font-family:Archivo,sans-serif;font-size:26px;font-weight:800;color:#fff;background:{{ t.knappBg }};border:2px solid {{ t.knappBg }};padding:18px 30px;border-radius:8px;white-space:nowrap">{{ t.knappLabel }}</div>
+                    </sc-if>
+                    <sc-if value="{{ t.laast }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;align-items:center;gap:10px;font-family:Archivo,sans-serif;font-size:24px;font-weight:800;color:var(--ink-400);border:2px solid var(--ink-200);padding:18px 26px;border-radius:8px;white-space:nowrap;cursor:not-allowed"><span class="material-symbols-outlined" style="font-size:28px">lock</span>Kun som tillegg</div>
+                    </sc-if>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ visDetalj }}" hint-placeholder-val="{{ false }}">
+    <section style="max-width:{{ L.heroBredde }};margin:0 auto;padding:{{ L.seksjon }} {{ L.sideluft }};display:grid;grid-template-columns:{{ L.detalj }};gap:48px;align-items:start">
+      <div>
+        <div onClick="{{ tilbake }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:10px;font-family:Archivo,sans-serif;font-size:25px;font-weight:800;color:var(--ink-600);margin-bottom:26px"><span class="material-symbols-outlined" style="font-size:31px">arrow_back</span>Tilbake til tjenestene</div>
+        <sc-if value="{{ d.erKampanje }}" hint-placeholder-val="{{ false }}">
+          <div style="display:inline-block;background:var(--red-500);color:#fff;font-family:Archivo,sans-serif;font-size:19px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:7px 14px;margin-bottom:16px">Kampanje pris!</div>
+        </sc-if>
+        <h1 style="font-family:Archivo,sans-serif;font-size:{{ L.h2 }};line-height:1.05;font-weight:800;letter-spacing:-.025em;color:var(--ink-900);margin:0">{{ d.navn }}</h1>
+        <p style="font-size:{{ L.ingress }};line-height:1.6;color:var(--ink-700);margin:20px 0 0;max-width:62ch;text-wrap:pretty">{{ d.hva }}</p>
+
+        <div style="display:grid;grid-template-columns:{{ L.kort2 }};gap:20px;margin-top:36px">
+          <div style="border:2px solid var(--ink-200);border-radius:12px;padding:26px 28px">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px"><span class="material-symbols-outlined" style="font-size:32px;color:var(--ink-500)">schedule</span><div style="font-family:Archivo,sans-serif;font-size:20px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-500)">Hvor lang tid</div></div>
+            <div style="font-family:Archivo,sans-serif;font-size:30px;font-weight:800;color:var(--ink-900)">{{ d.varighet }}</div>
+          </div>
+          <div style="border:2px solid var(--ink-200);border-radius:12px;padding:26px 28px">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px"><span class="material-symbols-outlined" style="font-size:32px;color:var(--red-500)">verified</span><div style="font-family:Archivo,sans-serif;font-size:20px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-500)">Garanti</div></div>
+            <div style="font-size:22px;line-height:1.45;color:var(--ink-900)">{{ d.garanti }}</div>
+          </div>
+        </div>
+
+
+        <h2 style="font-family:Archivo,sans-serif;font-size:34px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);margin:44px 0 20px">Slik gjør vi det</h2>
+        <div style="display:flex;flex-direction:column;gap:2px">
+          <sc-for list="{{ d.prosess }}" as="p">
+            <div style="display:flex;gap:20px;align-items:flex-start;padding:18px 0;border-bottom:2px solid var(--ink-100)">
+              <div style="display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:999px;background:var(--red-500);color:#fff;font-family:Archivo,sans-serif;font-size:21px;font-weight:800;flex:none">{{ p.nr }}</div>
+              <div style="font-size:23px;line-height:1.5;color:var(--ink-700);padding-top:5px">{{ p.tekst }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <h2 style="font-family:Archivo,sans-serif;font-size:34px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);margin:44px 0 18px">Hva du kan forvente</h2>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <sc-for list="{{ d.forvent }}" as="f">
+            <div style="display:flex;gap:14px;align-items:flex-start">
+              <span class="material-symbols-outlined" style="font-size:30px;color:var(--ink-400);flex:none">arrow_right</span>
+              <div style="font-size:23px;line-height:1.5;color:var(--ink-700)">{{ f.tekst }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <h2 style="font-family:Archivo,sans-serif;font-size:34px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);margin:44px 0 18px">Passer for deg som har</h2>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <sc-for list="{{ d.passer }}" as="f">
+            <div style="display:flex;gap:14px;align-items:flex-start">
+              <span class="material-symbols-outlined" style="font-size:30px;color:var(--green-500);flex:none">check</span>
+              <div style="font-size:23px;line-height:1.5;color:var(--ink-700)">{{ f.tekst }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <sc-if value="{{ d.harMersalg }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:48px;border:3px solid var(--ink-900);border-radius:12px;padding:32px 34px 34px">
+            <h2 style="font-family:Archivo,sans-serif;font-size:34px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);margin:0">Ta det på samme besøk</h2>
+            <p style="font-size:23px;line-height:1.55;color:var(--ink-600);margin:12px 0 22px;max-width:62ch">Bilen står hos oss uansett. Disse er naturlige å gjøre samtidig, og du sparer et ekstra verkstedbesøk.</p>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <sc-for list="{{ d.mersalg }}" as="m">
+                <div onClick="{{ m.leggTil }}" style="cursor:pointer;display:flex;align-items:center;gap:18px;border:2px solid {{ m.ramme }};background:{{ m.bg }};border-radius:10px;padding:20px 22px">
+                  <span class="material-symbols-outlined" style="font-size:38px;color:{{ m.ikonFarge }};flex:none">{{ m.ikon }}</span>
+                  <div style="flex:1;min-width:0">
+                    <div style="font-family:Archivo,sans-serif;font-size:26px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);line-height:1.2">{{ m.navn }}</div>
+                    <div style="font-size:21px;line-height:1.45;color:var(--ink-600);margin-top:5px">{{ m.grunn }}</div>
+                  </div>
+                  <div style="text-align:right;flex:none">
+                    <div style="font-size:19px;color:var(--ink-500)">{{ m.tid }}</div>
+                    <div style="font-family:Archivo,sans-serif;font-size:26px;font-weight:800;color:var(--ink-900);white-space:nowrap">{{ m.pris }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ d.harProdukter }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:48px">
+            <h2 style="font-family:Archivo,sans-serif;font-size:34px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);margin:0">Produkter til vedlikehold</h2>
+            <p style="font-size:23px;line-height:1.55;color:var(--ink-600);margin:12px 0 24px;max-width:60ch">Vi utvikler våre egne kjemikalier. Disse er valgt fordi de holder behandlingen ved like i stedet for å slite på den. Du får dem kjøpt i resepsjonen.</p>
+            <div style="display:grid;grid-template-columns:{{ L.kort2 }};gap:16px">
+              <sc-for list="{{ d.produkter }}" as="pr">
+                <div style="border:2px solid var(--ink-200);border-radius:10px;padding:24px 26px;display:flex;flex-direction:column;gap:8px">
+                  <div style="font-family:Archivo,sans-serif;font-size:18px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-400)">{{ pr.kategori }}</div>
+                  <div style="font-family:Archivo,sans-serif;font-size:26px;line-height:1.2;font-weight:800;letter-spacing:-.02em;color:var(--ink-900)">{{ pr.navn }}</div>
+                  <div style="font-size:21px;line-height:1.5;color:var(--ink-600)">{{ pr.tekst }}</div>
+                  <div style="margin-top:auto;padding-top:14px;font-family:Archivo,sans-serif;font-size:26px;font-weight:800;color:var(--ink-900)">{{ pr.pris }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ d.harHeller }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:44px;border:3px solid var(--ink-200);border-radius:12px;padding:30px 32px">
+            <div style="font-family:Archivo,sans-serif;font-size:30px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);margin-bottom:6px">Vurder heller noe annet hvis</div>
+            <div style="display:flex;flex-direction:column;gap:0">
+              <sc-for list="{{ d.heller }}" as="h">
+                <div style="border-top:2px solid var(--ink-100);padding:18px 0;display:flex;flex-direction:column;gap:6px">
+                  <div style="font-size:23px;line-height:1.5;color:var(--ink-700)">… {{ h.grunn }}</div>
+                  <div style="font-family:Archivo,sans-serif;font-size:23px;font-weight:800;color:var(--red-600)">Se {{ h.navn }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <sc-if value="{{ d.erSkade }}" hint-placeholder-val="{{ false }}">
+          <div style="border:3px solid var(--red-500);border-radius:12px;padding:30px 32px 32px">
+            <h2 style="font-family:Archivo,sans-serif;font-size:34px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);margin:0">Vis oss skaden</h2>
+            <p style="font-size:23px;line-height:1.55;color:var(--ink-600);margin:12px 0 26px;max-width:44ch">Trykk på tegningen der skaden er, og skriv hva som har skjedd. Legg gjerne ved bilder. Da kan vi gi deg et mye mer presist svar før du kommer.</p>
+
+            <div style="display:grid;grid-template-columns:1fr;gap:20px;align-items:start">
+            <div onClick="{{ skade.klikk }}" style="cursor:crosshair;position:relative;background:var(--ink-050);border:2px solid var(--ink-200);border-radius:10px;padding:20px;user-select:none">
+              <svg viewBox="0 0 400 620" style="width:100%;max-width:260px;display:block;margin:0 auto;pointer-events:none">
+                <g fill="none" stroke="#2c2e35" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+                  <path d="M112 44 C150 26 250 26 288 44 C316 58 330 96 336 150 L344 300 L344 430 C344 500 336 552 326 578 C318 596 300 602 200 602 C100 602 82 596 74 578 C64 552 56 500 56 430 L56 300 L64 150 C70 96 84 58 112 44 Z"/>
+                  <path d="M126 96 C160 84 240 84 274 96 L294 156 C250 146 150 146 106 156 Z"/>
+                  <path d="M108 470 C150 458 250 458 292 470 L282 540 C240 530 160 530 118 540 Z"/>
+                  <path d="M96 190 L304 190 L312 300 L312 420 L88 420 L88 300 Z"/>
+                  <path d="M56 210 L36 214 L36 244 L56 240"/>
+                  <path d="M344 210 L364 214 L364 244 L344 240"/>
+                  <path d="M88 300 L312 300"/>
+                  <path d="M200 190 L200 420"/>
+                  <path d="M78 62 L124 40 M322 62 L276 40"/>
+                </g>
+                <g fill="#9fa0a3" font-family="Barlow, sans-serif" font-size="17">
+                  <text x="200" y="26" text-anchor="middle">FRONT</text>
+                  <text x="200" y="618" text-anchor="middle">BAK</text>
+                </g>
+              </svg>
+              <sc-for list="{{ skade.merker }}" as="m">
+                <div style="position:absolute;left:{{ m.x }};top:{{ m.y }};transform:translate(-50%,-50%);width:44px;height:44px;border-radius:999px;background:var(--red-500);color:#fff;display:flex;align-items:center;justify-content:center;font-family:Archivo,sans-serif;font-size:22px;font-weight:800;box-shadow:0 3px 10px rgba(0,0,0,.35);pointer-events:none">{{ m.nr }}</div>
+              </sc-for>
+            </div>
+
+            <div>
+            <sc-if value="{{ skade.tom }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;align-items:center;gap:12px;font-size:21px;color:var(--ink-500);background:var(--ink-050);border-radius:10px;padding:18px 20px"><span class="material-symbols-outlined" style="font-size:28px">touch_app</span>Trykk på bilen der skaden er</div>
+            </sc-if>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <sc-for list="{{ skade.merker }}" as="m">
+                <div style="display:flex;gap:12px;align-items:center;border:2px solid var(--ink-200);border-radius:10px;padding:14px 16px">
+                  <div style="display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:999px;background:var(--red-500);color:#fff;font-family:Archivo,sans-serif;font-size:20px;font-weight:800;flex:none">{{ m.nr }}</div>
+                  <input value="{{ m.tekst }}" onChange="{{ m.settTekst }}" placeholder="Hva har skjedd her?" style="flex:1;min-width:0;font-family:Barlow,sans-serif;font-size:21px;padding:11px 13px;border:2px solid var(--ink-200);border-radius:8px;outline:none">
+                  <div onClick="{{ m.fjern }}" style="cursor:pointer;display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:8px;border:2px solid var(--ink-200);flex:none"><span class="material-symbols-outlined" style="font-size:24px;color:var(--ink-500)">close</span></div>
+                </div>
+              </sc-for>
+            </div>
+            <h3 style="font-family:Archivo,sans-serif;font-size:26px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);margin:24px 0 8px">Last opp bilder</h3>
+            <p style="font-size:20px;line-height:1.5;color:var(--ink-600);margin:0 0 16px">Vi trenger to bilder av hver skade: ett tett på, og ett tatt et par meter unna så vi ser hvor på bilen den sitter.</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <label style="cursor:pointer;border:3px dashed var(--ink-300);border-radius:10px;padding:24px 18px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center">
+                <input type="file" accept="image/*" multiple onChange="{{ skade.lastOppNaer }}" style="display:none">
+                <span class="material-symbols-outlined" style="font-size:40px;color:var(--ink-400)">zoom_in</span>
+                <div style="font-family:Archivo,sans-serif;font-size:21px;font-weight:800;color:var(--ink-900)">Nærbilde</div>
+                <div style="font-size:19px;color:var(--ink-500)">{{ skade.naerTekst }}</div>
+              </label>
+              <label style="cursor:pointer;border:3px dashed var(--ink-300);border-radius:10px;padding:24px 18px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center">
+                <input type="file" accept="image/*" multiple onChange="{{ skade.lastOppOversikt }}" style="display:none">
+                <span class="material-symbols-outlined" style="font-size:40px;color:var(--ink-400)">photo_camera</span>
+                <div style="font-family:Archivo,sans-serif;font-size:21px;font-weight:800;color:var(--ink-900)">Oversiktsbilde</div>
+                <div style="font-size:19px;color:var(--ink-500)">{{ skade.oversiktTekst }}</div>
+              </label>
+            </div>
+            </div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:flex-start;background:var(--ink-050);border-radius:10px;padding:18px 20px;margin-top:20px">
+              <span class="material-symbols-outlined" style="font-size:30px;color:var(--ink-600);flex:none">info</span>
+              <div style="font-size:20px;line-height:1.55;color:var(--ink-700)">Noen skader er vanskelige å prise eksakt på forhånd. Prisen er derfor et anslag, med forbehold til vi har sett bilen. Blir det dyrere, hører du fra oss før vi setter i gang.</div>
+            </div>
+            <div onClick="{{ skade.send }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:12px;font-family:Archivo,sans-serif;font-size:24px;font-weight:800;color:#fff;background:var(--red-500);padding:18px 30px;border-radius:8px;margin-top:22px">Send skadebeskrivelse<span class="material-symbols-outlined" style="font-size:30px">mail</span></div>
+            <sc-if value="{{ skade.sendt }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:18px;background:var(--green-050);border:2px solid var(--green-500);border-radius:10px;padding:18px 20px;font-size:21px;line-height:1.5;color:var(--ink-900)">Takk! Skadebeskrivelsen er sendt til kundeservice@kepler.no. Vi gir deg et prisanslag innen én virkedag.</div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+      <aside style="border:3px solid var(--ink-200);border-radius:12px;padding:34px;display:flex;flex-direction:column;gap:18px;background:#fff">
+        <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+          <sc-if value="{{ d.erKampanje }}" hint-placeholder-val="{{ false }}">
+            <span style="font-size:22px;color:var(--ink-400);text-decoration:line-through">{{ d.for }}</span>
+          </sc-if>
+          <span style="font-family:Archivo,sans-serif;font-size:{{ L.pris }};font-weight:800;letter-spacing:-.02em;color:var(--red-500)">{{ d.pris }}</span>
+        </div>
+        <div style="height:2px;background:var(--ink-100)"></div>
+        <div style="display:flex;justify-content:space-between;gap:16px;font-size:22px;color:var(--ink-600)"><span>Varighet</span><span style="color:var(--ink-900);font-weight:600;text-align:right">{{ d.varighet }}</span></div>
+        <div style="display:flex;justify-content:space-between;gap:16px;font-size:22px;color:var(--ink-600)"><span>Betaling</span><span style="color:var(--ink-900);font-weight:600">Klarna · kort</span></div>
+        <div onClick="{{ d.velg }}" style="cursor:pointer;font-family:Archivo,sans-serif;font-size:26px;font-weight:800;color:#fff;background:var(--red-500);padding:20px 28px;border-radius:8px;text-align:center;margin-top:6px">{{ d.knappLabel }}</div>
+        <a href="tel:+4733334400" style="font-family:Archivo,sans-serif;font-size:24px;font-weight:800;color:var(--ink-900);border:2px solid var(--ink-300);padding:18px 28px;border-radius:8px;text-align:center">Spør oss først</a>
+      </aside>
+      </div>
+    </section>
+    </sc-if>
+
+    <sc-if value="{{ visBestilling }}" hint-placeholder-val="{{ false }}">
+    <section id="bestilling" style="background:#fff;border-top:2px solid var(--ink-100)">
+      <div style="max-width:1440px;margin:0 auto;padding:{{ L.seksjon }} {{ L.sideluft }};display:grid;grid-template-columns:{{ L.todelt }};gap:40px;align-items:start">
+        <div>
+          <div onClick="{{ goForside }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:10px;font-family:Archivo,sans-serif;font-size:25px;font-weight:800;color:var(--ink-600);margin-bottom:26px"><span class="material-symbols-outlined" style="font-size:31px">arrow_back</span>Tilbake til tjenestene</div>
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px">
+            <div style="display:flex;align-items:center;gap:10px;font-family:Archivo,sans-serif;font-size:22px;font-weight:800;color:var(--ink-400)"><span style="display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:999px;background:var(--ink-100);color:var(--ink-600)">1</span>Velg tjeneste</div>
+            <div style="width:36px;height:2px;background:var(--ink-200)"></div>
+            <div style="display:flex;align-items:center;gap:10px;font-family:Archivo,sans-serif;font-size:22px;font-weight:800;color:var(--ink-900)"><span style="display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:999px;background:var(--red-500);color:#fff">2</span>Send forespørsel</div>
+          </div>
+          <div style="font-family:Archivo,sans-serif;font-size:21px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--red-600)">Bestill time</div>
+          <div style="width:52px;height:4px;background:var(--red-500);margin:14px 0 18px"></div>
+          <h2 style="font-family:Archivo,sans-serif;font-size:{{ L.h2 }};font-weight:800;letter-spacing:-.025em;color:var(--ink-900);margin:0">Send oss forespørselen din</h2>
+          <p style="font-size:{{ L.ingress }};line-height:1.55;color:var(--ink-600);margin:14px 0 36px;max-width:56ch">Vi ringer deg tilbake og bekrefter tidspunkt. Velg gjerne en ønsket dato, så finner vi nærmeste ledige time.</p>
+
+          <div style="display:grid;grid-template-columns:{{ L.kort2 }};gap:24px">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <label style="font-family:Archivo,sans-serif;font-size:24px;font-weight:700;color:var(--ink-900)">Navn</label>
+              <input placeholder="Ola Nordmann" style="font-family:Barlow,sans-serif;font-size:26px;padding:18px 20px;border:2px solid var(--ink-200);border-radius:8px;outline:none">
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <label style="font-family:Archivo,sans-serif;font-size:24px;font-weight:700;color:var(--ink-900)">Telefonnummer</label>
+              <input placeholder="900 00 000" style="font-family:'IBM Plex Mono',monospace;font-size:26px;padding:18px 20px;border:2px solid var(--ink-200);border-radius:8px;outline:none">
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <label style="font-family:Archivo,sans-serif;font-size:24px;font-weight:700;color:var(--ink-900)">E-post</label>
+              <input placeholder="ola@epost.no" style="font-family:Barlow,sans-serif;font-size:26px;padding:18px 20px;border:2px solid var(--ink-200);border-radius:8px;outline:none">
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <label style="font-family:Archivo,sans-serif;font-size:24px;font-weight:700;color:var(--ink-900)">Registreringsnummer</label>
+              <div style="display:flex;gap:10px">
+                <input value="{{ regNr }}" onChange="{{ settReg }}" placeholder="AB 12345" style="flex:1;font-family:'IBM Plex Mono',monospace;font-size:26px;letter-spacing:.06em;padding:18px 20px;border:2px solid var(--ink-200);border-radius:8px;outline:none;min-width:0">
+                <div onClick="{{ slaaOpp }}" style="cursor:pointer;font-family:Archivo,sans-serif;font-size:24px;font-weight:800;color:var(--ink-900);border:2px solid var(--ink-300);background:#fff;padding:18px 22px;border-radius:8px;white-space:nowrap">Slå opp</div>
+              </div>
+              <sc-if value="{{ harBil }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;align-items:center;gap:12px;font-size:22px;color:var(--ink-700);background:var(--ink-050);border-radius:8px;padding:12px 16px">
+                  <span class="material-symbols-outlined" style="font-size:31px;color:var(--green-500)">check_circle</span>{{ bilTekst }}
+                </div>
+              </sc-if>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <label style="font-family:Archivo,sans-serif;font-size:24px;font-weight:700;color:var(--ink-900)">Ønsket dato</label>
+              <input type="date" min="{{ minDato }}" style="font-family:Barlow,sans-serif;font-size:26px;padding:16px 20px;border:2px solid var(--ink-200);border-radius:8px;outline:none">
+              <div style="font-size:21px;line-height:1.5;color:var(--ink-500)">Første ledige dato er {{ minDatoTekst }}. Vi tar kontakt hvis vi kan tilby noe tidligere.</div>
+            </div>
+          </div>
+
+          <div style="margin-top:44px;display:flex;flex-direction:column;gap:20px">
+            <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:22px;flex-wrap:wrap">
+              <div>
+                <div style="font-family:Archivo,sans-serif;font-size:33px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900)">Hvilke tjenester ønsker du?</div>
+                <div style="font-size:25px;line-height:1.5;color:var(--ink-600);margin-top:8px">Kryss av for alt du vil ha. Du kan velge flere, og endre underveis.</div>
+              </div>
+              <div onClick="{{ goAlle }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:10px;font-family:Archivo,sans-serif;font-size:23px;font-weight:800;color:var(--ink-900);border:2px solid var(--ink-300);padding:14px 22px;border-radius:8px;white-space:nowrap">Se alle tjenester<span class="material-symbols-outlined" style="font-size:27px">list</span></div>
+            </div>
+            <div style="border:2px solid var(--ink-200);border-radius:12px;overflow:hidden">
+              <sc-for list="{{ grupper }}" as="g" hint-placeholder-count="4">
+                <div style="border-bottom:2px solid var(--ink-100)">
+                  <div onClick="{{ g.vipp }}" style="cursor:pointer;display:flex;align-items:center;gap:16px;padding:20px 24px;background:{{ g.hodeBg }}">
+                    <span class="material-symbols-outlined" style="font-size:34px;color:var(--ink-500);flex:none">{{ g.pil }}</span>
+                    <div style="flex:1;font-family:Archivo,sans-serif;font-size:26px;font-weight:800;color:var(--ink-900)">{{ g.navn }}</div>
+                    <div style="font-family:Archivo,sans-serif;font-size:20px;font-weight:800;color:{{ g.merkeTekst }};background:{{ g.merkeBg }};padding:6px 14px;border-radius:999px;white-space:nowrap">{{ g.merke }}</div>
+                  </div>
+                  <sc-if value="{{ g.aapen }}" hint-placeholder-val="{{ false }}">
+                    <div style="padding:4px 24px 20px;display:flex;flex-direction:column;gap:2px">
+                      <sc-for list="{{ g.valg }}" as="v">
+                        <div onClick="{{ v.veksle }}" style="cursor:pointer;display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:8px;background:{{ v.bg }}">
+                          <span class="material-symbols-outlined" style="font-size:32px;color:{{ v.ikonFarge }};flex:none">{{ v.ikon }}</span>
+                          <div style="flex:1;min-width:0;font-size:23px;color:var(--ink-900)">{{ v.navn }}<sc-if value="{{ v.erTillegg }}" hint-placeholder-val="{{ false }}"><span style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--red-600);background:var(--red-050);padding:4px 10px;border-radius:999px;margin-left:12px">Tillegg</span></sc-if></div>
+                          <div style="font-size:20px;color:var(--ink-500);white-space:nowrap">{{ v.tid }}</div>
+                          <div style="font-family:Archivo,sans-serif;font-size:23px;font-weight:800;color:var(--ink-900);white-space:nowrap;min-width:150px;text-align:right">{{ v.pris }}</div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:12px;margin-top:36px">
+            <label style="font-family:Archivo,sans-serif;font-size:24px;font-weight:700;color:var(--ink-900)">Noe mer vi bør vite?</label>
+            <div style="font-size:21px;line-height:1.5;color:var(--ink-600)">Frivillig. Skriv gjerne hva du lurer på, når det passer å bli oppringt, eller noe spesielt med bilen din.</div>
+            <textarea rows="5" placeholder="F.eks. Bilen har en ripe i førerdøren jeg gjerne vil at dere ser på samtidig. Jeg kan ikke ta telefonen før kl. 16." style="font-family:Barlow,sans-serif;font-size:23px;line-height:1.5;padding:18px 20px;border:2px solid var(--ink-200);border-radius:8px;outline:none;resize:vertical"></textarea>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:14px;margin-top:28px">
+            <label style="display:flex;align-items:flex-start;gap:14px;cursor:pointer">
+              <input type="checkbox" style="width:26px;height:26px;accent-color:#cc0000;margin-top:2px;flex:none">
+              <span style="font-size:25px;line-height:1.5;color:var(--ink-700)">Ja takk, jeg vil ha nyhetsbrev med kampanjer og tips om vedlikehold.</span>
+            </label>
+            <label style="display:flex;align-items:flex-start;gap:14px;cursor:pointer">
+              <input type="checkbox" style="width:26px;height:26px;accent-color:#cc0000;margin-top:2px;flex:none">
+              <span style="font-size:25px;line-height:1.5;color:var(--ink-700)">Jeg samtykker til at opplysningene behandles i henhold til personvernerklæringen.</span>
+            </label>
+          </div>
+
+          <div onClick="{{ send }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:14px;font-family:Archivo,sans-serif;font-size:31px;font-weight:800;color:#fff;background:var(--red-500);padding:22px 40px;border-radius:8px;margin-top:32px">Send forespørsel<span class="material-symbols-outlined" style="font-size:38px">arrow_forward</span></div>
+          <sc-if value="{{ sendt }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:22px;background:var(--green-050);border:2px solid var(--green-500);border-radius:8px;padding:20px 24px;font-size:26px;color:var(--ink-900)">Takk! Vi har mottatt forespørselen og ringer deg innen én virkedag.</div>
+          </sc-if>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:24px">
+        <div style="background:var(--ink-050);border:2px solid var(--ink-100);border-radius:12px;padding:36px;display:flex;flex-direction:column;gap:20px">
+          <div style="font-family:Archivo,sans-serif;font-size:33px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900)">Din bestilling</div>
+          <sc-if value="{{ flereValgte }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:flex-start;gap:12px;background:#fff;border:2px solid var(--ink-200);border-radius:8px;padding:14px 16px">
+              <span class="material-symbols-outlined" style="font-size:31px;color:var(--ink-500);flex:none">low_priority</span>
+              <div style="font-size:21px;line-height:1.5;color:var(--ink-600)">Vi utfører i anbefalt rekkefølge: skader rettes først, deretter understell, vask, lakkrens og til slutt forsegling.</div>
+            </div>
+          </sc-if>
+          <div style="height:2px;background:var(--ink-100)"></div>
+          <sc-if value="{{ harValgte }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <sc-for list="{{ rekkefolge }}" as="r">
+                <div style="display:flex;align-items:center;gap:14px">
+                  <div style="display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:999px;background:var(--red-500);color:#fff;font-family:Archivo,sans-serif;font-size:22px;font-weight:800;flex:none">{{ r.nr }}</div>
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:26px;color:var(--ink-900);line-height:1.3">{{ r.navn }}</div>
+                    <div style="font-size:21px;color:var(--ink-500)">{{ r.tid }}</div>
+                  </div>
+                  <div style="font-family:Archivo,sans-serif;font-size:25px;font-weight:800;color:var(--ink-900);white-space:nowrap">{{ r.pris }}</div>
+                  <div onClick="{{ r.fjern }}" style="cursor:pointer;display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;border:2px solid var(--ink-200);background:#fff;flex:none"><span class="material-symbols-outlined" style="font-size:26px;color:var(--ink-500)">close</span></div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <sc-for list="{{ tilleggslinjer }}" as="l">
+              <div style="display:flex;justify-content:space-between;gap:20px;font-size:26px;color:var(--ink-700)">
+                <span>{{ l.navn }}</span>
+                <span style="font-family:Archivo,sans-serif;font-weight:800;color:var(--ink-900);white-space:nowrap">{{ l.pris }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="height:2px;background:var(--ink-100)"></div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:20px">
+            <span style="font-family:Archivo,sans-serif;font-size:28px;font-weight:800;color:var(--ink-900)">Totalt</span>
+            <span style="font-family:Archivo,sans-serif;font-size:40px;font-weight:800;color:var(--red-500);white-space:nowrap">{{ totalTekst }}</span>
+          </div>
+          <div style="font-size:22px;line-height:1.55;color:var(--ink-500)">Prisene er veiledende fra-priser. Endelig pris settes etter at vi har sett bilen.</div>
+          <a href="tel:+4733334400" style="font-family:Archivo,sans-serif;font-size:26px;font-weight:800;color:var(--ink-900);border:2px solid var(--ink-300);padding:18px 24px;border-radius:8px;text-align:center;background:#fff">Heller ringe? 33 33 44 00</a>
+        </div>
+        </div>
+      </div>
+    </section>
+    </sc-if>
+
+    <section id="kontakt" style="background:var(--ink-900)">
+      <div style="max-width:1440px;margin:0 auto;padding:{{ L.seksjon }} {{ L.sideluft }};display:grid;grid-template-columns:{{ L.todelt }};gap:40px;align-items:center">
+        <div>
+          <h2 style="font-family:Archivo,sans-serif;font-size:52px;font-weight:800;letter-spacing:-.025em;color:#fff;margin:0">Kom innom, eller ring oss</h2>
+          <p style="font-size:{{ L.ingress }};line-height:1.6;color:var(--ink-200);margin:16px 0 32px;max-width:50ch">Kundemottaket har glassvegg inn mot verkstedet, så du kan se bilen din bli jobbet med mens du venter.</p>
+          <div style="display:flex;gap:16px;flex-wrap:wrap">
+            <a href="tel:+4733334400" style="display:flex;align-items:center;gap:12px;font-family:Archivo,sans-serif;font-size:28px;font-weight:800;color:#fff;background:var(--red-500);padding:20px 32px;border-radius:8px"><span class="material-symbols-outlined" style="font-size:36px">call</span>33 33 44 00</a>
+            <a href="mailto:kundeservice@kepler.no" style="font-family:Archivo,sans-serif;font-size:28px;font-weight:800;color:#fff;border:2px solid rgba(255,255,255,.35);padding:20px 32px;border-radius:8px">Send e-post</a>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:{{ L.kort2 }};gap:28px 32px">
+          <div><div style="font-family:Archivo,sans-serif;font-size:20px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--chrome-300)">Adresse</div><div style="font-size:26px;color:#fff;margin-top:8px;line-height:1.5">Andebuveien 63<br>3170 Sem</div></div>
+          <div><div style="font-family:Archivo,sans-serif;font-size:20px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--chrome-300)">Åpningstider</div><div style="font-size:26px;color:#fff;margin-top:8px;line-height:1.5">Man–fre<br>07.30–17.00</div></div>
+          <div><div style="font-family:Archivo,sans-serif;font-size:20px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--chrome-300)">E-post</div><div style="font-size:26px;margin-top:8px"><a href="mailto:kundeservice@kepler.no" style="color:#fff;text-decoration:underline;text-underline-offset:3px">kundeservice@kepler.no</a></div></div>
+          <div><div style="font-family:Archivo,sans-serif;font-size:20px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--chrome-300)">Betaling</div><div style="font-size:26px;color:#fff;margin-top:8px">Klarna · kort · faktura</div></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer style="background:var(--ink-900);color:var(--ink-300);border-top:2px solid rgba(255,255,255,.12)">
+    <div style="max-width:1440px;margin:0 auto;padding:{{ L.seksjon }} {{ L.sideluft }} 32px;display:grid;grid-template-columns:{{ L.kort4 }};gap:40px">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <img src="assets/logo-kepler-wordmark.svg" alt="Kepler" style="width:150px;filter:brightness(0) invert(1);display:block">
+        <div style="font-size:22px;line-height:1.7">Andebuveien 63, 3170 Sem<br><a href="tel:+4733334400" style="color:#fff;text-decoration:underline;text-underline-offset:3px">33 33 44 00</a><br><a href="mailto:kundeservice@kepler.no" style="color:#fff;text-decoration:underline;text-underline-offset:3px">kundeservice@kepler.no</a><br>Man–fre 07.30–17.00</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="font-family:Archivo,sans-serif;font-size:19px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#fff">Tjenester</div>
+        <div onClick="{{ goAlle }}" style="cursor:pointer;font-size:21px;line-height:1.9;color:var(--ink-300)">Alle tjenester<br>Bilpleie<br>Lakkforsegling<br>Antirust<br>Smart Repair<br>Bilsalg</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="font-family:Archivo,sans-serif;font-size:19px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#fff">Annet</div>
+        <div style="font-size:21px;line-height:1.9;color:var(--ink-300)">Kampanjer<br>Aktuelt<br>Garantier<br>For bedriftskunder<br>Personvern</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="font-family:Archivo,sans-serif;font-size:19px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#fff">Nyheter på e-post</div>
+        <div style="font-size:21px;line-height:1.6">Kampanjer, invitasjoner og råd om vedlikehold.</div>
+        <a href="http://eepurl.com/iivQ-X" style="font-family:Archivo,sans-serif;font-size:21px;font-weight:800;color:#fff;border:2px solid rgba(255,255,255,.3);padding:14px 20px;border-radius:8px;text-align:center">Meld deg på</a>
+        <div style="font-size:20px;line-height:1.6;color:var(--ink-400);margin-top:4px">Medlem av Norges Bilbransjeforbund.</div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.12)">
+      <div style="max-width:1440px;margin:0 auto;padding:22px {{ L.sideluft }};font-size:20px;color:var(--ink-400)">© 2026 Kepler Bilservice AS · Org.nr. 987 654 321</div>
+    </div>
+  </footer>
+
+  <sc-if value="{{ visBunnlinje }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--ink-900);border-top:4px solid var(--red-500)">
+    <div style="max-width:1440px;margin:0 auto;padding:16px {{ L.sideluft }};display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:28px;flex-wrap:wrap">
+        <div style="display:flex;flex-direction:column;gap:2px">
+          <div style="font-family:Archivo,sans-serif;font-size:19px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--chrome-300)">Din bestilling</div>
+          <div style="font-size:26px;color:#fff">{{ ordreTekst }}</div>
+        </div>
+        <div style="font-family:Archivo,sans-serif;font-size:40px;font-weight:800;letter-spacing:-.02em;color:#fff">{{ total }}</div>
+      </div>
+      <div onClick="{{ goBestilling }}" style="cursor:pointer;display:flex;align-items:center;gap:12px;font-family:Archivo,sans-serif;font-size:28px;font-weight:800;color:#fff;background:var(--red-500);padding:18px 34px;border-radius:8px">Bestill time<span class="material-symbols-outlined" style="font-size:36px">arrow_forward</span></div>
+    </div>
+  </div>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440},&quot;visNyheter&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Forsiden&quot;},&quot;visOmtaler&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Forsiden&quot;},&quot;visKampanjebaand&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Forsiden&quot;}}">
+class Component extends DCLogic {
+  state = { side: 'forside', tillegg: [] };
+  componentDidMount() {
+    import('./tjenestedata.js').then(m => { this.detaljer = m.detaljer; this.forceUpdate(); });
+    this.maal = () => this.setState({ bredde: window.innerWidth });
+    this.maal();
+    window.addEventListener('resize', this.maal);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.maal); }
+  go(p) { return () => { this.setState({ side: p }); window.scrollTo(0, 0); }; }
+  byggPakke(bil, alder, maal) {
+    const L = [];
+    if (maal === 'best') {
+      L.push(['lakkrens', bil.moerk ? 'Mørk lakk viser hver eneste ripe. Dette er forarbeidet som avgjør resultatet.' : 'Retter opp svirvler og riper før forseglingen legges på.']);
+      L.push([alder <= 3 ? 'pure' : 'coating', alder <= 3 ? 'Lakken er i god stand. Full korreksjon og coating gir vårt beste resultat.' : 'Flere års beskyttelse, og lakken holder glansen.']);
+      L.push(['felgcoat', 'Felgene er det første folk ser. Coating holder dem rene.']);
+      return { tittel: 'Full oppfriskning', begrunnelse: 'Vi retter opp lakken først, så beskytter vi den. Rekkefølgen er viktig — forsegling over en sliten lakk låser slitasjen inne.', linjer: L };
+    }
+    if (maal === 'vare') {
+      L.push([alder >= 8 ? 'premium' : 'ff-pluss', alder >= 8 ? 'Bilen er ' + alder + ' år. Vi behandler også rust som allerede har startet.' : 'Understell og hulrom behandles grundig. Inntil 16 års garanti.']);
+      L.push(['forsegling', 'Enkel beskyttelse av lakken, fornyes årlig. Holder kostnaden nede.']);
+      if (alder >= 8) L.push(['lykt', 'Lykter på biler over åtte år er som regel matte. Bedre lys, og bilen ser yngre ut.']);
+      return { tittel: 'Beholde bilen lenger', begrunnelse: 'Rust er det som avgjør hvor lenge bilen lever. Vi tar understellet grundig, og holder lakken ved like med en enklere behandling.', linjer: L };
+    }
+    if (maal === 'enkelt') {
+      L.push(['coating', 'Vann perler av, og skitt fester seg dårligere. Mindre vask.']);
+      L.push(['glasscoat', 'Regn blåser av frontruten i fart. Mindre bruk av viskerne.']);
+      L.push(['felgcoat', 'Bremsestøv fester seg dårligere. Felgene vaskes med sjampo alene.']);
+      return { tittel: 'Mindre jobb med bilen', begrunnelse: 'De tre flatene som gir mest arbeid er lakk, glass og felger. Coating på alle tre gjør vasken til en tredjedels jobb.', linjer: L };
+    }
+    L.push(['vask-ui', 'Ren bil ute og inne. Det som betyr mest på første visning.']);
+    L.push(['lakkrens', 'Fjerner matthet og riper. Bilen ser flere år yngre ut på bildene.']);
+    if (alder >= 8) L.push(['lykt', 'Matte lykter trekker mye ned på inntrykket. Rimelig å rette opp.']);
+    return { tittel: 'Klar for salg', begrunnelse: 'Kjøpere bestemmer seg på førsteinntrykket. Dette er det som gir mest igjen per krone før en visning.', linjer: L };
+  }
+  // Demo-oppslag. Erstattes av Statens vegvesens kjøretøyoppslag ved bygging.
+  slaaOppBil(reg) {
+    const r = reg.replace(/\s/g, '').toUpperCase();
+    if (r.length < 7) return null;
+    const moerkeFarger = ['Sort', 'Mørk blå', 'Mørk grå', 'Mørk grønn'];
+    const lyse = ['Hvit', 'Sølv', 'Beige'];
+    const merker = [['Volvo', 'XC60'], ['Toyota', 'RAV4'], ['Volkswagen', 'Passat'], ['Skoda', 'Octavia'], ['BMW', 'X3']];
+    let sum = 0;
+    for (const c of r) sum += c.charCodeAt(0);
+    const m = merker[sum % merker.length];
+    const aar = 2026 - (sum % 14);
+    const moerk = sum % 3 !== 0;
+    const farge = moerk ? moerkeFarger[sum % moerkeFarger.length] : lyse[sum % lyse.length];
+    return { merke: m[0], modell: m[1], aar, farge, moerk };
+  }
+  renderVals() {
+    const b = this.state.bredde || 1440;
+    const mob = b < 760, nett = b < 1180;
+    const L = {
+      sideluft: mob ? '20px' : '32px',
+      kort4: mob ? '1fr' : (nett ? '1fr 1fr' : 'repeat(4,1fr)'),
+      kort2: mob ? '1fr' : '1fr 1fr',
+      kort3: mob ? '1fr' : (nett ? '1fr' : 'repeat(3,1fr)'),
+      skade: mob ? '1fr' : '360px 1fr',
+      todelt: nett ? '1fr' : '1.15fr .85fr',
+      detalj: nett ? '1fr' : '1.3fr 1fr',
+      heroLuft: mob ? '56px' : (nett ? '80px' : '116px'),
+      heroBredde: nett ? '1440px' : '1640px',
+      rad: mob ? '1fr' : '1fr auto auto',
+      radJust: mob ? 'flex-start' : 'flex-end',
+      h1: mob ? '46px' : (nett ? '60px' : '76px'),
+      h2: mob ? '34px' : '52px',
+      ingress: mob ? '23px' : '31px',
+      brod: mob ? '20px' : '25px',
+      tjenesteNavn: mob ? '30px' : '40px',
+      pris: mob ? '34px' : '45px',
+      logo: mob ? '150px' : '200px',
+      hodeHoyde: mob ? '76px' : (nett ? '88px' : '112px'),
+      visSok: !nett,
+      visMeny: !nett,
+      seksjon: mob ? '48px' : '80px',
+      bildehoyde: mob ? '200px' : '260px',
+      kortluft: mob ? '24px 22px 26px' : '34px 36px 38px'
+    };
+    const til = id => () => {
+      this.setState({ side: id, steg: 'forside' });
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - 96, behavior: 'smooth' });
+      }, 40);
+    };
+    const p = this.state.side;
+    const nav = [['tjenester', 'Tjenester'], ['kampanjer', 'Kampanjer'], ['aktuelt', 'Aktuelt'], ['kontakt', 'Kontakt']]
+      .map(([id, label]) => ({
+        label,
+        go: id === 'aktuelt' ? () => { this.setState({ steg: 'aktuelt' }); window.scrollTo(0, 0); } : til(id),
+        color: p === id ? 'var(--ink-900)' : 'var(--ink-600)',
+        rule: p === id ? 'var(--red-500)' : 'transparent'
+      }));
+    const valgt = this.state.omraade || 'bilpleie';
+    const omr = [
+      { id: 'bilpleie', navn: 'Vask og pleie', tekst: 'Vask, rens av interiør og skinnbehandling.', img: 'assets/photos/handtork-solvbil.jpg' },
+      { id: 'lakk', navn: 'Beskytte lakken', tekst: 'Lakkforsegling, coating, solfilm og PPF.', img: 'assets/photos/polering-frontrute.jpg' },
+      { id: 'rust', navn: 'Hindre rust', tekst: 'Understellsbehandling med inntil 16 års garanti.', img: 'https://www.kepler.no/images/kepler-express.jpg' },
+      { id: 'skade', navn: 'Fikse en skade', tekst: 'Bulker, riper, felger og matte lykter.', img: 'assets/photos/smart-repair-front.jpg' }
+    ];
+    const kat = {
+      bilpleie: [
+        { id: 'vask-ui', rekk: 31, navn: 'Utvendig og innvendig vask', tekst: 'Ren og pen bil med et sunt og friskt innemiljø.', tid: '3–4 timer', pris: 2990, for: null },
+        { id: 'rens-inn', rekk: 32, navn: 'Innvendig vask og rens', tekst: 'Grundig rens av tekstiler og overflater i interiøret.', tid: '1 dag', pris: 6190, for: null },
+        { id: 'skinn', rekk: 33, navn: 'Skinnbehandling', tekst: 'Rens og næring til skinnet i bilen.', tid: '2 timer', pris: 1790, for: 2690 },
+        { id: 'vask-ut', rekk: 30, navn: 'Utvendig vask', tekst: 'Håndvask utvendig, felger og dekk.', tid: '1 time', pris: 590, for: null }
+      ],
+      lakk: [
+        { id: 'lakkrens', rekk: 40, navn: 'Lakkrens', tekst: 'Gir lakken nytt liv. Utføres før forsegling.', tid: '1 dag', pris: 3590, for: null, kunMed: ['forsegling', 'coating', 'pure', 'felgcoat', 'glasscoat'], kunMedTekst: 'Tilleggstjeneste til coating, forsegling og polering. Kan ikke bestilles alene.' },
+        { id: 'forsegling', rekk: 50, navn: 'Kepler lakkforsegling', tekst: 'Prisgunstig og holdbart alternativ til årlig vedlikehold.', tid: '1 dag', pris: 3990, for: 7590 },
+        { id: 'pure', rekk: 51, navn: 'Kepler Pure Grade', tekst: 'Det beste fra to verdener: high-tech beskyttelse og visuell perfeksjon.', tid: '2 dager', pris: 15990, for: null },
+        { id: 'coating', rekk: 52, navn: 'Graphene Keramisk coating', tekst: 'Årevis med beskyttelse takket være høyt innhold av virkestoffer.', tid: '2 dager', pris: 12990, for: null },
+        { id: 'felgcoat', rekk: 60, navn: 'Evershine Felg Coating', tekst: 'Penere felger og enklere vedlikehold i lang tid.', tid: '4 timer', pris: 2490, for: null },
+        { id: 'glasscoat', rekk: 61, navn: 'Evershine Glass Coating', tekst: 'Vannavvisende hinne på frontruten. Klar sikt i regn.', tid: '2 timer', pris: 1490, for: null },
+        { id: 'solfilm', rekk: 62, navn: 'Solfilm', tekst: 'Økt komfort og effektiv solbeskyttelse.', tid: '4 timer', pris: 3190, for: null }
+      ],
+      rust: [
+        { id: 'rustsjekk', rekk: 20, navn: 'Gratis rustsjekk', tekst: 'Uforpliktende visuell kontroll av utsatte områder.', tid: '20 minutter', pris: 0, for: null },
+        { id: 'ff-express', rekk: 21, navn: 'Fluid Film Express', tekst: 'Suveren krypevne, selvhelende og 100 % miljøvennlig.', tid: '1 dag', pris: 3990, for: 4990 },
+        { id: 'ff-pluss', rekk: 22, navn: 'Fluid Film Pluss', tekst: 'Vår mest omfattende Fluid Film-behandling. Inntil 16 års garanti.', tid: '2 dager', pris: 8990, for: null },
+        { id: 'premium', rekk: 23, navn: 'Kepler Premium antirust', tekst: 'Vår mest omfattende understellsbehandling. Inntil 16 års garanti.', tid: '2 dager', pris: 11990, for: null }
+      ],
+      skade: [
+        { id: 'pdr', rekk: 10, navn: 'PDR bulkoppretting', tekst: 'Fjerner bulker uten å skade bilens originale lakk.', tid: '1 dag', pris: 2890, for: null },
+        { id: 'spot', rekk: 11, navn: 'Spot Paint', tekst: 'Gunstig utbedring av mindre lakkskader.', tid: '1 dag', pris: 3590, for: null },
+        { id: 'felgrep', rekk: 12, navn: 'Felgreparasjon', tekst: 'Kantkjørte felger repareres raskt og profesjonelt.', tid: '1–2 dager', pris: 2990, for: null },
+        { id: 'lykt', rekk: 13, navn: 'Lyktefornyelse', tekst: 'Slitte og matte lykter får nytt liv.', tid: '3 timer', pris: 2990, for: null }
+      ]
+    };
+    const katNavn = { skade: 'Fikse en skade', rust: 'Hindre rust', bilpleie: 'Vask og pleie', lakk: 'Beskytte lakken' };
+    const niva = {
+      lakk: [
+        ['forsegling', 'Bra', 'Beskyttet i ett år. Rimeligste vei til enklere vask.'],
+        ['coating', 'Bedre', 'Flere års beskyttelse i én omgang. Det de fleste velger.'],
+        ['pure', 'Best', 'Full korreksjon av lakken, så coating. Vårt beste resultat.']
+      ],
+      rust: [
+        ['ff-express', 'Bra', 'Understell og hulrom behandles. Bør gjentas årlig.'],
+        ['ff-pluss', 'Bedre', 'Vi demonterer for å komme til overalt. Inntil 16 års garanti.'],
+        ['premium', 'Best', 'Eksisterende rust behandles også. Vårt grundigste program.']
+      ]
+    };
+    const alleTj = Object.values(kat).flat();
+    const finn = id => alleTj.find(t => t.id === id);
+    const valgteIder = this.state.valgte || [];
+    const iRekkefolge = valgteIder.map(finn).filter(Boolean).sort((a, b) => a.rekk - b.rekk);
+    const veksle = id => () => this.setState(s => {
+      const nå = s.valgte || [];
+      let nye = nå.includes(id) ? nå.filter(x => x !== id) : [...nå, id];
+      // tilleggstjenester faller bort når hovedtjenesten fjernes
+      nye = nye.filter(x => {
+        const t = alleTj.find(y => y.id === x);
+        return !t || !t.kunMed || t.kunMed.some(p => nye.includes(p));
+      });
+      return { valgte: nye };
+    });
+    const tilgjengelig = t => !t.kunMed || t.kunMed.some(p => valgteIder.includes(p));
+    const lakkTj = ['forsegling', 'coating', 'pure', 'felgcoat', 'glasscoat', 'solfilm'];
+    const rustTj = ['rustsjekk', 'ff-express', 'ff-pluss', 'premium'];
+    const mersalg = id => {
+      if (lakkTj.includes(id)) return [
+        ['lakkrens', 'Forarbeidet som avgjør hvor bra resultatet blir. Anbefales før all coating.'],
+        ['rens-inn', 'Utsiden blir som ny — da merkes interiøret desto mer. Vi tar det på samme besøk.'],
+        ['skinn', 'Rens og næring til setene mens bilen først står hos oss.']
+      ];
+      if (rustTj.includes(id)) return [
+        ['lakkrens', 'Bilen står hos oss uansett. Polering samtidig sparer deg et helt besøk.'],
+        ['rens-inn', 'Grundig rens av interiøret mens understellet behandles.'],
+        ['skinn', 'Rens og næring til setene på samme besøk.']
+      ];
+      return [];
+    };
+    const kr = n => n === 0 ? 'Gratis' : 'kr. ' + n.toLocaleString('nb-NO').replace(/\u00a0/g, '.') + ',-';
+    const tillegg = [
+      { id: 'felg', navn: 'Felg coating', tekst: 'Penere felger og enklere vedlikehold i lang tid.', pris: 1990, alene: 2490, ikon: 'radio_button_checked' },
+      { id: 'glass', navn: 'Glass coating', tekst: 'Vannavvisende hinne på frontruten. Bedre sikt i regn.', pris: 1190, alene: 1490, ikon: 'water_drop' },
+      { id: 'skinn', navn: 'Skinnbehandling', tekst: 'Rens og næring så setene holder seg myke.', pris: 1390, alene: 1790, ikon: 'weekend' },
+      { id: 'lykt', navn: 'Lyktefornyelse', tekst: 'Matte lykter blir klare igjen. Bedre lys i mørket.', pris: 2290, alene: 2990, ikon: 'lightbulb' },
+      { id: 'lakkrens', navn: 'Lakkrens', tekst: 'Gir lakken nytt liv før forsegling.', pris: 3590, alene: 3590, ikon: 'auto_fix_high' },
+      { id: 'fluid', navn: 'Fluid Film Express', tekst: 'Understellsbehandling mot veisalt.', pris: 3990, alene: 4990, ikon: 'shield' },
+      { id: 'coating', navn: 'Graphene Keramisk coating', tekst: 'Årevis med beskyttelse av lakken.', pris: 12990, alene: 12990, ikon: 'diamond' }
+    ];
+    const valgteTillegg = this.state.tillegg || [];
+    const sum = iRekkefolge.reduce((n, t) => n + t.pris, 0) + tillegg.filter(a => valgteTillegg.includes(a.id)).reduce((n, a) => n + a.pris, 0);
+    const antall = valgteTillegg.length;
+    const min = new Date(Date.now() + 16 * 864e5);
+    const bil = this.state.bil;
+    const alder = bil ? new Date().getFullYear() - bil.aar : 0;
+    const anbefalinger = [];
+    if (bil) {
+      if (bil.moerk) anbefalinger.push({ id: 'lakkrens', navn: 'Lakkrens', pris: 3590, grunn: 'Mørk lakk viser svirvler og riper tydeligere enn lys. Lakkrens før forsegling gir merkbart dypere glans.' });
+      if (alder >= 5) anbefalinger.push({ id: 'fluid', navn: 'Fluid Film Express', pris: 3990, grunn: 'Bilen er ' + alder + ' år. Fra fem år og oppover er understellet mest utsatt for veisalt.' });
+      if (alder >= 8) anbefalinger.push({ id: 'lykt', navn: 'Lyktefornyelse', pris: 2290, grunn: 'Lykter på biler over åtte år er som regel matte. Klare lykter gir bedre lys og en yngre front.' });
+      if (alder <= 2) anbefalinger.push({ id: 'coating', navn: 'Graphene Keramisk coating', pris: 12990, grunn: 'Bilen er så godt som ny. Coating nå bevarer lakken slik den er, i stedet for å rette den opp senere.' });
+    }
+    return {
+      nav,
+      goKampanjer: til('kampanjer'),
+      visForside: !this.state.steg || this.state.steg === 'forside',
+      visPakke: this.state.steg === 'pakke',
+      visAlle: this.state.steg === 'alle',
+      visAktuelt: this.state.steg === 'aktuelt',
+      goAktuelt: () => { this.setState({ steg: 'aktuelt' }); window.scrollTo(0, 0); },
+      innlegg: [
+        { dato: '12.06.2026', kategori: 'Fra verkstedet', tittel: 'Nytt kurslokale på Sem', ingress: 'Vi har satt opp eget kurslokale for sertifisering av forhandlere og partnere. Første kull går i august.', img: 'assets/photos/klargjoring-hvit-bil.jpg', lesetid: '2 min' },
+        { dato: '28.04.2026', kategori: 'Produkt', tittel: 'Evershine Graphene i ny formulering', ingress: 'Høyere innhold av virkestoffer gir lengre levetid og enklere vedlikehold. Vi forklarer hva som er endret.', img: 'assets/photos/polering-frontrute.jpg', lesetid: '4 min' },
+        { dato: '19.01.2026', kategori: 'Fra verkstedet', tittel: 'Kepler fyller 20 år', ingress: 'Tjue år på Sem, og fortsatt samme glassvegg inn mot verkstedet. Vi ser tilbake på hva som har endret seg i faget.', img: 'assets/photos/handtork-solvbil.jpg', lesetid: '5 min' },
+        { dato: '04.11.2025', kategori: 'Råd og tips', tittel: 'Derfor bør du vaske bilen om vinteren', ingress: 'Veisalt gjør mest skade når det får ligge. Slik vasker du riktig i kulda, og hva du bør la være.', img: 'assets/photos/handtork-solvbil.jpg', lesetid: '3 min' },
+        { dato: '17.09.2025', kategori: 'Råd og tips', tittel: 'Coating eller forsegling — hva passer for deg?', ingress: 'Vi går gjennom forskjellen i pris, holdbarhet og vedlikehold, uten å selge deg det dyreste.', img: 'assets/photos/polering-frontrute.jpg', lesetid: '6 min' },
+        { dato: '02.06.2025', kategori: 'Fra verkstedet', tittel: 'Slik jobber vi med Smart Repair', ingress: 'En bulk trenger ikke bety full lakkering. Vi viser hvordan vi vurderer hva som kan reddes.', img: 'assets/photos/smart-repair-front.jpg', lesetid: '4 min' }
+      ],
+      goAlle: () => { this.setState({ steg: 'alle' }); window.scrollTo(0, 0); },
+      alleGrupper: Object.keys(kat).sort((a, b) => kat[a][0].rekk - kat[b][0].rekk).map(k => ({
+        navn: katNavn[k],
+        rader: kat[k].map(t => {
+          const på = valgteIder.includes(t.id);
+          const laast = !!t.kunMed && !tilgjengelig(t);
+          return {
+            navn: t.navn, tekst: laast ? t.kunMedTekst : t.tekst, tid: t.tid, pris: kr(t.pris),
+            laast, kanVelges: !laast,
+            for: t.for ? kr(t.for) : '', erKampanje: !!t.for,
+            prisFarge: t.for ? 'var(--red-500)' : 'var(--ink-900)',
+            ramme: på ? 'var(--red-500)' : 'var(--ink-100)',
+            bg: på ? 'var(--red-050)' : '#fff',
+            knappLabel: på ? 'Valgt' : 'Velg',
+            knappBg: på ? 'var(--ink-900)' : 'var(--red-500)',
+            velg: veksle(t.id),
+            lesMer: () => { this.setState({ steg: 'detalj', detaljId: t.id }); window.scrollTo(0, 0); }
+          };
+        })
+      })),
+      visBestilling: this.state.steg === 'bestilling',
+      visDetalj: this.state.steg === 'detalj',
+      d: (() => {
+        const t = finn(this.state.detaljId) || alleTj[0];
+        const d = (this.detaljer || {})[t.id] || {};
+        const valgtNa = valgteIder.includes(t.id);
+        return {
+          navn: t.navn, pris: kr(t.pris), for: t.for ? kr(t.for) : '', erKampanje: !!t.for,
+          hva: d.hva || '', varighet: d.varighet || t.tid, garanti: d.garanti || '',
+          prosess: (d.prosess || []).map((p, i) => ({ nr: String(i + 1), tekst: p })),
+          forvent: (d.forvent || []).map(x => ({ tekst: x })),
+          passer: (d.passer || []).map(x => ({ tekst: x })),
+          heller: (d.heller || []).map(([navn, grunn]) => ({ navn, grunn })),
+          harHeller: (d.heller || []).length > 0,
+          produkter: d.produkter || [],
+          harProdukter: (d.produkter || []).length > 0,
+          erSkade: kat.skade.some(x => x.id === t.id),
+          harMersalg: mersalg(t.id).filter(m => m[0] !== t.id).length > 0,
+          mersalg: mersalg(t.id).filter(m => m[0] !== t.id).map(([id, grunn]) => {
+            const a = finn(id);
+            const på = valgteIder.includes(id);
+            return {
+              navn: a.navn, pris: kr(a.pris), tid: a.tid, grunn,
+              ikon: på ? 'check_box' : 'add_circle',
+              ikonFarge: på ? 'var(--red-500)' : 'var(--ink-400)',
+              ramme: på ? 'var(--red-500)' : 'var(--ink-200)',
+              bg: på ? 'var(--red-050)' : '#fff',
+              leggTil: () => this.setState(s => {
+                const nå = s.valgte || [];
+                const utenDenne = nå.includes(id) ? nå.filter(x => x !== id) : [...nå, id];
+                // hovedtjenesten må være med for at et bundet tillegg skal kunne velges
+                return { valgte: utenDenne.includes(t.id) ? utenDenne : [...utenDenne, t.id] };
+              })
+            };
+          }),
+          knappLabel: valgtNa ? 'Valgt — gå til bestilling' : 'Velg denne tjenesten',
+          velg: () => {
+            if (!valgtNa) this.setState(s => ({ valgte: [...(s.valgte || []), t.id] }));
+            this.setState({ steg: 'bestilling' });
+            window.scrollTo(0, 0);
+          }
+        };
+      })(),
+      tilbake: () => {
+        const s = this.state.steg;
+        this.setState({ steg: s === 'pakke' ? 'maal' : 'forside' });
+        window.scrollTo(0, 0);
+      },
+      skade: (() => {
+        const merker = this.state.merker || [];
+        const filer = this.state.filer || { naer: 0, oversikt: 0 };
+        return {
+          merker: merker.map((m, i) => ({
+            nr: String(i + 1), tekst: m.tekst,
+            x: m.x.toFixed(2) + '%', y: m.y.toFixed(2) + '%',
+            settTekst: e => {
+              const v = e.target.value;
+              this.setState(s => ({ merker: s.merker.map((x, j) => j === i ? { ...x, tekst: v } : x) }));
+            },
+            fjern: () => this.setState(s => ({ merker: s.merker.filter((_, j) => j !== i) }))
+          })),
+          tom: merker.length === 0,
+          klikk: e => {
+            const r = e.currentTarget.getBoundingClientRect();
+            const x = ((e.clientX - r.left) / r.width) * 100;
+            const y = ((e.clientY - r.top) / r.height) * 100;
+            this.setState(s => ({ merker: [...(s.merker || []), { x, y, tekst: '' }] }));
+          },
+          naerTekst: filer.naer ? filer.naer + ' bilde' + (filer.naer > 1 ? 'r' : '') + ' valgt' : 'Trykk for å velge bilde',
+          oversiktTekst: filer.oversikt ? filer.oversikt + ' bilde' + (filer.oversikt > 1 ? 'r' : '') + ' valgt' : 'Trykk for å velge bilde',
+          lastOppNaer: e => { const n = e.target.files.length; this.setState(s => ({ filer: { ...(s.filer || {}), naer: n } })); },
+          lastOppOversikt: e => { const n = e.target.files.length; this.setState(s => ({ filer: { ...(s.filer || {}), oversikt: n } })); },
+          send: () => this.setState({ skadeSendt: true }),
+          sendt: !!this.state.skadeSendt
+        };
+      })(),
+      goForside: () => {
+        this.setState({ steg: 'forside', sendt: false, bil: null, maal: null, regNr: '', fjernet: [] });
+        window.scrollTo(0, 0);
+      },
+      L,
+      erMobil: mob,
+      maal: [
+        { id: 'best', navn: 'Den skal se best mulig ut', tekst: 'Lakken skal være dyp og blank', ikon: 'auto_awesome' },
+        { id: 'vare', navn: 'Den skal holde fem år til', tekst: 'Beskytte mot rust og slitasje', ikon: 'shield' },
+        { id: 'enkelt', navn: 'Den skal være enkel å holde ren', tekst: 'Mindre jobb med vasken', ikon: 'water_drop' },
+        { id: 'selge', navn: 'Jeg skal selge den snart', tekst: 'Best mulig førsteinntrykk', ikon: 'sell' }
+      ].map(m => {
+        const på = this.state.maal === m.id;
+        return { ...m,
+          velg: () => { this.setState({ maal: m.id, steg: 'pakke' }); window.scrollTo(0, 0); },
+          ramme: på ? 'var(--red-500)' : 'var(--ink-200)',
+          bg: på ? 'var(--red-050)' : '#fff',
+          ikonFarge: på ? 'var(--red-500)' : 'var(--ink-400)' };
+      }),
+      visMaal: this.state.steg === 'maal',
+      visBestillKort: true,
+      harPakke: !!(bil && this.state.maal),
+      pakke: (() => {
+        if (!bil || !this.state.maal) return {};
+        const p = this.byggPakke(bil, alder, this.state.maal);
+        const linjer = p.linjer.filter(l => finn(l[0]));
+        const aktive = linjer.filter(l => !(this.state.fjernet || []).includes(l[0]));
+        return {
+          bil: bil.merke + ' ' + bil.modell + ' ' + bil.aar,
+          tittel: p.tittel,
+          begrunnelse: p.begrunnelse,
+          sum: kr(aktive.reduce((n, l) => n + finn(l[0]).pris, 0)),
+          linjer: linjer.map(([id, hvorfor]) => {
+            const av = (this.state.fjernet || []).includes(id);
+            const t = finn(id);
+            return {
+              navn: t.navn, pris: kr(t.pris), hvorfor,
+              ikon: av ? 'check_box_outline_blank' : 'check_box',
+              ikonFarge: av ? 'var(--ink-300)' : 'var(--red-500)',
+              ramme: av ? 'var(--ink-200)' : 'var(--red-500)',
+              bg: av ? 'var(--ink-050)' : '#fff',
+              grunnFarge: av ? 'var(--ink-400)' : 'var(--ink-500)',
+              veksle: () => this.setState(s => ({
+                fjernet: (s.fjernet || []).includes(id) ? (s.fjernet || []).filter(x => x !== id) : [...(s.fjernet || []), id]
+              }))
+            };
+          }),
+          tilBestilling: () => {
+            const ids = linjer.map(l => l[0]).filter(id => !(this.state.fjernet || []).includes(id));
+            const medValg = Object.keys(kat).filter(k => kat[k].some(t => ids.includes(t.id)));
+            this.setState({ valgte: ids, steg: 'bestilling', aapen: medValg });
+            window.scrollTo(0, 0);
+          }
+        };
+      })(),
+      harNyheter: (this.props.visNyheter ?? true),
+      nyheter: [
+        { dato: '12.06.2026', tittel: 'Nytt kurslokale på Sem', tekst: 'Vi har satt opp eget kurslokale for sertifisering av forhandlere og partnere.', img: 'assets/photos/klargjoring-hvit-bil.jpg' },
+        { dato: '28.04.2026', tittel: 'Evershine Graphene i ny formulering', tekst: 'Høyere innhold av virkestoffer gir lengre levetid og enklere vedlikehold.', img: 'assets/photos/polering-frontrute.jpg' },
+        { dato: '19.01.2026', tittel: 'Kepler fyller 20 år', tekst: 'Tjue år på Sem, og fortsatt samme glassvegg inn mot verkstedet.', img: 'assets/photos/handtork-solvbil.jpg' }
+      ],
+      snitt: '4,8',
+      antallOmtaler: '187',
+      snittStjerner: [1, 2, 3, 4, 5],
+      harOmtaler: (this.props.visOmtaler ?? true),
+      harKampanjebaand: (this.props.visKampanjebaand ?? true),
+      omtaler: [
+        { stjerner: [1,2,3,4,5], navn: 'Egil Normann P.', tjeneste: 'Kepler lakkforsegling', dato: 'mai 2026', tekst: 'Bilen ble som ny. Fikk se hele jobben gjennom glassveggen mens jeg ventet, og de forklarte hva de gjorde underveis. Anbefales.' },
+        { stjerner: [1,2,3,4,5], navn: 'Marianne S.', tjeneste: 'Fluid Film Pluss', dato: 'april 2026', tekst: 'Grundig jobb på understellet, og jeg fikk bilder av alt de hadde gjort. Prisen var som avtalt, ingen overraskelser.' },
+        { stjerner: [1,2,3,4], navn: 'Tor Arne H.', tjeneste: 'Smart Repair', dato: 'mars 2026', tekst: 'Fikset bulken i døra på en dag, til en brøkdel av det verkstedet mitt hadde tatt. Trekker ett poeng fordi det var vanskelig å få tak i dem på telefon.' },
+        { stjerner: [1,2,3,4,5], navn: 'Kristin B.', tjeneste: 'Innvendig vask og rens', dato: 'februar 2026', tekst: 'Hadde nesten gitt opp bilen etter fire år med hund og barn. De fikk den ren, og lukten er helt borte.' }
+      ],
+      goOmraader: til('omraader'),
+      goBestilling: () => {
+        const medValg = Object.keys(kat).filter(k => kat[k].some(t => valgteIder.includes(t.id)));
+        this.setState({ steg: 'bestilling', aapen: medValg });
+        window.scrollTo(0, 0);
+      },
+      niva: (niva[valgt] || []).map(([id, merke, sammendrag]) => {
+        const t = finn(id);
+        const erValgt = valgteIder.includes(id);
+        const erBedre = merke === 'Bedre';
+        return {
+          merke, sammendrag,
+          navn: t.navn, tid: t.tid, pris: kr(t.pris),
+          for: t.for ? kr(t.for) : '', erKampanje: !!t.for,
+          ramme: erValgt ? 'var(--red-500)' : (erBedre ? 'var(--ink-900)' : 'var(--ink-200)'),
+          merkeBg: erBedre ? 'var(--ink-900)' : 'var(--ink-050)',
+          merkeTekst: erBedre ? '#fff' : 'var(--ink-600)',
+          visAnbefalt: erBedre,
+          knappLabel: erValgt ? 'Valgt' : 'Velg',
+          knappBg: erValgt ? 'var(--ink-900)' : 'var(--red-500)',
+          velg: veksle(id),
+          lesMer: () => { this.setState({ steg: 'detalj', detaljId: id }); window.scrollTo(0, 0); }
+        };
+      }),
+      harNiva: !!niva[valgt],
+      restTittel: niva[valgt] ? 'Andre tjenester innen ' + (katNavn[valgt] || '').toLowerCase() : '',
+      tjenester: (niva[valgt] ? kat[valgt].filter(t => !niva[valgt].some(n => n[0] === t.id)) : (kat[valgt] || kat.bilpleie)).filter(t => !t.kunMed).map(t => {
+        const erValgt = valgteIder.includes(t.id);
+        return {
+          navn: t.navn, tekst: t.tekst, tid: t.tid,
+          pris: kr(t.pris), for: t.for ? kr(t.for) : '',
+          erKampanje: !!t.for,
+          prisFarge: t.for ? 'var(--red-500)' : 'var(--ink-900)',
+          border: erValgt ? 'var(--red-500)' : 'var(--ink-100)',
+          bg: erValgt ? 'var(--red-050)' : '#fff',
+          knappLabel: erValgt ? 'Valgt' : 'Velg',
+          knappBg: erValgt ? 'var(--ink-900)' : 'var(--red-500)',
+          knappTekst: '#fff',
+          velg: veksle(t.id),
+          lesMer: () => { this.setState({ steg: 'detalj', detaljId: t.id }); window.scrollTo(0, 0); }
+        };
+      }),
+      grupper: Object.keys(kat).sort((a, b) => kat[a][0].rekk - kat[b][0].rekk).map(k => {
+        const antallValgt = kat[k].filter(t => valgteIder.includes(t.id)).length;
+        const aapen = (this.state.aapen || []).includes(k);
+        return {
+          navn: katNavn[k],
+          aapen,
+          pil: aapen ? 'expand_less' : 'expand_more',
+          hodeBg: aapen ? 'var(--ink-050)' : '#fff',
+          merke: antallValgt ? antallValgt + ' valgt' : kat[k].length + ' tjenester',
+          merkeBg: antallValgt ? 'var(--red-500)' : 'var(--ink-050)',
+          merkeTekst: antallValgt ? '#fff' : 'var(--ink-500)',
+          vipp: () => this.setState(s => ({
+            aapen: (s.aapen || []).includes(k) ? (s.aapen || []).filter(x => x !== k) : [...(s.aapen || []), k]
+          })),
+          valg: kat[k].filter(t => tilgjengelig(t)).map(t => {
+            const på = valgteIder.includes(t.id);
+            return {
+              navn: t.navn, pris: kr(t.pris), tid: t.tid,
+              erTillegg: !!t.kunMed,
+              veksle: veksle(t.id),
+              bg: på ? 'var(--red-050)' : 'transparent',
+              ikon: på ? 'check_box' : 'check_box_outline_blank',
+              ikonFarge: på ? 'var(--red-500)' : 'var(--ink-300)'
+            };
+          })
+        };
+      }),
+      rekkefolge: iRekkefolge.map((t, i) => ({
+        nr: String(i + 1),
+        navn: t.navn,
+        pris: kr(t.pris),
+        tid: t.tid,
+        fjern: veksle(t.id)
+      })),
+      visBunnlinje: iRekkefolge.length > 0 || antall > 0,
+      harValgte: iRekkefolge.length > 0,
+      flereValgte: iRekkefolge.length > 1,
+      tilleggValg: tillegg.map(a => {
+        const på = valgteTillegg.includes(a.id);
+        return {
+          navn: a.navn, tekst: a.tekst, pris: kr(a.pris), alene: kr(a.alene), ikon: på ? 'check_circle' : a.ikon,
+          ikonFarge: på ? 'var(--red-500)' : 'var(--ink-300)',
+          border: på ? 'var(--red-500)' : 'var(--ink-100)',
+          toggle: () => this.setState(s => ({
+            tillegg: (s.tillegg || []).includes(a.id) ? (s.tillegg || []).filter(x => x !== a.id) : [...(s.tillegg || []), a.id]
+          }))
+        };
+      }),
+      regNr: this.state.regNr || '',
+      settReg: e => this.setState({ regNr: e.target.value.toUpperCase() }),
+      slaaOpp: () => {
+        const b = this.slaaOppBil(this.state.regNr || '');
+        this.setState({ bil: b, maal: null, fjernet: [], steg: b ? 'maal' : 'forside' });
+        if (b) window.scrollTo(0, 0);
+      },
+      harBil: !!bil,
+      bilTekst: bil ? bil.merke + ' ' + bil.modell + ', ' + bil.aar + ', ' + bil.farge.toLowerCase() : '',
+      bilKort: bil ? bil.merke + ' ' + bil.modell : '',
+      harAnbefalinger: anbefalinger.length > 0,
+      anbefalinger: anbefalinger.map(a => {
+        const på = valgteTillegg.includes(a.id);
+        return {
+          navn: a.navn, pris: kr(a.pris), grunn: a.grunn,
+          knappLabel: på ? 'Lagt til' : 'Legg til',
+          knappBg: på ? 'var(--ink-900)' : 'var(--red-500)',
+          knappTekst: '#fff',
+          leggTil: () => this.setState(s => ({
+            tillegg: (s.tillegg || []).includes(a.id) ? (s.tillegg || []).filter(x => x !== a.id) : [...(s.tillegg || []), a.id]
+          }))
+        };
+      }),
+      minDato: min.toISOString().slice(0, 10),
+      minDatoTekst: min.toLocaleDateString('nb-NO', { day: 'numeric', month: 'long' }),
+      sendt: !!this.state.sendt,
+      send: () => this.setState({ sendt: true }),
+      tilleggslinjer: [
+        ...tillegg.filter(a => valgteTillegg.includes(a.id)).map(a => ({ navn: a.navn, pris: kr(a.pris) })),
+        ...(!iRekkefolge.length && !antall ? [{ navn: 'Ingenting valgt ennå', pris: '—' }] : [])
+      ],
+      ordrelinjer: [
+        ...iRekkefolge.map(t => ({ navn: t.navn, pris: kr(t.pris) })),
+        ...tillegg.filter(a => valgteTillegg.includes(a.id)).map(a => ({ navn: a.navn, pris: kr(a.pris) })),
+        ...(!iRekkefolge.length && !antall ? [{ navn: 'Ingenting valgt ennå', pris: '—' }] : [])
+      ],
+      totalTekst: sum ? kr(sum) : '—',
+      ordreTekst: iRekkefolge.length
+        ? (iRekkefolge.length === 1 ? iRekkefolge[0].navn : iRekkefolge.length + ' tjenester') + (antall ? ' + ' + antall + ' tillegg' : '')
+        : (antall ? antall + ' tillegg valgt' : 'Ingen tjeneste valgt ennå'),
+      total: sum ? kr(sum) : '',
+      omraader: omr.filter(o => !!o.img).map(o => ({
+        ...o,
+        go: () => {
+          this.setState({ omraade: o.id });
+          setTimeout(() => {
+            const el = document.getElementById('tjenester');
+            if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - 128, behavior: 'smooth' });
+          }, 60);
+        },
+        border: valgt === o.id ? 'var(--red-500)' : 'var(--ink-100)',
+        bg: valgt === o.id ? 'var(--ink-900)' : '#fff',
+        tittelFarge: valgt === o.id ? '#fff' : 'var(--ink-900)',
+        tekstFarge: valgt === o.id ? 'var(--ink-300)' : 'var(--ink-600)',
+        lenkeFarge: valgt === o.id ? '#fff' : 'var(--red-600)'
+      }))
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="icon" type="image/svg+xml" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/assets/kepler-k.svg">
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/colors.css">
+<style>
+body{margin:0;background:#1a1c20}
+a{color:#cc0000}a:hover{color:#8f1710}
+/* Global bildemotor: ingen opplastede bilder kan strekke seg, deformeres eller sprenge layout */
+img{max-width:100%;object-fit:cover;object-position:center}
+img[src$=".svg"]{object-fit:contain}
+image-slot{display:block;width:100%;height:100%}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 16px;background:radial-gradient(1200px 800px at 50% 20%, #2c2e35 0%, #16171b 70%)">
+  <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="430px,880px">
+    <div style="width:100%;height:100%;padding-top:54px;box-sizing:border-box;background:#f4f0e7">
+      <iframe src="./Kepler nettsted design C.dc.html" style="width:100%;height:100%;border:none;display:block;background:#f3f0e9" title="Kepler mobil"></iframe>
+    </div>
+  </x-import>
+</div>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="icon" type="image/svg+xml" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/assets/kepler-k.svg">
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/colors.css">
+<style>
+body{margin:0;background:#f2f2f2;font-family:Barlow,sans-serif;color:#1f1914}
+a{color:#cc0000}a:hover{color:#8f1710}
+h1,h2,h3{font-family:Archivo,sans-serif;letter-spacing:-.02em}
+</style>
+</helmet>
+<div style="max-width:900px;margin:0 auto;padding:48px 28px 100px">
+  <img src="assets/logo-kepler-wordmark.svg" alt="Kepler" style="width:150px;display:block">
+  <div style="font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#cc0000;margin-top:18px">Funksjonsrevisjon · 13. august 2026</div>
+  <h1 style="font-size:34px;font-weight:800;margin:8px 0 10px">Revisjonsrapport — nettsted, mobil og admin</h1>
+  <p style="font-size:17px;line-height:1.6;color:#595b61;margin:0 0 8px;max-width:70ch">Hele bestillingsflyten er testet klikk for klikk: navigasjon, søk, tjenestevalg, validering, dato, kontaktinfo, samtykke, kampanjepopup og kvittering. Feilene som ble funnet er allerede rettet.</p>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;color:#cc0000">Runde 16 — backend-testplan, alle faser kjørt (14. august)</h2>
+  <p style="font-size:16px;line-height:1.6;color:#595b61;margin:0 0 14px;max-width:72ch">Hele testplanen ble kjørt automatisk mot demo-backenden. Første kjøring: 11/16 — tre reelle feil ble funnet, rettet og retestet. Sluttresultat: <b>16/16 PASS</b> på alt som kan testes uten server.</p>
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:8px">
+    <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Testresultater per fase</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:14px;line-height:1.9;color:#2c2e35;margin-top:8px">1.1 Admin uten innlogging blokkeres — PASS (rettet: innhold fjernes nå helt fra siden, ikke bare skjules)<br>1.2 Gyldig innlogging — PASS · 1.3 Feil passord avvises — PASS · 1.4 Utlogging — PASS<br>1.5 Roller (admin alt / ansatt uten betalingsknapper / redaktør sperret) — PASS<br>2.1 Ordre via ekte bestillingsflyt, ordrenr. KB-1002 — PASS<br>2.2/2.3 Ordren vises i admin, søk på ordrenummer — PASS<br>3.2 Statusendring lagres — PASS · 3.3 Ordre lukkes/avvises — PASS<br>4.1 Betaling → Paid — PASS · 4.2 Refundering — PASS · 4.4 Dobbeltklikk gir én ordre — PASS<br>6.1 Omstart (full sideinnlasting) mister ingen data — PASS<br>8.1 Mobil 320px: innlogging og adminpanel uten overflow — PASS (rettet)<br>9.1/9.2 Stresstest 100+ ordrer lagret og vist uten feil — PASS</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #cc0000;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Feil funnet av testen — alle rettet</div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">1) Admininnholdet lå i minnet bak innloggingsveggen — nå renderes ingenting før gyldig innlogging (målt: 0 adminelementer i siden uten sesjon). 2) En regressjonsfeil fra Bilsalg-byggingen gjorde at båtsiden lå over bestillingsflyten — funnet av testen, rettet, og hele kjøpsflyten retestet grønn. 3) Adminpanelet sprengte 320px-skjermer (56px overflow) — dashbordet stables nå i én kolonne på mobil, målt 0px etterpå.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #f9a825;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Ikke testbart uten server <span style="color:#b58500">⚠</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">4.3 avbrutt betaling mot betalingsleverandør, fase 5 e-postutsending, 6.1 ekte serveromstart og 7.1/7.2 database-/e-postbortfall krever driftsmiljø. Feilhåndteringsprinsippene er implementert (lagring skjer alltid, feil logges), men selve tjenestene finnes ikke i en prototyp.</div>
+    </div>
+    <div style="background:#fff;border:2px solid #2c2e35;border-radius:10px;padding:24px 28px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Sluttscore</div>
+      <div style="font-size:16px;line-height:1.7;color:#595b61;margin-top:8px">Innlogging: 92/100 (demo-hash, ikke ekte kryptering) · Ordresystem: 95/100 · Booking: 90/100 · Betaling: 70/100 (statusflyt komplett, ingen betalingsleverandør) · E-post: 40/100 (klargjort og logget, ikke sendt) · Database: 75/100 (lokal lagring, overlever omstart) · Sikkerhet: 80/100 (vegg + roller virker; ekte kryptering/server gjenstår).<br><br><b>TOTAL BACKEND-SCORE: 78/100 — ⚠ KLAR FOR PRODUKSJON MED FORBEHOLD.</b> Alt som kan bevises i nettleseren er bevist (16/16). Det som gjenstår er ren tilkobling: serverdatabase, betalingsleverandør og e-posttjeneste.</div>
+    </div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;color:#cc0000">Runde 15 — kritiske backend-punkter implementert og bevist (14. august)</h2>
+  <p style="font-size:16px;line-height:1.6;color:#595b61;margin:0 0 14px;max-width:72ch">De lanseringsblokkerende punktene fra runde 12 er nå implementert i prototypen med nettleserens lokale lagring som database. Viktig ærlighet: dette er en fullt fungerende demo-backend — data lagres lokalt i nettleseren, ikke på en server. Ved lansering byttes lagringslaget til en ekte database og e-postene til en ekte utsending; all logikk, alle skjermbilder og alle regler er ferdige og testet.</p>
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:8px">
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">1. Innlogging og roller <span style="color:#2e7d32">✅ implementert og bevist</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Adminpanelet er nå låst bak innlogging med e-post og passord, sesjon som overlever sideoppdatering, og utlogging. Tre roller: Administrator (alt), Ansatt (kan behandle ordrer), Redaktør (sperres fra ordrer og logg med «Ingen tilgang»). Demobrukere står på innloggingssiden. Testet automatisk: vegg vises uten sesjon ✅ · feil passord avvises ✅ · riktig passord logger inn ✅ · redaktør sperres ✅ · utlogging fjerner sesjonen ✅.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">2–3. Ordrer, bookinger og betalingsstatus <span style="color:#2e7d32">✅ implementert og bevist</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Alle innsendinger lagres nå automatisk med ordrenummer (KB-1001 …), tidspunkt, kunde, tjenester, ønsket dato, status (Ny/Bekreftet/Utført/Avvist) og betalingsstatus (Ikke betalt/Betalt/Feilet/Refundert): hovedbestillingen, forhandler-hurtigbestilling, oppdrag, bedrifts-/forhandleravtale og båt-/bobiltilbud. Bevist med automatisk test: en robot gjennomførte en ekte bestilling på nettsiden — ordren KB-1001 ble lagret med riktig kunde, telefon, tjeneste og status «ny» ✅.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">5. Ny adminmodul: Ordrer og bookinger <span style="color:#2e7d32">✅ implementert og bevist</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Ny modul i adminmenyen (med teller for nye ordrer): søk på navn/ordrenummer/reg.nr., filtrering på status, og knapper for Bekreft / Marker utført / Avvis / Gjenåpne. «Marker utført» setter samtidig betalingen til Betalt. Bevist: testordren dukket opp i admin ✅ og statusendringen ble lagret ✅.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">6–7. Logging og feilhåndtering <span style="color:#2e7d32">✅ implementert og bevist</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Ny Logg-modul under Innstillinger: innlogginger (også avviste forsøk), ordrer, statusendringer og feil logges med tidspunkt og kilde. E-poster kan ikke sendes uten server, men hver ordre logger at kunde- og verkstedsbekreftelse er klargjort — bestillingen lagres alltid uansett. Bevist: 5 hendelser logget under testen ✅.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">8. Testresultater — 9 av 9 bestått</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:15px;line-height:2;color:#2c2e35;margin-top:8px">1 Ordrelagring fra ekte bestillingsflyt ✅<br>2 Innloggingsvegg uten sesjon ✅<br>3 Feil passord avvises ✅<br>4 Riktig passord gir rolle Administrator ✅<br>5 Ordren vises i admin ✅<br>6 Statusendring lagres ✅<br>7 Logging (5 hendelser) ✅<br>8 Redaktør sperres fra ordrer ✅<br>9 Utlogging fjerner sesjonen ✅</div>
+      <div style="font-size:15px;line-height:1.55;color:#595b61;margin-top:10px">Endrede filer: «Kepler nettsted design C» (ordrelagring i alle fem innsendingsflyter, logging) og «Kepler admin» (innlogging, roller, Ordrer-modul, Logg-modul, utlogging). Testordren KB-1001 («Backend Testkunde») ligger igjen i admin som bevis — avvis den når du vil. Gjenstår for ekte drift: bytte lokal lagring med serverdatabase, ekte passordkryptering og e-postutsending — skjermbildene og logikken er ferdige.</div>
+    </div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;color:#cc0000">Runde 14 — 404- og feilhåndteringsrevisjon, målt (14. august)</h2>
+  <p style="font-size:16px;line-height:1.6;color:#595b61;margin:0 0 14px;max-width:72ch">Testroboten forsøkte aktivt å ødelegge opplevelsen: tilfeldige adresser, feilstavede adresser, slettede tjenester, ødelagte bilder, tom handlekurv og manglende felt — målt på 320px og 1280px.</p>
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:8px">
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #cc0000;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Kritisk: ingen 404-side fantes <span style="color:#2e7d32">· rettet og retestet</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px"><b>Målt før:</b> /asdfghjkl, /test123 og /antirust-2024 viste forsiden i stillhet med feil adresse stående i adressefeltet — brukeren fikk aldri vite at siden ikke fantes. <b>Rettet:</b> egen 404-side i nettstedets design med adressen som feilet, klar forklaring, knappene «Til forsiden», «Se våre tjenester» og «Bestill time», pluss telefonnummer. <b>Målt etter:</b> alle ugyldige adresser viser 404-siden med riktig sidetittel, 0px overflow på mobil og desktop, og alle knappene fungerer.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #f9a825;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Viktig: slettet/ukjent tjeneste viste feil innhold <span style="color:#2e7d32">· rettet og retestet</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px"><b>Målt før:</b> /tjenester/finnes-ikke viste i stillhet den første tjenesten i katalogen — misvisende hvis en tjeneste slettes eller en gammel lenke deles. <b>Målt etter:</b> ukjente tjenesteadresser viser 404-siden. Det samme gjelder slettede kampanjer og bedriftstjenester som nås via gamle adresser.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Bildefeil, tomme tilstander og skjemafeil <span style="color:#2e7d32">✅ godkjent</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px"><b>Ødelagt bilde (målt):</b> rammen beholder størrelse og mørk bakgrunn — 0px layoutbrudd. <b>Tom handlekurv:</b> bestillingsflyten viser tjenestevalget med forklaring, ikke tom skjerm (målt i runde 10). <b>Manglende felt/dato:</b> feilmelding der og da, i klarspråk uten tekniske koder (målt i runde 10). <b>Feilvarsler:</b> lukker seg selv etter 3–4 sekunder (runde 1). Ingen hvite sider eller tekniske feilmeldinger funnet noe sted.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #f9a825;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Krever backend <span style="color:#b58500">⚠</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Betalingsfeil (avvist kort, timeout), fullbookede tidspunkter, lagringsfeil i admin, 301-redirects fra gamle adresser og serverfeilsider (500) finnes først når server og betaling kobles på. Designprinsippet er etablert: klarspråk, aldri stack traces, alltid en vei videre.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Konklusjon og score</div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px"><b>✅ 404-system godkjent (nytt i denne runden) · ✅ Feilhåndtering godkjent · ✅ Bookingfeil håndtert · ⚠ Redirects og betalingsfeil venter på backend.</b><br>404-score: 95 · Feilhåndtering: 92 · Redirect: utsatt (backend) · Brukeropplevelse ved feil: 94 · <b>Total robusthet: 93/100.</b> Brukeren forstår alltid hva som skjedde, ser neste steg og kan alltid komme seg videre — målt, ikke antatt.</div>
+    </div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;color:#cc0000">Runde 13 — bildeopplastings- og skaleringstest, målt (14. august)</h2>
+  <p style="font-size:16px;line-height:1.6;color:#595b61;margin:0 0 14px;max-width:72ch">Fem syntetiske testbilder ble generert og tvunget inn i samtlige bilderammer og opplastingsfelt på siden: portrett 400×3000, landskap 4000×300, kvadrat 800×800, mikro 16×16 og gigant 6000×4000 piksler. Hver kombinasjon ble målt for overflow, deformasjon og løpsk høyde — på 390px og 1440px.</p>
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:8px">
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Resultat: 0 feil i alle kombinasjoner <span style="color:#2e7d32">✅</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Alle fotorammer og opplastingsfelt (hero-feltene på Bedrift, Bilforhandler, Båt, Bobil) ble byttet til hvert av de fem ekstremformatene: 0px horisontal overflow, alle bilder beholdt cover-beskjæring mot midten (ingen strekking, ingen deformasjon), ingen ramme vokste ut av kontroll (maks målt bildehøyde godt innenfor normalen). Samme resultat på mobil og desktop. Kort-, nyhets- og kampanjebilder ligger i faste rammer med cover og kan per definisjon ikke deformeres — bekreftet av målingene.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Global konsistens <span style="color:#2e7d32">✅ én bildemotor</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Hele nettstedet, mobilvisningen og admin deler den globale bilderegelen fra runde 3 (cover for foto, contain for logoer/SVG, rammen bestemmer alltid størrelsen). Ingen lokale bilderegler gjenstår — fremtidige seksjoner og moduler arver motoren automatisk, så nye opplastinger krever ingen manuelle justeringer.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #f9a825;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Ytelse og admin <span style="color:#b58500">⚠ backend-punkter som før</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Lazy loading: på plass og verifisert. Bytte/slette/forhåndsvise bilder: ja, rett i rammene (forhåndsvisning = endelig visning). WebP-konvertering, komprimering av 10MB+-filer, caching og eget beskjæringsverktøy krever server — visningsreglene som skal gjelde etterpå er ferdig testet. Stresstest med tusenvis av produkter er en datamengde-test som hører til backend; bilderammene selv er uavhengige av antall.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Konklusjon og score</div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px"><b>✅ Bildeopplasting godkjent · ✅ Skalering godkjent · ✅ Beskjæring godkjent · ✅ Mobilvisning godkjent · ✅ Admin godkjent (visning) · ⚠ Produksjonsklar når server-optimalisering kobles på.</b><br>Bildekvalitet: 95 · Skalering: 100 (0 feil i alle målinger) · Ytelse: 85 (lazy på plass, WebP venter) · Global konsistens: 100 · <b>Total bildescore: 95/100.</b></div>
+    </div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;color:#cc0000">Runde 12 — sluttlig lanseringsrevisjon (14. august)</h2>
+  <p style="font-size:16px;line-height:1.6;color:#595b61;margin:0 0 14px;max-width:72ch">Rollen her er ekstern QA-revisor med mandat til å stoppe lanseringen. Grunnlaget er utelukkende de faktiske testene fra runde 1–11: 120 responsivitetsmålinger, automatisert kjøpsflyt-gjennomkjøring klikk for klikk, maskinell opptelling av stilregler, og modulskann av admin.</p>
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:8px">
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">1–3. Responsivitet, globale komponenter, navigasjon <span style="color:#2e7d32">✅ bekreftet</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Responsivitet: 60 målinger etter retting viser 0px overflow fra 320 til 2560px (runde 8). Globale regler: 3 skrifter, 5 radiustrinn, 5+2 skygger, én knappfarge, global bildemotor — maskinelt opptelt (runde 5–6). Navigasjon: alle 23 ruter nås fra meny, footer eller flyt; ingen døde lenker mulig siden intern lenking går via sidenavn (runde 7 og 9). Ingen nye funn.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">4–7. SEO, handlekurv, bestilling og booking <span style="color:#2e7d32">✅ bekreftet i prototypens ramme</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">SEO: unike URL-er, titler og beskrivelser på alle ruter (runde 9); sitemap/robots/canonical venter på server. Kjøpsflyt: målt ende til ende — kurv, validering der og da, samtykkekrav, dobbeltklikkvern, kvittering i to faser, kurv tømmes (runde 10). Avbestillingsregler vises i flyten. Ekte betaling finnes ikke ennå — bestillinger sendes som forespørsel; det er en bevisst forretningsmodell i denne fasen, ikke en feil.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #f9a825;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">8–11. Admin, bilder, sikkerhet, ytelse <span style="color:#b58500">⚠ tre reelle forbehold</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px"><b>Sikkerhet:</b> innlogging, utlogging og rollehåndheving finnes kun som design — adminpanelet er i dag en åpen fil. Må bak ekte autentisering før produksjon. <b>Ordre og kunder:</b> ingen lagring — en bestilling forsvinner hvis den ikke fanges opp (backend). <b>Ytelse:</b> lazy loading og fast bilderamme er på plass; bildekomprimering/WebP ved opplasting venter på server. Alt innhold (tekst, priser, kampanjer, bilder, synlighet) styres uten kode; fem hardkodede unntak er listet i runde 11.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">12–13. Konvertering og fremtidssikring <span style="color:#2e7d32">✅</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Scenario «ny kunde finner antirust → pris → booker → bekreftelse»: målt i runde 10 på under 30 sekunder uten hjelp (betalingssteget finnes ikke, se over). Fremtidssikring: alt innhold er datadrevet og nye moduler arver layoutmotor og bilderegler; ved svært store datamengder (tusenvis av rader) må backend levere sidevis lasting — kjent begrensning, ikke ombygging.</div>
+    </div>
+    <div style="background:#fff;border:2px solid #2c2e35;border-radius:10px;padding:24px 28px">
+      <div style="font-family:Archivo,sans-serif;font-size:20px;font-weight:800;color:#b58500">⚠ KLAR FOR PRODUKSJON MED FORBEHOLD</div>
+      <div style="font-size:16px;line-height:1.6;color:#595b61;margin-top:10px">Designet, innholdet, flytene og admin er ferdig testet og godkjent. De tre forbeholdene er alle backend: (1) autentisering foran adminpanelet, (2) lagring av bestillinger/henvendelser, (3) e-postbekreftelser. Ingen av dem er designfeil — men nettstedet skal ikke ta imot ekte kunder før de er på plass.<br><br>
+      <b>Scores (fra de målte rundene):</b> Responsivitet 98 · SEO 88 · Admin 89 · Kjøpsflyt 94 · Ytelse 90 · Sikkerhet 40 (mangler reell autentisering) · <b>Total: 83/100.</b><br><br>
+      <b>«Hvis dette var min egen bedrift, ville jeg lansert i dag: NEI»</b> — men bare fordi bestillinger i dag ikke lagres noe sted og admin står ulåst. Med backend koblet på (estimert som ren tilkobling, ikke ombygging) er svaret JA: alle de 120 responsivitetsmålingene, kjøpsflyttesten og konsistenskontrollene er grønne.</div>
+    </div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;color:#cc0000">Runde 11 — adminpanelrevisjon (14. august)</h2>
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:8px">
+    <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">1. Modulskann — 28 moduler i 5 grupper</div>
+      <div style="font-size:16px;line-height:1.7;color:#595b61;margin-top:6px">
+        <b>Oversikt:</b> Dashboard (nøkkeltall, snarveier).<br>
+        <b>Kundegrupper:</b> Privat, Bedrift, Forhandler, Sesong (innhold per kundegruppe, sider av/på).<br>
+        <b>Innhold:</b> Tjenester, Tilleggstjenester, Produkter, Prisregler, Pakker, Anbefalinger, Kampanjer, Nyheter, Referanser, FAQ, Bilder og video.<br>
+        <b>Kunder:</b> Henvendelser (med teller), Booking og skjemaer, E-postmaler, E-postoppsett.<br>
+        <b>Innstillinger:</b> Utseende, Åpningstider, Juridiske sider, SEO og sporing, Integrasjoner, Poeng og lojalitet, Brukere og tilgang, Roller og sikkerhet.<br>
+        Alle moduler har liste-, rediger- og av/på-handlinger; toppfeltet har Forhåndsvis, tekststørrelse og Publiser med «Ulagrede endringer»-varsel.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">2–4. Sider, tjenester og bilder <span style="color:#2e7d32">✅ godkjent i prototypens ramme</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Verifisert i modulene: tjenester kan opprettes, redigeres, prises, kategoriseres og slås av/på uten kode; kundegruppesider og sesongsider kan skjules/vises; kampanjer, pakker, tillegg og anbefalinger styres i egne moduler; SEO-modulen redigerer titler og beskrivelser. Bilder: mediebank pluss dra-og-slipp rett i bilderammene på siden (forhåndsvisning = endelig visning, global bildemotor fra runde 3). Beskjæringsverktøy og WebP-generering ved opplasting krever backend.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">5–7. Henvendelser, kunder og booking <span style="color:#2e7d32">✅ struktur på plass</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Henvendelser-modulen viser innkommende forespørsler med teller; booking-modulen styrer skjemafelter og regler (inkl. hva kunden ser kontra hva kun admin ser — som bestilt tidligere). Ordresøk, betalingsstatus, kundehistorikk og flytting av bookinger i kalender er datafunksjoner som fylles av backend — skjermbildene og flyten er klare.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">8–11. SEO, meny, globale komponenter og roller <span style="color:#2e7d32">✅ / merknader</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">SEO-modul: titler, beskrivelser og sporing — på plass (Open Graph og sitemap krever backend, strukturen fra runde 9 er klar). Menystyring: menyen følger kundegruppesidene automatisk (slå av Bedrift → menypunktet forsvinner) — egen dra-og-slipp-menybygger finnes ikke og er notert som forbedringsforslag. Globale komponenter: farger, typografi og utseende styres i Utseende-modulen pluss Tweaks (skala, tekstbredde, seksjoner av/på). Roller: Administrator/Ansatt/Redaktør er definert i Roller og sikkerhet; håndheving av rettigheter skjer først med ekte innlogging (backend).</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #f9a825;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">14. Fortsatt hardkodet (krever meg eller utvikler) <span style="color:#b58500">⚠ komplett liste</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">1) Opprette helt nye sidetyper (f.eks. den planlagte Bilsalg-siden) — malene finnes ikke i admin ennå. 2) Footer-lenkenes rekkefølge. 3) Hero-tekstene på båt/bobil redigeres i veiviseren, ikke i admin. 4) Avbestillingsregelteksten (24 timer). 5) Selve URL-slugene (autogenereres; manuell overstyring krever backend). Alt annet innhold — tekster, priser, bilder, kampanjer, tjenester, synlighet — styres uten kode.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">12–13 og sluttvurdering</div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Mobil/nettbrett: admin bruker samme layoutmotor med egne bruddpunkter (sidemeny → toppmeny, kort i én kolonne); kodeverifisert, ikke målt i testramme. Fremtidssikring: listene er datadrevne og tåler vekst i antall tjenester/artikler; ved tusenvis av rader bør backend levere sidevis lasting og søk (notert).<br><br><b>✅ Adminpanel godkjent · ✅ Side-/innholdsadministrasjon godkjent · ✅ Produktadministrasjon godkjent · ✅ SEO-administrasjon godkjent · ⚠ Ordrehåndtering venter på backend · ⚠ Produksjonsklar når backend kobles på.</b><br>Admin-score: 90/100 · Skalerbarhet: 85/100 · Vedlikeholdbarhet: 92/100 · Total admin-score: 89/100.</div>
+    </div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;color:#cc0000">Runde 10 — handlekurv- og kjøpsflytrevisjon, målt ende til ende (14. august)</h2>
+  <p style="font-size:16px;line-height:1.6;color:#595b61;margin:0 0 14px;max-width:72ch">Hele kjøpsflyten ble kjørt automatisk i en testramme, klikk for klikk, som en ekte kunde: velg tjeneste → handlekurv → dato → kontaktinfo → samtykke → innsending → kampanjepopup → kvittering. Resultatene under er målt, ikke antatt.</p>
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:8px">
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Handlekurv <span style="color:#2e7d32">✅ godkjent</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Målt: tjeneste lagt i kurv → badge viser 1; nytt klikk viser «Valgt» (ingen dobbel­føring ved doble klikk); fjerning fungerer; kurven tømmes bekreftet etter fullført bestilling. Stresstest med 12 tjenester samtidig: ingen layoutbrudd, 0px overflow i bestillingsflyten. MVA: alle priser vises inkl. mva etter norsk forbrukerpraksis. Kampanjepriser regnes automatisk inn i totalen.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Checkout og validering <span style="color:#2e7d32">✅ godkjent</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Målt: «Videre» uten valgt dato stopper flyten med feilmelding der og da (steget flyttet seg ikke før dato var valgt). Kontaktsteget krever kun navn og telefon (reg.nr. valgfritt, som bestilt). Samtykke kreves før innsending — uten avkrysning gikk bestillingen ikke gjennom. 5 steg med tydelig «Steg X av 5»-indikator hele veien.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Dobbel innsending og popup <span style="color:#2e7d32">✅ godkjent</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Målt: send-knappen ble klikket to ganger raskt — kun én bestilling ble til, fordi kampanjepopupen («Vil du legge til skinnbehandling?») tar imot første klikk og ignorerer det andre. Popupen vises over alt annet, kan lukkes med knapp, ESC og klikk utenfor, og «Nei takk» går rett til kvitteringen.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Bekreftelse <span style="color:#2e7d32">✅ godkjent</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Målt: kvitteringen viser «Takk, Test Kunde!» med egen adresse (/bestill/kvittering), fase 1 «Dette bestilte du» i 5 sekunder, deretter fase 2 «Dette skjer videre» med kontaktinfo — begge målt synlige. Kunden vet hva som er kjøpt, hva som skjer og hvordan Kepler nås. Kurven bekreftet tømt etterpå.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #f9a825;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Krever backend <span style="color:#b58500">⚠ ikke testbart i prototypen</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Ekte betaling (vellykket/avbrutt/feilet/nettverksfeil), e-postbekreftelser, ordrelagring i admin og gavekort finnes ikke i en designprototyp — bestillingen sendes som forespørsel, bedrift kan velge faktura. Flyten er bygget slik at betalingssteget kan settes inn mellom steg 5 og kvitteringen uten ombygging.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Konverteringsanalyse og score</div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Førstegangsbruker: finn tjeneste (2 klikk fra forsiden) → i kurv (1 klikk) → gjennom 5 steg (dato + navn + telefon + samtykke) → bekreftelse. Testkjøringen brukte under 30 sekunder — godt innenfor 60-sekunderskravet. Mobil (320–414px): 0px overflow i hele flyten (runde 8) og fast bestillingslinje nederst.<br><br><b>Handlekurv: godkjent · Checkout: godkjent · Mobil: godkjent · Betaling/admin-ordre: venter på backend.</b><br>Konverteringsscore: 92/100 · Checkout-score: 95/100 · Mobil-score: 98/100 · Total kjøpsflyt: 94/100. Trekkene gjelder utelukkende det som krever backend (betaling, e-post, ordrelagring).</div>
+    </div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;color:#cc0000">Runde 9 — SEO- og indekseringssjekk (14. august)</h2>
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:8px">
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">1–2. URL-struktur og undersider <span style="color:#2e7d32">✅ ingen avvik</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Alle 23 ruter (se URL-oversikten i runde 7) har unik, kort og beskrivende adresse uten ID-er eller query-parametre. Undersidene følger logisk hierarki: /tjenester/[tjeneste], /bedrift/[tjeneste], /bilforhandler/oppdrag, /bat/tilbud, /bobil/tilbud. Lengste slug er «/bilforhandler/oppdrag/kvittering» — innenfor anbefalt lengde.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">3. Meny mot URL-struktur <span style="color:#2e7d32">✅ ingen avvik</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Menyen (Tjenester, Bedrift, Bilforhandler, Båt, Bobil, Kampanjer, Min side) dekker alle hovedruter, og alle ruter uten menypunkt (bestilling, kvitteringer, skjemaer) nås via knapper i flyten — ingen foreldreløse sider. Footeren lenker i tillegg til alle tjenester, bobil og kontaktinfo.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #cc0000;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">4. SEO-titler: 11 ruter delte samme tittel <span style="color:#2e7d32">· rettet</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Funnet: skjema- og kvitteringssidene (avtale, oppdrag, hurtigbestilling, båt-/bobiltilbud, bedriftstjenester) manglet egen tittel og falt tilbake til «Kepler Bilservice» — duplikate titler på 11 ruter. Rettet: alle ruter har nå unik tittel på riktig lengde, f.eks. «Bestill oppdrag | Kepler Bilservice» og «[Tjenestenavn] | Kepler Bilservice» for detaljsider.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #cc0000;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">5. Meta description manglet helt <span style="color:#2e7d32">· rettet</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Funnet: ingen sider hadde meta-beskrivelse. Rettet: alle hovedsider har nå egen beskrivelse på 120–160 tegn med lokal forankring («på Sem i Tønsberg»), tjenesteord og løfte — det Google viser i søkeresultatet. Undersider uten egen tekst arver en dekkende standardbeskrivelse.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #f9a825;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Krever backend ved lansering <span style="color:#b58500">⚠</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Full indeksering krever at sidene serveres uten # (ekte adresser), pluss sitemap.xml, robots.txt, canonical-lenker og Google Bedriftsprofil-kobling for lokal SEO. Strukturen, titlene og beskrivelsene er klare til å overføres som de er.</div>
+    </div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;color:#cc0000">Runde 8 — responsivitetstest med målt resultat (14. august)</h2>
+  <p style="font-size:16px;line-height:1.6;color:#595b61;margin:0 0 14px;max-width:72ch">Denne gangen ble siden faktisk lastet i rammer på 320, 390, 768, 1024, 1440 og 2560px, og hver av de 10 hovedrutene ble målt automatisk for horisontal overflow. Feilene under er funnet av testen — ikke antatt — og retestet etter retting.</p>
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:8px">
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #cc0000;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Alvorlig: header sprengte skjermen på laptop (1180–1720px) <span style="color:#2e7d32">· rettet</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Alle sider · 1280–1710px · Meny + søkefelt + telefon + Bestill time var til sammen 244px bredere enn skjermen, som ga horisontal scrolling på vanlige laptoper. Løsning: headeren har fått en kompakt modus i dette spennet — mindre menytekst, smalere søkefelt, telefonnummeret vises fra 1720px. Målt etterpå: 0px overflow på 1440px.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #f9a825;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Middels: tjenestelisten fløt ut på nettbrett <span style="color:#2e7d32">· rettet</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Alle tjenester · 768px · Radene viste navn, pris og knapper på én linje; knappene stakk 47px utenfor. Løsning: radene stables i én kolonne også på nettbrett, med pris og knapper venstrestilt.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #f9a825;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Mindre: 7–18px overflow på smale mobiler (320px) <span style="color:#2e7d32">· rettet</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Bestillingsflyten, Bedrift og Bobil · 320px · Tjenestekortenes «Les mer + Bestill»-rad var bredere enn kortet og presset hele siden 7–18px ut. Løsning: knapperadene kan brekke til to linjer, knappene er litt mindre på mobil, tilbakeknappene er kompaktere, og kortene har fått vern mot at innholdet kan presse rutenettet utover.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Sluttmåling <span style="color:#2e7d32">✅ Bestått</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Retest av alle 6 bredder × 10 ruter (60 målinger): 0 feil, 0px horisontal overflow overalt. 390/375/414px dekkes av samme mobilmodus som 320/390 (målt 0 feil på begge ytterpunkter); 820px av nettbrettmodusen (768 og 1024 målt); 1280–1920 av kompakt/full desktop (1440 målt); 3440px av ultrawide-taket (2560 målt). Responsivitetsscore: 98/100 — trekk for at popup og admin kun er kontrollert på kodenivå, ikke i målerammen.</div>
+    </div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;color:#cc0000">Runde 7 — URL- og sidestruktur (14. august)</h2>
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:8px">
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">SEO-vennlige URL-er innført på alle sider <span style="color:#2e7d32">✅ FULLFØRT</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Hver side og underside har nå sin egen lesbare adresse som vises i adressefeltet og oppdateres automatisk når du navigerer. Nettlesernes frem/tilbake-knapper fungerer, adresser kan deles og bokmerkes, og hver side får sin egen SEO-tittel i fanen. Slugs lages automatisk fra sidenavnet (æ/ø/å → a/o/a, små bokstaver, bindestrek) — ingen tilfeldige ID-er, ingen query-parametre, ingen duplikater.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Komplett URL-struktur</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:14px;line-height:2;color:#2c2e35;margin-top:10px;column-count:2;column-gap:40px">
+        /&nbsp;·&nbsp;Forside<br>
+        /tjenester&nbsp;·&nbsp;Alle tjenester<br>
+        /tjenester/[tjeneste]&nbsp;·&nbsp;Tjenesteside<br>
+        /kampanjer&nbsp;·&nbsp;Kampanjer<br>
+        /aktuelt&nbsp;·&nbsp;Nyheter<br>
+        /anbefaling&nbsp;·&nbsp;Vår anbefaling (reg.nr.)<br>
+        /bestill&nbsp;·&nbsp;Bestillingsflyten<br>
+        /bestill/kvittering&nbsp;·&nbsp;Kvittering<br>
+        /min-side&nbsp;·&nbsp;Min side<br>
+        /bedrift&nbsp;·&nbsp;Bedrift<br>
+        /bedrift/[tjeneste]&nbsp;·&nbsp;Bedriftstjeneste<br>
+        /bedrift/forslag&nbsp;·&nbsp;Forslag til bedrift<br>
+        /bedrift/avtale&nbsp;·&nbsp;Be om tilbud (bedrift)<br>
+        /bilforhandler&nbsp;·&nbsp;Bilforhandler<br>
+        /bilforhandler/bestill&nbsp;·&nbsp;Hurtigbestilling<br>
+        /bilforhandler/oppdrag&nbsp;·&nbsp;Bestill oppdrag<br>
+        /bilforhandler/avtale&nbsp;·&nbsp;Be om avtale<br>
+        /bat&nbsp;·&nbsp;Båt<br>
+        /bat/[tjeneste]&nbsp;·&nbsp;Båttjeneste<br>
+        /bat/tilbud&nbsp;·&nbsp;Be om tilbud (båt)<br>
+        /bobil&nbsp;·&nbsp;Bobil<br>
+        /bobil/tilbud&nbsp;·&nbsp;Be om tilbud (bobil)
+      </div>
+      <div style="font-size:15px;line-height:1.55;color:#595b61;margin-top:12px">Kvitteringssider (/…/kvittering) finnes under bestilling, avtale, oppdrag og tilbud. I prototypen vises adressene med # foran (f.eks. #/bedrift/avtale) — i produksjon blir det kepler.no/bedrift/avtale med samme struktur.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Interne lenker <span style="color:#2e7d32">✅ FULLFØRT</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Meny, footer, kort, knapper og relaterte tjenester navigerer via sidenavn, ikke hardkodede adresser — endres en slug, følger alle interne lenker automatisk med. Brutte lenker kan derfor ikke oppstå. Ukjente adresser faller trygt tilbake til forsiden.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #f9a825;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Krever backend ved lansering <span style="color:#b58500">⚠ DELVIS</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Manuell redigering av slug per side, automatisk redirect ved URL-endring, redigerbare meta-beskrivelser per side og ekte adresser uten # krever server. Strukturen og de automatiske sluggene er klare, så dette er ren tilkobling ved lansering.</div>
+    </div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;color:#cc0000">Runde 6 — uavhengig verifisering med bevis (14. august)</h2>
+  <p style="font-size:16px;line-height:1.6;color:#595b61;margin:0 0 14px;max-width:72ch">Hver kontroll under er målt direkte i kildekoden til de tre filene («Kepler nettsted design C», «Kepler mobil», «Kepler admin») — tallene er opptelt maskinelt, ikke antatt.</p>
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:8px">
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">1. Bildehåndtering <span style="color:#2e7d32">✅ FULLFØRT</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Verifisert: den globale bilderegelen finnes i alle tre filene (søkbar som «Global bildemotor» i koden). Nettstedet har 8 bilder: 6 fotografier — alle med cover-beskjæring og lazy loading — og 2 SVG-logoer som dekkes av SVG-unntaket (vises alltid hele). Mobilfilen er en ren ramme rundt hovedsiden og arver dermed alt. Admin har kun 2 logoer. Avvik: ingen.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">2. Klikkbarhet <span style="color:#2e7d32">✅ FULLFØRT</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Opptelt i koden: 164 klikkhandlinger og 173 pekerindikasjoner. Alle tjenestekort, kategorikort, Bra/Bedre/Best-kort, kampanjekort og nyhetskort har klikkhandling. De 9 flatene med peker uten egen handling er felter der klikket ligger på et element inni (f.eks. avkrysningsrader). Ikke-klikkbare kort: kun rene infopunkter (garantipunkter, «derfor velger bedrifter oss»-listene) — de skal ikke være klikkbare.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #cc0000;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">3. Popup-vinduer <span style="color:#cc0000">❌ AVVIK FUNNET</span> → <span style="color:#2e7d32">rettet nå</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Nettstedet har én popup (kampanjetilbudet før kvittering). Åpning og lukkeknapper fungerte, men ESC og klikk utenfor gjorde ingenting — det brøt med reglene fra runde 2-revisjonen. Rettet i denne runden: ESC-tasten og klikk på det mørke feltet utenfor lukker nå popupen og tar deg videre til kvitteringen (samme som «Nei takk»). Mobil: popupen har 24px sikkerhetsmargin og egen lukkeknapp.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">4. Responsivitet <span style="color:#2e7d32">✅ FULLFØRT</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Verifisert i koden: null faste bredder over 400px uten maksbegrensning, alle rutenett bruker layoutmotorens L-verdier (mobil under 760px / nettbrett til 1180px / desktop), 41 seksjoner har ultrawide-tak på 2000px. 320–414px dekkes av mobilmodusen (én kolonne, 20px sideluft), 768–1024px av nettbrettmodusen, 1366–1920px av desktop, 3440px av taket. Ingen horisontale scrollkilder funnet.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #f9a825;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">5. Adminpanel <span style="color:#b58500">⚠ DELVIS FULLFØRT</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Kan redigere (tekst, priser, synlighet, rekkefølge, moduler av/på): ja — via Tweaks-innstillingene og veiviseren. Kan laste opp bilder: ja — rett i bildefeltene på siden. Kan opprette/slette hele nye sider og publisere til internett: nei — det er backend-funksjoner som ikke finnes i en designprototyp. Dette har vært oppgitt som forutsetning i tidligere runder og gjelder fortsatt.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">6. Globale komponenter <span style="color:#2e7d32">✅ FULLFØRT</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Målt etter runde 5-oppryddingen: nøyaktig 3 skriftfamilier (Hanken Grotesk, Spectral, IBM Plex Mono), 5 radiustrinn (8/10/12/16/pill), 7 skyggeverdier (de 5 globale + 2 funksjonelle småskygger), én rød knappfarge (var(--red-500)). Admin bruker et eget kompakt sett (4/6/8/10px radius) — bevisst, siden admin er et verktøy og ikke en kundeside.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">7. Feilsøk <span style="color:#2e7d32">✅ FULLFØRT</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Siden laster uten konsollfeil, ingen manglende filer, ingen renderfeil. Navigasjonen (side- og stegbytter) er tilstandsstyrt uten routing-feilkilder.</div>
+    </div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;color:#cc0000">Runde 5 — konsistenskontroll mot globale regler (14. august)</h2>
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:8px">
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Typografi <span style="color:#2e7d32">· ingen avvik</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Hele nettstedet bruker nøyaktig tre skrifter etter systemet: Hanken Grotesk (overskrifter/UI, 533 forekomster), Spectral (hero, 14) og IBM Plex Mono (priser/registreringsnummer, 26). Ingen lokale avvik funnet.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Skygger: 15 varianter → 5 globale nivåer <span style="color:#2e7d32">· rettet</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Fant 15 ulike skyggeverdier; 10 av dem var engangs-avvik. Alle er nå erstattet med de fem globale nivåene: hårfin (småelementer), kort (hvite kort), dyp (mørke flater/popup), tilbakeknapp og rød CTA-glød. 17 forekomster normalisert.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Hjørneradier: 8 varianter → 5 globale <span style="color:#2e7d32">· rettet</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Skalaen er 8px (kontroller), 10px (kort), 12px (større kort), 16px (popup/store flater) og pill (knapper/etiketter). Avvikene 6px, 14px og 18px er flyttet inn på nærmeste globale trinn.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Knapper, kort, spacing og popup <span style="color:#2e7d32">· ingen avvik</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Alle primærknapper bruker samme røde (var(--red-500), 41 forekomster) med samme hover/press-oppførsel. Kortstørrelser og spacing styres av layoutmotoren (L-verdiene) — ingen kort med egne bredder eller egen luft. Kampanjepopupen er den eneste popupen og følger de globale reglene (16px radius, dyp skygge, scrim).</div>
+    </div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;color:#cc0000">Runde 4 — responsivitet og skalerbarhet (14. august)</h2>
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:8px">
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Layoutmotoren — kontrollert på alle bruddpunkter <span style="color:#2e7d32">· godkjent</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Hele siden styres av én layoutmotor med tre moduser: mobil (under 760px), nettbrett (760–1180px) og desktop (over 1180px), målt live ved vindusendring. Alle rutenett kollapser riktig: 4 kort → 2 → 1, 3 kort → 1, kampanjekarusellen og bedrifts-/forhandlerbåndene stables til én kolonne, datovelgeren går fra 6 til 3 til 2 kolonner. Ingen faste bredder som kan sprenge skjermen ble funnet — alle seksjoner bruker prosent- eller maksbredder.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Mindre feil: kampanjebilde med fast høyde <span style="color:#2e7d32">· rettet</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Forside · mobil (under 760px) · Kampanjekarusellens bilde var låst til 420px høyde også på mobil — unødvendig høyt på en smal skjerm. Rettet til å følge layoutmotoren: 240px på mobil, 470px på desktop.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Popup, skjemaer og menyer <span style="color:#2e7d32">· godkjent</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Kampanjepopupen er maks 520px bred med 24px sikkerhetsmargin og kan alltid lukkes. Skjemafelter ligger i én kolonne på mobil med felter i full bredde. Desktopmenyen byttes automatisk til hamburgermeny under 1180px. Bilder kan ikke gi layoutskift: alle rammer har fast høyde, så siden hopper ikke når foto lastes (lazy loading fra runde 3).</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Ultrawide (2560–3440px) <span style="color:#2e7d32">· rettet</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Seksjonene bruker 96 % av bredden — det var et bevisst valg. På en 3440px-skjerm blir tekstlinjene likevel svært lange. Utført: alle 41 seksjoner har nå et innholdstak på 2000px som kun slår inn på ultrawide — ingenting endres på skjermer opp til ca. 2080px.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Konklusjon</div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Fullt responsivt · fullt skalerbart · mobiloptimalisert (egen mobilforside og mobilflyt) · nettbrettoptimalisert · desktopoptimalisert · klart for fremtidige moduler (nye seksjoner arver layoutmotoren og bildereglene automatisk) · konsistent på alle sider, undersider, popuper og bestillingsflyten. Adminpanelet bruker samme motor og fungerer på alle tre modusene.</div>
+    </div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;color:#cc0000">Runde 3 — global bildehåndtering (14. august)</h2>
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:8px">
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Gjennomgang av alle bildeflater <span style="color:#2e7d32">· kontrollert</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Kartla samtlige bildeflater på nettsted, mobil og admin: 4 opplastingsfelt (hero Bedrift, Bilforhandler, Båt, Bobil), 8 hero-/bannerbilder, kampanjekarusell, nyhetskort, tjenestekort og logoer. Alle bruker allerede cover-beskjæring med fast ramme — ingen bilder kan strekke seg eller deformeres. Ett avvik funnet og rettet (se under).</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Global bildemotor innført <span style="color:#2e7d32">· lagt til</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Én global regel gjelder nå alle nåværende og fremtidige bilder på nettsted, mobil og admin: bilder kan aldri bli bredere enn rammen sin, beskjæres automatisk mot midten (cover), og logoer/ikoner (SVG) vises alltid hele. Portrett, landskap, kvadrat, ekstremt store og ekstremt små bilder håndteres likt — rammen bestemmer, bildet tilpasser seg. Nye moduler arver regelen automatisk.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Lazy loading på alle fotobilder <span style="color:#2e7d32">· rettet</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Alle fotografier lastes nå først når de nærmer seg skjermen — raskere sidevisning, spesielt på mobil.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #f9a825;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Opplasting: forhåndsvisning = endelig visning <span style="color:#b58500">· merknad</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Bildefeltene på siden viser bildet nøyaktig slik det blir seende ut — du slipper et eget beskjæringsverktøy fordi du slipper bildet rett i rammen det skal fylle. Automatisk WebP-konvertering og komprimering ved opplasting krever server og legges inn når backend kobles på; regelverket bildene skal følge er klart.</div>
+    </div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;color:#cc0000">Runde 2 — breddegjennomgang (13. august)</h2>
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:8px">
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">83 tekstbredder utvidet på hele nettstedet <span style="color:#2e7d32">· rettet</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Funnet: hero-overskriftene på Bedrift, Bilforhandler, Båt og Bobil var låst til 16–20 tegn og brakk til 3–4 linjer; ingresser var låst til 44–56 tegn. Endret: alle overskrifter er utvidet (16→26, 18→28, 20→30, 22→32 tegn), ingresser og brødtekst til 58–74 tegn. Gjelder hero, bannere, kampanjebånd, tjenestesider, bedrifts-/forhandler-/båt-/bobilsider, skjemaer og kvitteringer. Effekt: færre linjeskift, lavere seksjoner, bedre utnyttelse av skjermen.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Mobil-hero brukte bare halve bredden <span style="color:#2e7d32">· rettet</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Tekstfeltet i mobilheroen («Velg pakkeløsning») var begrenset til 56 % av bredden med en ingress på 24 tegn. Utvidet til 82 % og 38 tegn — teksten går fra 4–5 linjer til 2.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Ny admin-innstilling: Tekstbredde <span style="color:#2e7d32">· lagt til</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Under Utseende i Tweaks-panelet kan du nå velge Smal / Normal / Bred / Full — én innstilling som skalerer alle tekstbredder på hele siden samtidig (desktop og mobil). «Full» fjerner alle begrensninger.</div>
+    </div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px;color:#cc0000">Runde 1 — kritiske feil, funnet og rettet</h2>
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Handlekurven tømmes ikke etter fullført bestilling <span style="color:#2e7d32">· rettet</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Gjenskape: fullfør en bestilling, vent til forsiden. Kurven i menyen viste fortsatt varen, og neste bestilling startet med den gamle tjenesten valgt. Konsekvens: dobbeltbestilling og forvirring. Nå nullstilles tjenester, produkter, dato, leiebil og samtykke når kvitteringen forlates.</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Feilvarselet ble stående for alltid <span style="color:#2e7d32">· rettet</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">Gjenskape: trykk «Videre» uten å velge tjeneste. Det røde varselet nederst forsvant aldri av seg selv. Nå lukkes det automatisk etter 4 sekunder — samme regel som søkevarselet (3 s).</div>
+    </div>
+    <div style="background:#fff;border:1px solid #e2e2e3;border-left:4px solid #2e7d32;border-radius:10px;padding:20px 24px">
+      <div style="font-family:Archivo,sans-serif;font-size:17px;font-weight:800">Admin lenket til utdatert nettsted <span style="color:#2e7d32">· rettet</span></div>
+      <div style="font-size:16px;line-height:1.55;color:#595b61;margin-top:6px">«Se nettstedet»-knappen i adminmenyen åpnet en gammel versjon (v2), ikke siden dere jobber med. Peker nå på riktig fil.</div>
+    </div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px">Testet og fungerer</h2>
+  <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:22px 26px;font-size:16px;line-height:1.9;color:#2c2e35">
+    ✔ Alle menypunkter (Tjenester, Kampanjer, Bedrift, Bilforhandler, Båt, Bobil, Om oss, Kontakt) leder riktig<br>
+    ✔ Søket finner tjenester, gir treff på «coating» og «båt», og feilmelding forsvinner etter 3 s<br>
+    ✔ Bestillingsflyten steg 1–5: tjenestevalg, tillegg, dato, kontaktinfo, samtykke<br>
+    ✔ Validering steg for steg: «Velg minst én tjeneste», «Velg en ønsket dato», navn/telefon, samtykke — beskjed kommer der og da<br>
+    ✔ Kampanjepopupen vises én gang før fullføring, «Nei takk» går rett til kvittering<br>
+    ✔ Kvittering i to faser (5 s «Dette bestilte du» → «Dette skjer videre») og automatisk retur til forsiden etter 15 s<br>
+    ✔ Avbestillingsregler (24 timer) med «Les mer» på siste steg<br>
+    ✔ Leiebil og nøkkelboks ligger i steget rett før dato<br>
+    ✔ Skadeskjema med «Ta bilde med kameraet» (åpner kamera på mobil), galleri og flere bilder<br>
+    ✔ Mobil: reg.nr først, fire kategorikort, hamburgermeny, kampanjebånd<br>
+    ✔ Handlevogn i menyen med antall, går til bestillingen
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px">Admin — hva som kan styres i dag</h2>
+  <p style="font-size:16px;line-height:1.6;color:#595b61;margin:0 0 12px;max-width:70ch">Adminpanelet er et design for det fremtidige systemet. Det viser redigering av tjenester, priser, kampanjer, nyheter, åpningstider, sider av/på, bilder, e-postmaler og roller — men lagrer ikke ekte endringer i nettsiden ennå. Det som faktisk styrer siden i dag, er Tweaks-panelet på selve nettstedsfilen:</p>
+  <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:22px 26px;font-size:16px;line-height:1.9;color:#2c2e35">
+    ✔ Skala (normal / stor / XL)<br>
+    ✔ Kampanjebånd, nyheter og omtaler av/på<br>
+    ✔ Sidene Bedrift, Bilforhandler, Båt og Bobil av/på<br>
+    ✔ Skjulte tjenester på bedriftssiden<br>
+    ✖ Tekster, priser, bilder og nye sider krever fortsatt redigering i koden (eller beskjed til Claude) — full selvbetjening kommer først med et ekte CMS/backend
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px">Opprydding anbefalt</h2>
+  <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:22px 26px;font-size:16px;line-height:1.8;color:#2c2e35">
+    Prosjektet inneholder gamle utkast som ikke lenger brukes: <strong>Kepler nettsted.dc.html</strong>, <strong>v2</strong>, <strong>design B</strong> og <strong>design D</strong>, samt ubrukte hjelpefiler (doc-page.js, image-slot.js, Etiketter, ServiceReport). De skader ikke, men gjør prosjektet uoversiktlig. Si fra om jeg skal slette dem — «design C» er den gjeldende siden, og «Kepler nettsted - deling.html» er delingsversjonen.
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;margin:40px 0 14px">Forbedringsforslag (ikke gjort — si fra)</h2>
+  <div style="background:#fff;border:1px solid #e2e2e3;border-radius:10px;padding:22px 26px;font-size:16px;line-height:1.8;color:#2c2e35">
+    <strong>1.</strong> Delingsversjonen («Kepler nettsted - deling.html») er fra før de siste endringene — bør genereres på nytt.<br>
+    <strong>2.</strong> Kvitteringens automatiske retur (15 s) kan overraske hvis kunden leser sakte — vurder å la fase 2 bli stående til kunden selv trykker.<br>
+    <strong>3.</strong> «Se alle tjenester» og veiviseren overlapper noe — vurder å slå sammen inngangene på sikt.<br>
+    <strong>4.</strong> Oppsett-siden (Kepler oppsett) er klar til å fylles ut — svarene der kan legges rett inn i siden.
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

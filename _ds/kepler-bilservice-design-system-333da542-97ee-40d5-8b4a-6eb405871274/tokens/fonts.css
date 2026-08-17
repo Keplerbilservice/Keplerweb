@@ -1,0 +1,7 @@
+/* Kepler webfonts.
+   SUBSTITUTION: no original Kepler font files were provided. Archivo (display/UI) and
+   Barlow (body) are the nearest Google Fonts matches to the wide, squared industrial
+   grotesque of the KEPLER wordmark. Replace with the real files when available. */
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap");
+/* Material Symbols Outlined - the icon set used on kepler.no (24dp, FILL 0, wght 400, GRAD 0). */
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=block");

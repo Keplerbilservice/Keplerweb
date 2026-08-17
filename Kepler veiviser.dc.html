@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/colors.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;background:#eceae5;font-family:'Hanken Grotesk',sans-serif;color:#1f1914}
+a{color:#cc0000}a:hover{color:#8f1710}
+input,textarea,select{font-family:inherit}
+.material-symbols-outlined{font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;display:inline-block;line-height:1;letter-spacing:normal;text-transform:none;white-space:nowrap;word-wrap:normal;direction:ltr}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex">
+
+  <aside style="width:340px;flex:none;background:#1f1914;color:#fff;position:sticky;top:0;height:100vh;overflow-y:auto;padding:28px 0">
+    <div style="padding:0 26px 20px;border-bottom:1px solid rgba(255,255,255,.14)">
+      <img src="assets/logo-kepler-wordmark.svg" alt="Kepler" style="width:130px;filter:brightness(0) invert(1);display:block">
+      <div style="font-size:13px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#9fa0a3;margin-top:10px">Nettsideveiviser</div>
+      <div style="margin-top:14px;height:8px;border-radius:999px;background:rgba(255,255,255,.15);overflow:hidden"><div style="height:100%;width:{{ prosent }};background:#cc0000;border-radius:999px"></div></div>
+      <div style="font-size:14px;color:#9fa0a3;margin-top:6px">{{ prosentTekst }} · lagres automatisk</div>
+    </div>
+    <div style="padding:14px 12px;display:flex;flex-direction:column;gap:2px">
+      <sc-for list="{{ stegListe }}" as="s" hint-placeholder-count="10">
+        <div onClick="{{ s.gaa }}" style="cursor:pointer;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:8px;background:{{ s.bg }}">
+          <span class="material-symbols-outlined" style="font-size:20px;color:{{ s.ikonFarge }};flex:none">{{ s.ikon }}</span>
+          <div style="flex:1;min-width:0;font-size:15px;font-weight:700;color:{{ s.farge }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.navn }}</div>
+          <div style="font-size:12px;color:#9fa0a3;flex:none">{{ s.status }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </aside>
+
+  <main style="flex:1;min-width:0;padding:44px 48px 140px;max-width:980px">
+    <div style="font-size:13px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#cc0000">Steg {{ stegNr }} av {{ stegTotal }}</div>
+    <h1 style="font-size:32px;font-weight:800;letter-spacing:-.02em;margin:8px 0 6px">{{ steg.navn }}</h1>
+    <p style="font-size:16px;line-height:1.55;color:#595b61;margin:0 0 28px;max-width:70ch">{{ steg.intro }}</p>
+
+    <sc-if value="{{ erSkjema }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:22px">
+        <sc-for list="{{ grupper }}" as="g">
+          <div style="background:#fff;border:1px solid #ddd;border-radius:12px;padding:24px 26px">
+            <sc-if value="{{ g.harTittel }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:16px">
+                <div style="font-size:19px;font-weight:800">{{ g.tittel }}</div>
+                <sc-if value="{{ g.harVis }}" hint-placeholder-val="{{ false }}">
+                  <div onClick="{{ g.vippVis }}" style="cursor:pointer;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:{{ g.visFarge }};border:1px solid {{ g.visRamme }};border-radius:999px;padding:6px 14px">
+                    <span class="material-symbols-outlined" style="font-size:18px">{{ g.visIkon }}</span>{{ g.visLabel }}
+                  </div>
+                </sc-if>
+              </div>
+            </sc-if>
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <sc-for list="{{ g.felter }}" as="f">
+                <div>
+                  <sc-if value="{{ f.erTekst }}" hint-placeholder-val="{{ true }}">
+                    <label style="display:block;font-size:14px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#595b61;margin-bottom:6px">{{ f.navn }}</label>
+                    <input value="{{ f.verdi }}" onChange="{{ f.sett }}" placeholder="{{ f.hint }}" style="width:100%;box-sizing:border-box;font-size:16px;padding:11px 14px;border:1px solid #ccc;border-radius:8px;outline:none">
+                  </sc-if>
+                  <sc-if value="{{ f.erLang }}" hint-placeholder-val="{{ false }}">
+                    <label style="display:block;font-size:14px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#595b61;margin-bottom:6px">{{ f.navn }}</label>
+                    <textarea value="{{ f.verdi }}" onChange="{{ f.sett }}" placeholder="{{ f.hint }}" style="width:100%;box-sizing:border-box;min-height:96px;font-size:16px;line-height:1.5;padding:11px 14px;border:1px solid #ccc;border-radius:8px;outline:none;resize:vertical"></textarea>
+                  </sc-if>
+                  <sc-if value="{{ f.erBryter }}" hint-placeholder-val="{{ false }}">
+                    <div onClick="{{ f.vipp }}" style="cursor:pointer;display:flex;align-items:center;gap:10px">
+                      <span class="material-symbols-outlined" style="font-size:24px;color:{{ f.farge }}">{{ f.ikon }}</span>
+                      <div style="font-size:16px;font-weight:700">{{ f.navn }}</div>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ f.erBilde }}" hint-placeholder-val="{{ false }}">
+                    <label style="display:block;font-size:14px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#595b61;margin-bottom:6px">{{ f.navn }}</label>
+                    <div style="width:100%;max-width:440px;height:180px">
+                      <image-slot id="{{ f.slotId }}" shape="rounded" radius="10" placeholder="{{ f.hint }}"></image-slot>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ erRapport }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <sc-for list="{{ rapport }}" as="r">
+          <div style="background:#fff;border:1px solid #ddd;border-left:4px solid {{ r.kant }};border-radius:10px;padding:16px 20px;display:flex;align-items:center;gap:14px">
+            <span class="material-symbols-outlined" style="font-size:24px;color:{{ r.kant }};flex:none">{{ r.ikon }}</span>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:16px;font-weight:800">{{ r.navn }}</div>
+              <div style="font-size:14px;color:#595b61">{{ r.detalj }}</div>
+            </div>
+            <div onClick="{{ r.gaa }}" style="cursor:pointer;font-size:14px;font-weight:800;color:#cc0000;white-space:nowrap">Åpne</div>
+          </div>
+        </sc-for>
+        <div style="background:#faf8f4;border:1px solid #ddd;border-radius:10px;padding:18px 22px;font-size:15px;line-height:1.6;color:#595b61">
+          Bilder du har sluppet inn i veiviseren lagres automatisk og følger med. Når alt er fylt ut: trykk «Fullfør» under, og si fra i chatten — da legger Claude alt innholdet inn på nettsiden, på riktig side og seksjon, for både desktop og mobil. Alt du hopper over beholder dagens innhold.
+        </div>
+        <div onClick="{{ fullfor }}" style="cursor:pointer;align-self:flex-start;display:flex;align-items:center;gap:10px;font-size:18px;font-weight:800;color:#fff;background:{{ fullforBg }};padding:16px 30px;border-radius:10px">{{ fullforLabel }}<span class="material-symbols-outlined" style="font-size:22px">check</span></div>
+      </div>
+    </sc-if>
+
+    <div style="display:flex;gap:12px;margin-top:34px">
+      <sc-if value="{{ harTilbake }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ forrige }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-size:16px;font-weight:800;color:#1f1914;border:2px solid #bbb;padding:11px 20px;border-radius:8px"><span class="material-symbols-outlined" style="font-size:20px">arrow_back</span>Forrige</div>
+      </sc-if>
+      <sc-if value="{{ harNeste }}" hint-placeholder-val="{{ true }}">
+        <div onClick="{{ neste }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-size:17px;font-weight:800;color:#fff;background:#cc0000;padding:12px 24px;border-radius:8px">Neste steg<span class="material-symbols-outlined" style="font-size:20px">arrow_forward</span></div>
+      </sc-if>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { steg: 0 };
+  componentDidMount() {
+    try { const d = JSON.parse(localStorage.getItem('kepler-veiviser') || 'null'); if (d) this.setState({ data: d.data || {}, steg: d.steg || 0 }); } catch (e) {}
+  }
+  lagre(nokkel, verdi) {
+    const data = { ...(this.state.data || {}), [nokkel]: verdi };
+    this.setState({ data });
+    try { localStorage.setItem('kepler-veiviser', JSON.stringify({ data, steg: this.state.steg })); } catch (e) {}
+  }
+  huskSteg(n) {
+    this.setState({ steg: n });
+    try { const d = JSON.parse(localStorage.getItem('kepler-veiviser') || '{}'); d.steg = n; localStorage.setItem('kepler-veiviser', JSON.stringify(d)); } catch (e) {}
+    window.scrollTo(0, 0);
+  }
+  stegDef() {
+    const t = (id, navn, hint) => ({ type: 'tekst', id, navn, hint: hint || '' });
+    const l = (id, navn, hint) => ({ type: 'lang', id, navn, hint: hint || '' });
+    const b = (id, navn) => ({ type: 'bryter', id, navn });
+    const img = (id, navn, hint) => ({ type: 'bilde', id, navn, hint: hint || 'Slipp bildet her' });
+    const tjeneste = (pfx, navn, kort, pris, tid, kampanje) => ({ tittel: navn, vis: pfx + '.vis', felter: [
+      t(pfx + '.kort', 'Kort beskrivelse — dagens tekst vises, tomt felt = uendret', kort),
+      l(pfx + '.lang', 'Lang beskrivelse (tjenestesiden) — tomt felt = uendret', 'Dagens tekst beholdes hvis du ikke skriver noe'),
+      t(pfx + '.pris', 'Pris — i dag: ' + pris, pris), t(pfx + '.kampanjepris', 'Kampanjepris' + (kampanje ? ' — i dag: ' + kampanje : ' (tom = ingen)'), kampanje || ''), t(pfx + '.tid', 'Varighet — i dag: ' + tid, tid),
+      t(pfx + '.prioritet', 'Prioritet i visning (1 = øverst)'),
+      img(pfx + '-hovedbilde', 'Hovedbilde'), img(pfx + '-foretter', 'Før/etter-bilde (valgfritt)')
+    ]});
+    const dagens = { bedrift: 'Bedriftens ansikt utad', forhandler: 'Raskere omsetning med biler som er klare', bat: 'Coating og polering av båt', bobil: 'Vask og beskyttelse av bobil' };
+    const side = (pfx, navn) => ({ tittel: navn + (dagens[pfx] ? ' — i dag: «' + dagens[pfx] + '»' : ''), vis: pfx + '.vis', felter: [
+      t(pfx + '.overskrift', 'Overskrift' + (dagens[pfx] ? ' — i dag: ' + dagens[pfx] : ''), dagens[pfx] || ''), t(pfx + '.under', 'Underoverskrift/ingress — dagens beholdes hvis tom'),
+      l(pfx + '.tekst', 'Hovedtekst'),
+      t(pfx + '.knapp', 'Knappetekst'), t(pfx + '.seoT', 'SEO-tittel'), t(pfx + '.seoB', 'SEO-beskrivelse'),
+      img(pfx + '-hero', 'Hero-bilde (desktop)'), img(pfx + '-mobil', 'Mobilbilde (valgfritt — desktop brukes ellers)')
+    ]});
+    return [
+      { id: 'forside', navn: 'Forside', intro: 'Feltene viser dagens innhold som forhåndstekst. Lar du et felt stå tomt, endres ingenting — antall kort, tekster og bilder blir som i dag.', grupper: [
+        { tittel: 'Hero', felter: [ t('fs.overskrift', 'Overskrift — i dag: «Ta vare på bilen din.»', 'Ta vare på bilen din.'), t('fs.under', 'Underoverskrift — dagens tekst beholdes hvis tom', 'Vet du hva du vil ha, går du rett til tjenesten. Er du usikker, hjelper vi deg å finne riktig behandling.'), t('fs.knapp', 'Knappetekst — i dag: «Bestill time»', 'Bestill time'), img('fs-hero', 'Hovedbilde (desktop) — i dag: verkstedbilde med rød deling'), img('fs-hero-mobil', 'Mobilbilde — i dag: samme som desktop') ] },
+        { tittel: 'Antall på forsiden — i dag: 3 kort per rad, 3 nyheter, 3 anmeldelser, 2 kampanjer', felter: [ t('fs.antKort', 'Antall tjenestekort per rad — i dag: 3', '3'), t('fs.antNyheter', 'Antall nyheter — i dag: 3', '3'), t('fs.antOmtaler', 'Antall anmeldelser — i dag: 3', '3'), t('fs.antKampanjer', 'Antall kampanjer i båndet — i dag: 2', '2') ] },
+        { tittel: 'SEO', felter: [ t('fs.seoT', 'SEO-tittel — i dag: «Bilpleie og antirust i Tønsberg · Kepler»', 'Bilpleie og antirust i Tønsberg · Kepler'), t('fs.seoB', 'SEO-beskrivelse — ikke satt i dag') ] }
+      ]},
+      { id: 'kategorier', navn: 'Tjenestekategorier', intro: 'Områdene på forsiden («Velg det du trenger hjelp med») og mobilens kategorikort. Feltene viser dagens tekster — tomt = uendret.', grupper: [
+        ['Beskytte lakken', 'Vask, lakkrens, forsegling, coating og PPF.'],
+        ['Antirust', 'Understellsbehandling med inntil 16 års garanti.'],
+        ['Skader', 'Spar penger — vi fikser skadene før levering. Gjelder leasing og salg.'],
+        ['Bilsalg', 'Salgsklargjøring, eller vi kjøper og selger bilen for deg.'],
+        ['Vask og pleie', 'Innvendig og utvendig vask, rens og pleie.'],
+        ['Mens bilen er hos oss', 'Leiebil og nøkkelboks.']
+      ].map(([navn, tekst], i) => ({
+        tittel: navn + ' — i dag: «' + tekst + '»', vis: 'kat' + i + '.vis', felter: [ t('kat' + i + '.rekkefolge', 'Rekkefølge — i dag: ' + (i + 1), String(i + 1)), t('kat' + i + '.overskrift', 'Overskrift — i dag: ' + navn, navn), t('kat' + i + '.tekst', 'Beskrivelse — dagens vises', tekst), img('kat' + i + '-bilde', 'Områdebilde') ]
+      }))},
+      { id: 'tj-vask', navn: 'Tjenester · Vask og pleie', intro: 'Feltene viser dagens innhold. Lar du et felt stå tomt, endres ingenting.', grupper: [
+        tjeneste('tv0', 'Utvendig vask', 'Håndvask utvendig, felger og dekk.', 'kr. 590,-', '1 time'), tjeneste('tv1', 'Innvendig vask', 'Rask oppfriskning av kupéen mellom de større behandlingene.', 'kr. 690,-', '1 time'), tjeneste('tv2', 'Utvendig og innvendig vask', 'Ren og pen bil med et sunt og friskt innemiljø.', 'kr. 2.990,-', '3–4 timer'), tjeneste('tv3', 'Innvendig vask og rens', 'Grundig rens av tekstiler og overflater i interiøret.', 'kr. 6.190,-', '1 dag'), tjeneste('tv4', 'Skinnbehandling', 'Rens og næring til skinnet i bilen.', 'kr. 1.790,-', '2 timer', 'kr. 1.790,- (før kr. 2.690,-)'), tjeneste('tv5', 'Keramisk dashboardbeskyttelse', 'Beskytter interiøret mot sol, slitasje og aldring.', 'kr. 1.490,-', '2 timer')
+      ]},
+      { id: 'tj-lakk', navn: 'Tjenester · Beskytte lakken', intro: 'Feltene viser dagens innhold. Lar du et felt stå tomt, endres ingenting.', grupper: [
+        tjeneste('tl0', 'Lakkrens', 'Gir lakken nytt liv. Utføres før forsegling.', 'kr. 3.590,-', '1 dag'), tjeneste('tl1', 'Keramisk Coating Light', 'Prisgunstig keramisk beskyttelse. En smart start på et enklere bilhold.', 'kr. 5.990,-', '1 dag'), tjeneste('tl2', 'Kepler lakkforsegling', 'Prisgunstig og holdbart alternativ til årlig vedlikehold.', 'kr. 3.990,-', '1 dag', 'kr. 3.990,- (før kr. 7.590,-)'), tjeneste('tl3', 'Kepler Pure Grade', 'Det beste fra to verdener: high-tech beskyttelse og visuell perfeksjon.', 'kr. 15.990,-', '2 dager'), tjeneste('tl4', 'Graphene Keramisk coating', 'Årevis med beskyttelse takket være høyt innhold av virkestoffer.', 'kr. 12.990,-', '2 dager'), tjeneste('tl5', 'Evershine Felg Coating', 'Penere felger og enklere vedlikehold i lang tid.', 'kr. 2.490,-', '4 timer'), tjeneste('tl6', 'Evershine Glass Coating', 'Vannavvisende hinne på frontruten. Klar sikt i regn.', 'kr. 1.490,-', '2 timer'), tjeneste('tl7', 'Solfilm', 'Økt komfort og effektiv solbeskyttelse.', 'kr. 3.190,-', '4 timer')
+      ]},
+      { id: 'tj-rust', navn: 'Tjenester · Antirust', intro: 'Feltene viser dagens innhold. Lar du et felt stå tomt, endres ingenting.', grupper: [
+        tjeneste('tr0', 'Gratis rustsjekk', 'Uforpliktende visuell kontroll av utsatte områder.', 'kr. 0,-', '20 minutter'), tjeneste('tr1', 'Fluid Film Express', 'Suveren krypevne, selvhelende og 100 % miljøvennlig.', 'kr. 3.990,-', '1 dag', 'kr. 3.990,- (før kr. 4.990,-)'), tjeneste('tr2', 'Fluid Film Pluss', 'Vår mest omfattende Fluid Film-behandling. Inntil 16 års garanti.', 'kr. 8.990,-', '2 dager'), tjeneste('tr3', 'Kepler Premium antirust', 'Vår mest omfattende understellsbehandling. Inntil 16 års garanti.', 'kr. 11.990,-', '2 dager')
+      ]},
+      { id: 'tj-skade', navn: 'Tjenester · Skader', intro: 'Feltene viser dagens innhold. Skader prises etter befaring.', grupper: [
+        tjeneste('ts0', 'PDR bulkoppretting', 'Fjerner bulker uten å skade bilens originale lakk.', 'kr. 2.890,-', '1 dag'), tjeneste('ts1', 'Spot Paint', 'Gunstig utbedring av mindre lakkskader.', 'kr. 3.590,-', '1 dag'), tjeneste('ts2', 'Felgreparasjon', 'Kantkjørte felger repareres raskt og profesjonelt.', 'kr. 2.990,-', '1–2 dager'), tjeneste('ts3', 'Lyktefornyelse', 'Slitte og matte lykter får nytt liv.', 'kr. 2.990,-', '3 timer')
+      ]},
+      { id: 'tj-salg', navn: 'Tjenester · Bilsalg', intro: 'Feltene viser dagens innhold. Lar du et felt stå tomt, endres ingenting.', grupper: [
+        tjeneste('tb0', 'Salgsklargjøring', 'Vi fikser alt så du kan selge bilen enklest mulig og få best mulig betalt.', 'kr. 4.990,-', '1–2 dager'), tjeneste('tb1', 'Kontroll før leasinginnlevering', 'Vi er uavhengige og sier hva som bør utbedres før du leverer.', 'kr. 1.990,-', '1 dag'), tjeneste('tb2', 'Vi kjøper bilen din', 'Slipper du å selge selv? Uforpliktende vurdering.', 'Etter befaring', '')
+      ]},
+      { id: 'tj-bobil', navn: 'Tjenester · Bobil og caravan', intro: 'Feltene viser dagens innhold. Priser merket «per meter» ganges med lengden.', grupper: [
+        tjeneste('to0', 'Utvendig vask', 'Håndvask av tak, sider og front. Ingen børster.', 'kr. 390,- per meter', '2–4 timer'), tjeneste('to1', 'Takrens og avsoting', 'Fjerner sotstriper og grønske fra tak og sider.', 'kr. 590,- per meter', '1 dag'), tjeneste('to2', 'Lakkforsegling', 'Beskytter gelcoat og lakk. Enklere vask resten av sesongen.', 'kr. 890,- per meter', '1–2 dager'), tjeneste('to3', 'Keramisk coating', 'Flere års beskyttelse. Skitt og grønske fester seg dårligere.', 'kr. 1.690,- per meter', '2–3 dager'), tjeneste('to4', 'Kontroll av lister og skjøter', 'Vi ser over tetninger og skjøter.', 'kr. 990,-', '1 time'), tjeneste('to5', 'Innvendig rens', 'Tekstiler, puter og overflater. Lukt behandles ved kilden.', 'kr. 4.990,-', '1 dag')
+      ]},
+      { id: 'inne', navn: 'Mens bilen er inne', intro: 'Rabatterte tillegg som tilbys i bestillingen. De 4 med lavest prioritetstall vises. Feltene viser dagens priser — tomt = uendret.', grupper: [['Felg coating', 'kr. 1.990,-', 'kr. 2.490,-'], ['Glass coating', 'kr. 1.190,-', 'kr. 1.490,-'], ['Skinnbehandling', 'kr. 1.390,-', 'kr. 1.790,-'], ['Lyktefornyelse', 'kr. 2.290,-', 'kr. 2.990,-'], ['Lakkrens', 'kr. 3.590,-', 'kr. 3.590,-'], ['Fluid Film Express', 'kr. 3.990,-', 'kr. 4.990,-']].map(([navn, pris, foer], i) => ({
+        tittel: navn, vis: 'inne' + i + '.vis', felter: [ t('inne' + i + '.pris', 'Rabattert pris — i dag: ' + pris, pris), t('inne' + i + '.foer', 'Ordinær pris — i dag: ' + foer, foer), t('inne' + i + '.prioritet', 'Prioritet — i dag: ' + (i + 1), String(i + 1)) ]
+      }))},
+      { id: 'kampanjer', navn: 'Kampanjer', intro: 'Kampanjene i båndet på forsiden. I dag kjører to kampanjer — feltene viser dem. Kampanje 3 er ledig plass.', grupper: [
+        { n: 1, navn: 'Kepler lakkforsegling', tekst: 'Prisgunstig og holdbar lakkbeskyttelse. Perfekt før vinteren.', pris: 'kr. 3.990,-', foer: 'kr. 7.590,-', slutt: 'Gjelder ut august' },
+        { n: 2, navn: 'Fluid Film Express', tekst: 'Rustbeskyttelse med suveren krypevne. 100 % miljøvennlig.', pris: 'kr. 3.990,-', foer: 'kr. 4.990,-', slutt: 'Gjelder ut september' },
+        { n: 3, navn: '', tekst: '', pris: '', foer: '', slutt: '' }
+      ].map(k => ({
+        tittel: 'Kampanje ' + k.n + (k.navn ? ' — i dag: ' + k.navn : ' (ledig)'), vis: 'kamp' + k.n + '.vis', felter: [ t('kamp' + k.n + '.navn', 'Kampanjenavn', k.navn), l('kamp' + k.n + '.tekst', 'Kampanjetekst', k.tekst), t('kamp' + k.n + '.pris', 'Kampanjepris', k.pris), t('kamp' + k.n + '.foer', 'Førpris', k.foer), t('kamp' + k.n + '.start', 'Startdato'), t('kamp' + k.n + '.slutt', 'Sluttdato', k.slutt), t('kamp' + k.n + '.sider', 'Vises på sider — i dag: forsiden og kampanjesiden', 'Forside, Kampanjer'), b('kamp' + k.n + '.mobil', 'Vis på mobil'), b('kamp' + k.n + '.desktop', 'Vis på desktop'), img('kamp' + k.n + '-bilde', 'Kampanjebilde') ]
+      }))},
+      { id: 'tilbud', navn: 'Spesialtilbud (slutt-popup)', intro: 'Tilbudet som vises rett før kunden fullfører bestillingen.', grupper: [
+        { tittel: 'Popup-tilbudet', vis: 'popup.vis', felter: [ t('popup.navn', 'Navn', 'Keramisk Coating Light'), t('popup.pris', 'Pris', 'kr. 4.490,-'), t('popup.foer', 'Førpris', 'kr. 5.990,-'), l('popup.tekst', 'Beskrivelse'), t('popup.start', 'Start'), t('popup.slutt', 'Slutt'), img('popup-bilde', 'Bilde (valgfritt)') ] }
+      ]},
+      { id: 'sider', navn: 'Undersider', intro: 'Bedrift, Bilforhandler, Båt, Bobil, Om oss og Kontakt. Slå av sider som ikke skal vises — de forsvinner fra menyen.', grupper: [
+        side('bedrift', 'Bedrift'), side('forhandler', 'Bilforhandler'), side('bat', 'Båt'), side('bobil', 'Bobil'),
+        { tittel: 'Om oss', vis: 'omoss.vis', felter: [ l('omoss.tekst', 'Om oss-tekst'), img('omoss-bilde', 'Bilde (verksted/team)') ] },
+        { tittel: 'Kontakt', vis: 'kontakt.vis', felter: [ t('kontakt.adresse', 'Adresse', 'Andebuveien 63, 3170 Sem'), t('kontakt.tlf', 'Telefon', '33 33 44 00'), t('kontakt.epost', 'E-post'), t('kontakt.tider', 'Åpningstider', 'Man–fre 07.30–17.00') ] }
+      ]},
+      { id: 'meny', navn: 'Menyer', intro: 'Navn, rekkefølge og synlighet i hovedmenyen. Rekkefølge: 1 = først.', grupper: ['Tjenester', 'Kampanjer', 'Bedrift', 'Bilforhandler', 'Båt', 'Bobil', 'Om oss', 'Kontakt', 'Min side'].map((navn, i) => ({
+        tittel: navn, vis: 'meny' + i + '.vis', felter: [ t('meny' + i + '.navn', 'Menynavn', navn), t('meny' + i + '.rekkefolge', 'Rekkefølge', String(i + 1)) ]
+      }))},
+      { id: 'mobil', navn: 'Mobilvisning', intro: 'Hva som skal avvike fra desktop på mobil. Alt annet følger desktop.', grupper: [
+        { tittel: 'Mobilforsiden', felter: [ b('mob.likDesktop', 'Likt innhold som desktop'), t('mob.antKort', 'Antall tjenestekort (tom = som desktop)'), t('mob.antNyheter', 'Antall nyheter'), t('mob.antKampanjer', 'Antall kampanjer'), l('mob.skjul', 'Skal noe skjules på mobil? (skriv hva)'), l('mob.rekkefolge', 'Annen rekkefølge? (skriv hvordan)') ] }
+      ]},
+      { id: 'rapport', navn: 'Sluttrapport og fullføring', intro: 'Oversikt over hva som er fylt ut. Grønt = utfylt, gult = delvis, grått = urørt (beholder dagens innhold).', rapport: true }
+    ];
+  }
+  renderVals() {
+    const d = this.state.data || {};
+    const steg = this.stegDef();
+    const n = Math.min(this.state.steg || 0, steg.length - 1);
+    const s = steg[n];
+    const felt = id => ({
+      navn: '', erTekst: false, erLang: false, erBryter: false, erBilde: false,
+      verdi: d[id] ?? '', sett: e => this.lagre(id, e.target.value)
+    });
+    const tellUt = st => {
+      if (st.rapport) return [0, 0];
+      let alle = 0, fylt = 0;
+      (st.grupper || []).forEach(g => (g.felter || []).forEach(f => { if (f.type === 'bilde') return; alle++; if ((d[f.id] ?? '') !== '') fylt++; }));
+      return [fylt, alle];
+    };
+    const totalt = steg.reduce((a, st) => { const [f, al] = tellUt(st); return [a[0] + f, a[1] + al]; }, [0, 0]);
+    const pct = totalt[1] ? Math.round(100 * totalt[0] / totalt[1]) : 0;
+    return {
+      steg: { navn: s.navn, intro: s.intro },
+      stegNr: String(n + 1), stegTotal: String(steg.length),
+      prosent: pct + '%', prosentTekst: totalt[0] + ' av ' + totalt[1] + ' felter utfylt (' + pct + ' %)',
+      erSkjema: !s.rapport, erRapport: !!s.rapport,
+      stegListe: steg.map((st, i) => {
+        const [f, alle] = tellUt(st);
+        const aktiv = i === n;
+        return {
+          navn: st.navn, gaa: () => this.huskSteg(i),
+          bg: aktiv ? 'rgba(204,0,0,.25)' : 'transparent',
+          farge: aktiv ? '#fff' : '#c9c9cb',
+          ikon: st.rapport ? 'flag' : (alle && f === alle ? 'check_circle' : (f > 0 ? 'radio_button_partial' : 'radio_button_unchecked')),
+          ikonFarge: alle && f === alle ? '#6fbf73' : (f > 0 ? '#e0a83c' : '#77787c'),
+          status: st.rapport ? '' : f + '/' + alle
+        };
+      }),
+      grupper: (s.grupper || []).map(g => {
+        const visId = g.vis;
+        const paa = visId ? (d[visId] ?? true) !== false && d[visId] !== 'av' : true;
+        return {
+          harTittel: !!g.tittel, tittel: g.tittel || '',
+          harVis: !!visId,
+          visLabel: paa ? 'Vises' : 'Skjult',
+          visIkon: paa ? 'visibility' : 'visibility_off',
+          visFarge: paa ? '#2e7d32' : '#9fa0a3',
+          visRamme: paa ? '#2e7d32' : '#bbb',
+          vippVis: () => this.lagre(visId, paa ? 'av' : 'på'),
+          felter: (g.felter || []).map(f => {
+            const base = felt(f.id);
+            base.navn = f.navn; base.hint = f.hint || '';
+            if (f.type === 'tekst') base.erTekst = true;
+            else if (f.type === 'lang') base.erLang = true;
+            else if (f.type === 'bryter') {
+              base.erBryter = true;
+              const på = (d[f.id] ?? true) !== false && d[f.id] !== 'av';
+              base.ikon = på ? 'check_box' : 'check_box_outline_blank';
+              base.farge = på ? '#cc0000' : '#9fa0a3';
+              base.vipp = () => this.lagre(f.id, på ? 'av' : 'på');
+            } else if (f.type === 'bilde') { base.erBilde = true; base.slotId = 'vv-' + f.id; }
+            return base;
+          })
+        };
+      }),
+      rapport: steg.filter(st => !st.rapport).map((st, i) => {
+        const [f, alle] = tellUt(st);
+        const hel = alle && f === alle, delvis = f > 0 && !hel;
+        return {
+          navn: st.navn,
+          detalj: f + ' av ' + alle + ' felter utfylt' + (hel ? ' — komplett' : (delvis ? ' — delvis' : ' — urørt, beholder dagens innhold')),
+          kant: hel ? '#2e7d32' : (delvis ? '#e0a83c' : '#9fa0a3'),
+          ikon: hel ? 'check_circle' : (delvis ? 'error' : 'radio_button_unchecked'),
+          gaa: () => this.huskSteg(steg.indexOf(st))
+        };
+      }),
+      fullfor: () => { this.lagre('ferdig', new Date().toISOString()); this.setState({ sendt: true }); },
+      fullforLabel: this.state.sendt || d.ferdig ? 'Registrert! Si fra til Claude i chatten' : 'Fullfør veiviseren',
+      fullforBg: this.state.sendt || d.ferdig ? '#2e7d32' : '#cc0000',
+      harTilbake: n > 0, harNeste: n < steg.length - 1,
+      forrige: () => this.huskSteg(n - 1),
+      neste: () => this.huskSteg(n + 1)
+    };
+  }
+}
+</script>
+</body>
+</html>

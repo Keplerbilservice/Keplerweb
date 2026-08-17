@@ -1,0 +1,39 @@
+:root{
+  --font-display:"Archivo","Arial Narrow",Helvetica,sans-serif;
+  --font-body:"Barlow","Helvetica Neue",Arial,sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,monospace;
+
+  --fw-regular:400; /* @kind font */
+  --fw-medium:500; /* @kind font */
+  --fw-semibold:600; /* @kind font */
+  --fw-bold:700; /* @kind font */
+  --fw-black:800; /* @kind font */
+
+  --fs-3xs:11px;--fs-2xs:12px;--fs-xs:13px;--fs-sm:15px;--fs-md:17px;--fs-lg:19px;
+  --fs-xl:23px;--fs-2xl:28px;--fs-3xl:34px;--fs-4xl:44px;--fs-5xl:56px;--fs-6xl:72px;
+
+  --lh-tight:1.05; /* @kind font */
+  --lh-snug:1.18; /* @kind font */
+  --lh-normal:1.5; /* @kind font */
+  --lh-relaxed:1.65; /* @kind font */
+
+  --ls-display:-0.02em; /* @kind font */
+  --ls-heading:-0.01em; /* @kind font */
+  --ls-body:0; /* @kind font */
+  --ls-eyebrow:.14em; /* @kind font */
+  --ls-button:.02em; /* @kind font */
+
+  /* Semantic type roles */
+  --type-hero-family:var(--font-display);
+  --type-hero-size:var(--fs-5xl);
+  --type-hero-weight:var(--fw-black); /* @kind font */
+  --type-heading-family:var(--font-display);
+  --type-heading-weight:var(--fw-bold); /* @kind font */
+  --type-eyebrow-size:var(--fs-2xs);
+  --type-eyebrow-weight:var(--fw-bold); /* @kind font */
+  --type-body-family:var(--font-body);
+  --type-body-size:var(--fs-md);
+  --type-body-line:var(--lh-relaxed); /* @kind font */
+  --type-price-family:var(--font-display);
+  --type-price-weight:var(--fw-black); /* @kind font */
+}

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/kepler-bilservice-design-system-333da542-97ee-40d5-8b4a-6eb405871274/tokens/colors.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+<style>
+body{margin:0;background:#f2f2f2;font-family:'Hanken Grotesk',sans-serif}
+a{color:#cc0000}a:hover{color:#8f1710}
+input{font-family:inherit}
+.material-symbols-outlined{font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;display:inline-block;line-height:1;letter-spacing:normal;text-transform:none;white-space:nowrap;word-wrap:normal;direction:ltr}
+</style>
+</helmet>
+<div style="max-width:1100px;margin:0 auto;padding:40px 24px 120px">
+  <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+    <img src="assets/logo-kepler-wordmark.svg" alt="Kepler" style="width:150px;display:block">
+    <div style="font-size:15px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#cc0000">Oppsett av nettsiden</div>
+  </div>
+  <h1 style="font-size:34px;font-weight:800;letter-spacing:-.02em;color:#1f1914;margin:16px 0 6px">Huk av det som skal vises</h1>
+  <p style="font-size:17px;line-height:1.5;color:#595b61;margin:0 0 10px;max-width:70ch">Alt lagres automatisk mens du jobber. Slå tjenester av og på, juster pris og dager, og styr når de skal vises. Når du er ferdig, trykk «Ferdig» nederst — så legger Claude alt inn på siden.</p>
+  <div style="display:flex;align-items:center;gap:8px;font-size:15px;color:#595b61;background:#fff;border:1px solid #e2e2e3;border-radius:8px;padding:10px 14px;width:fit-content;margin-bottom:28px">
+    <span class="material-symbols-outlined" style="font-size:20px;color:#2e7d32">check_circle</span>{{ lagretTekst }}
+  </div>
+
+  <sc-for list="{{ grupper }}" as="g" hint-placeholder-count="4">
+    <div style="background:#fff;border:1px solid #e2e2e3;border-radius:12px;margin-bottom:18px;overflow:hidden">
+      <div onClick="{{ g.vipp }}" style="cursor:pointer;display:flex;align-items:center;gap:14px;padding:18px 22px;background:{{ g.hodeBg }}">
+        <span class="material-symbols-outlined" style="font-size:26px;color:#cc0000">{{ g.ikon }}</span>
+        <div style="flex:1;font-size:20px;font-weight:800;color:#1f1914">{{ g.navn }}</div>
+        <div style="font-size:14px;font-weight:700;color:#595b61">{{ g.antallTekst }}</div>
+        <span class="material-symbols-outlined" style="font-size:26px;color:#9fa0a3">{{ g.pil }}</span>
+      </div>
+      <sc-if value="{{ g.aapen }}" hint-placeholder-val="{{ true }}">
+        <div style="border-top:1px solid #e2e2e3">
+          <sc-for list="{{ g.rader }}" as="r">
+            <div style="display:flex;align-items:center;gap:14px;padding:13px 22px;border-bottom:1px solid #f2f2f2;flex-wrap:wrap;background:{{ r.bg }}">
+              <div onClick="{{ r.vipp }}" style="cursor:pointer;display:flex;align-items:center;gap:10px;min-width:280px;flex:1">
+                <span class="material-symbols-outlined" style="font-size:24px;color:{{ r.farge }}">{{ r.ikon }}</span>
+                <div style="font-size:17px;font-weight:700;color:{{ r.tekstFarge }}">{{ r.navn }}</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px">
+                <span style="font-size:13px;color:#9fa0a3">kr.</span>
+                <input value="{{ r.pris }}" onChange="{{ r.settPris }}" style="width:80px;font-family:'IBM Plex Mono',monospace;font-size:15px;padding:7px 9px;border:1px solid #d6d6d8;border-radius:6px;outline:none;text-align:right">
+              </div>
+              <div style="display:flex;align-items:center;gap:6px">
+                <input value="{{ r.tid }}" onChange="{{ r.settTid }}" style="width:90px;font-size:15px;padding:7px 9px;border:1px solid #d6d6d8;border-radius:6px;outline:none">
+              </div>
+              <div onClick="{{ r.vippBetinget }}" style="cursor:pointer;display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:{{ r.betFarge }};border:1px solid {{ r.betRamme }};border-radius:999px;padding:6px 12px;white-space:nowrap">
+                <span class="material-symbols-outlined" style="font-size:18px">{{ r.betIkon }}</span>{{ r.betLabel }}
+              </div>
+            </div>
+            <sc-if value="{{ r.betAapen }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:12px 22px 16px 56px;background:#faf8f4;border-bottom:1px solid #f2f2f2">
+                <div style="font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#595b61;margin-bottom:8px">Vises kun når en av disse er valgt:</div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap">
+                  <sc-for list="{{ r.kandidater }}" as="k">
+                    <div onClick="{{ k.vipp }}" style="cursor:pointer;font-size:14px;font-weight:700;color:{{ k.farge }};background:{{ k.bg }};border:1px solid {{ k.ramme }};border-radius:999px;padding:6px 12px">{{ k.navn }}</div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+          </sc-for>
+        </div>
+      </sc-if>
+    </div>
+  </sc-for>
+
+  <div style="background:#fff;border:1px solid #e2e2e3;border-radius:12px;margin-bottom:18px;padding:22px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px"><span class="material-symbols-outlined" style="font-size:24px;color:#cc0000">schedule_send</span><div style="font-size:20px;font-weight:800;color:#1f1914">«Mens bilen først er inne» — rabatterte tillegg</div></div>
+    <p style="font-size:15px;color:#595b61;margin:0 0 14px">Huk av de som skal tilbys i bestillingen. De 4 første avhukede vises.</p>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <sc-for list="{{ tilleggRader }}" as="t">
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+          <div onClick="{{ t.vipp }}" style="cursor:pointer;display:flex;align-items:center;gap:10px;min-width:260px;flex:1">
+            <span class="material-symbols-outlined" style="font-size:24px;color:{{ t.farge }}">{{ t.ikon }}</span>
+            <div style="font-size:17px;font-weight:700;color:#1f1914">{{ t.navn }}</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px"><span style="font-size:13px;color:#9fa0a3">rabattert kr.</span>
+            <input value="{{ t.pris }}" onChange="{{ t.settPris }}" style="width:80px;font-family:'IBM Plex Mono',monospace;font-size:15px;padding:7px 9px;border:1px solid #d6d6d8;border-radius:6px;outline:none;text-align:right"></div>
+          <div style="display:flex;align-items:center;gap:6px"><span style="font-size:13px;color:#9fa0a3">ordinær kr.</span>
+            <input value="{{ t.alene }}" onChange="{{ t.settAlene }}" style="width:80px;font-family:'IBM Plex Mono',monospace;font-size:15px;padding:7px 9px;border:1px solid #d6d6d8;border-radius:6px;outline:none;text-align:right"></div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="background:#fff;border:1px solid #e2e2e3;border-radius:12px;margin-bottom:18px;padding:22px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px"><span class="material-symbols-outlined" style="font-size:24px;color:#cc0000">shopping_bag</span><div style="font-size:20px;font-weight:800;color:#1f1914">Slutt-kampanjen i bestillingen</div></div>
+    <p style="font-size:15px;color:#595b61;margin:0 0 14px">Popupen som vises rett før kunden fullfører.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+      <sc-for list="{{ kampValg }}" as="k">
+        <div onClick="{{ k.velg }}" style="cursor:pointer;font-size:15px;font-weight:700;color:{{ k.farge }};background:{{ k.bg }};border:1px solid {{ k.ramme }};border-radius:999px;padding:8px 16px">{{ k.navn }}</div>
+      </sc-for>
+    </div>
+    <sc-if value="{{ kampAktiv }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:6px"><span style="font-size:13px;color:#9fa0a3">kampanjepris kr.</span>
+          <input value="{{ kampPris }}" onChange="{{ settKampPris }}" style="width:80px;font-family:'IBM Plex Mono',monospace;font-size:15px;padding:7px 9px;border:1px solid #d6d6d8;border-radius:6px;outline:none;text-align:right"></div>
+        <div style="display:flex;align-items:center;gap:6px"><span style="font-size:13px;color:#9fa0a3">ordinær kr.</span>
+          <input value="{{ kampFoer }}" onChange="{{ settKampFoer }}" style="width:80px;font-family:'IBM Plex Mono',monospace;font-size:15px;padding:7px 9px;border:1px solid #d6d6d8;border-radius:6px;outline:none;text-align:right"></div>
+      </div>
+    </sc-if>
+  </div>
+
+  <div style="background:#fff;border:1px solid #e2e2e3;border-radius:12px;margin-bottom:18px;padding:22px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px"><span class="material-symbols-outlined" style="font-size:24px;color:#cc0000">smartphone</span><div style="font-size:20px;font-weight:800;color:#1f1914">Mobilforsiden</div></div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <sc-for list="{{ mobilRader }}" as="m">
+        <div onClick="{{ m.vipp }}" style="cursor:pointer;display:flex;align-items:center;gap:10px">
+          <span class="material-symbols-outlined" style="font-size:24px;color:{{ m.farge }}">{{ m.ikon }}</span>
+          <div style="font-size:17px;font-weight:700;color:#1f1914">{{ m.navn }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="background:#fff;border:1px solid #e2e2e3;border-radius:12px;margin-bottom:18px;padding:22px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px"><span class="material-symbols-outlined" style="font-size:24px;color:#cc0000">admin_panel_settings</span><div style="font-size:20px;font-weight:800;color:#1f1914">Skal styres fra admin</div></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <sc-for list="{{ adminRader }}" as="a">
+        <div onClick="{{ a.vipp }}" style="cursor:pointer;display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:{{ a.tekstFarge }};background:{{ a.bg }};border:1px solid {{ a.ramme }};border-radius:999px;padding:8px 16px">
+          <span class="material-symbols-outlined" style="font-size:18px;color:{{ a.farge }}">{{ a.ikon }}</span>{{ a.navn }}
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="background:#fff;border:1px solid #e2e2e3;border-radius:12px;margin-bottom:18px;padding:22px">
+    <div style="font-size:20px;font-weight:800;color:#1f1914;margin-bottom:10px">Annet Claude bør vite</div>
+    <textarea value="{{ notat }}" onChange="{{ settNotat }}" placeholder="F.eks. nye tjenester, garantiendringer, tekster …" style="width:100%;box-sizing:border-box;min-height:90px;font-size:16px;line-height:1.5;padding:12px 14px;border:1px solid #d6d6d8;border-radius:8px;outline:none;resize:vertical"></textarea>
+  </div>
+
+  <div style="position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #e2e2e3;box-shadow:0 -6px 20px rgba(31,25,20,.1);padding:14px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+    <div style="flex:1;font-size:15px;color:#595b61;min-width:200px">{{ oppsummering }}</div>
+    <div onClick="{{ ferdig }}" style="cursor:pointer;display:flex;align-items:center;gap:10px;font-size:17px;font-weight:800;color:#fff;background:{{ ferdigBg }};padding:14px 28px;border-radius:10px">{{ ferdigLabel }}<span class="material-symbols-outlined" style="font-size:22px">check</span></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { aapne: { bilpleie: true } };
+  componentDidMount() {
+    try { const s = JSON.parse(localStorage.getItem('kepler-oppsett') || 'null'); if (s) this.setState({ data: s }); } catch (e) {}
+  }
+  lagre(endring) {
+    const d = { ...(this.state.data || {}), ...endring };
+    this.setState({ data: d, lagret: new Date() });
+    try { localStorage.setItem('kepler-oppsett', JSON.stringify(d)); } catch (e) {}
+  }
+  renderVals() {
+    const d = this.state.data || {};
+    const av = d.av || {};            // {tjenesteNavn: true} = slått AV
+    const pris = d.pris || {};        // overstyrte priser
+    const tid = d.tid || {};          // overstyrte tider
+    const bet = d.bet || {};          // {tjeneste: [avhengigheter]}
+    const kat = {
+      bilpleie: ['Utvendig vask', 'Innvendig vask', 'Utvendig og innvendig vask', 'Innvendig vask og rens', 'Skinnbehandling', 'Keramisk dashboardbeskyttelse'],
+      lakk: ['Lakkrens', 'Keramisk Coating Light', 'Kepler lakkforsegling', 'Kepler Pure Grade', 'Graphene Keramisk coating', 'Evershine Felg Coating', 'Evershine Glass Coating', 'Solfilm'],
+      rust: ['Gratis rustsjekk', 'Fluid Film Express', 'Fluid Film Pluss', 'Kepler Premium antirust'],
+      skade: ['PDR bulkoppretting', 'Spot Paint', 'Felgreparasjon', 'Lyktefornyelse', 'Retting og lakkering'],
+      bilsalg: ['Salgsklargjøring', 'Dekorfjerning', 'Vi kjøper bilen', 'Vi selger for deg']
+    };
+    const stdPris = { 'Utvendig vask': 590, 'Innvendig vask': 690, 'Utvendig og innvendig vask': 2990, 'Innvendig vask og rens': 6190, 'Skinnbehandling': 1790, 'Keramisk dashboardbeskyttelse': 1490, 'Lakkrens': 3590, 'Keramisk Coating Light': 5990, 'Kepler lakkforsegling': 3990, 'Kepler Pure Grade': 15990, 'Graphene Keramisk coating': 12990, 'Evershine Felg Coating': 2490, 'Evershine Glass Coating': 1490, 'Solfilm': 3190, 'Gratis rustsjekk': 0, 'Fluid Film Express': 3990, 'Fluid Film Pluss': 5990, 'Kepler Premium antirust': 11990, 'PDR bulkoppretting': 2890, 'Spot Paint': 3590, 'Felgreparasjon': 2990, 'Lyktefornyelse': 2290, 'Retting og lakkering': '', 'Salgsklargjøring': 6990, 'Dekorfjerning': 2990, 'Vi kjøper bilen': '', 'Vi selger for deg': '' };
+    const stdTid = { 'Utvendig vask': '1 time', 'Innvendig vask': '1 time', 'Utvendig og innvendig vask': '3–4 timer', 'Innvendig vask og rens': '1 dag', 'Skinnbehandling': '2 timer', 'Keramisk dashboardbeskyttelse': '2 timer', 'Lakkrens': '1 dag', 'Keramisk Coating Light': '1 dag', 'Kepler lakkforsegling': '1 dag', 'Kepler Pure Grade': '2 dager', 'Graphene Keramisk coating': '2 dager', 'Evershine Felg Coating': '4 timer', 'Evershine Glass Coating': '2 timer', 'Solfilm': '4 timer', 'Gratis rustsjekk': '20 min', 'Fluid Film Express': '1 dag', 'Fluid Film Pluss': '1–2 dager', 'Kepler Premium antirust': '2 dager', 'PDR bulkoppretting': '1 dag', 'Spot Paint': '1 dag', 'Felgreparasjon': '1–2 dager', 'Lyktefornyelse': '3 timer', 'Retting og lakkering': 'Etter befaring', 'Salgsklargjøring': '1–2 dager', 'Dekorfjerning': '4 timer', 'Vi kjøper bilen': 'Etter befaring', 'Vi selger for deg': 'Etter avtale' };
+    const stdBet = { 'Lakkrens': ['Kepler lakkforsegling', 'Graphene Keramisk coating', 'Keramisk Coating Light'] };
+    const alle = Object.values(kat).flat();
+    const navn = { bilpleie: 'Bilpleie & Vask', lakk: 'Lakkbeskyttelse', rust: 'Antirust', skade: 'Smart Repair & Skade', bilsalg: 'Bilsalg' };
+    const ikoner = { bilpleie: 'local_car_wash', lakk: 'shield', rust: 'water_drop', skade: 'build', bilsalg: 'sell' };
+    const grupper = Object.keys(kat).map(k => {
+      const aapen = !!(this.state.aapne || {})[k];
+      const paa = kat[k].filter(n => !av[n]).length;
+      return {
+        navn: navn[k], ikon: ikoner[k], aapen,
+        hodeBg: aapen ? '#faf8f4' : '#fff',
+        pil: aapen ? 'expand_less' : 'expand_more',
+        antallTekst: paa + ' av ' + kat[k].length + ' vises',
+        vipp: () => this.setState(s => ({ aapne: { ...(s.aapne || {}), [k]: !(s.aapne || {})[k] } })),
+        rader: kat[k].map(n => {
+          const erAv = !!av[n];
+          const betListe = bet[n] || stdBet[n] || [];
+          const betAapen = this.state.betAapen === n;
+          return {
+            navn: n,
+            ikon: erAv ? 'check_box_outline_blank' : 'check_box',
+            farge: erAv ? '#9fa0a3' : '#cc0000',
+            tekstFarge: erAv ? '#9fa0a3' : '#1f1914',
+            bg: erAv ? '#fafafa' : '#fff',
+            vipp: () => this.lagre({ av: { ...av, [n]: !erAv } }),
+            pris: String(pris[n] ?? stdPris[n] ?? ''),
+            settPris: e => this.lagre({ pris: { ...pris, [n]: e.target.value } }),
+            tid: tid[n] ?? stdTid[n] ?? '',
+            settTid: e => this.lagre({ tid: { ...tid, [n]: e.target.value } }),
+            betLabel: betListe.length ? 'Vises kun med ' + betListe.length + ' valgt' : 'Vises alltid',
+            betIkon: betListe.length ? 'link' : 'visibility',
+            betFarge: betListe.length ? '#cc0000' : '#595b61',
+            betRamme: betListe.length ? '#cc0000' : '#d6d6d8',
+            betAapen,
+            vippBetinget: () => this.setState({ betAapen: betAapen ? null : n }),
+            kandidater: alle.filter(x => x !== n).map(x => {
+              const valgt = betListe.includes(x);
+              return {
+                navn: x,
+                farge: valgt ? '#fff' : '#595b61',
+                bg: valgt ? '#cc0000' : '#fff',
+                ramme: valgt ? '#cc0000' : '#d6d6d8',
+                vipp: () => this.lagre({ bet: { ...bet, [n]: valgt ? betListe.filter(y => y !== x) : [...betListe, x] } })
+              };
+            })
+          };
+        })
+      };
+    });
+    const tilleggStd = [['Felg coating', 1990, 2490], ['Glass coating', 1190, 1490], ['Skinnbehandling', 1390, 1790], ['Lyktefornyelse', 2290, 2990], ['Lakkrens', 3590, 3590], ['Fluid Film Express', 3990, 4990], ['Graphene Keramisk coating', 12990, 12990]];
+    const tAv = d.tilleggAv || {};
+    const tPris = d.tilleggPris || {};
+    const kampValgt = d.kamp || 'Keramisk Coating Light';
+    const mobil = d.mobil || {};
+    const mobilStd = [['Reg.nr-søk øverst', true], ['4 kategorikort', true], ['Bilsalg-knapp', true], ['Kampanjebånd', true], ['Nyheter-knapp', true], ['Omtaler', false], ['Om oss', false]];
+    const adm = d.admin || {};
+    const admStd = ['Tjenester og priser', 'Kampanjer', 'Tillegg og rabatter', 'Produkter', 'Garantitekster', 'Nyheter', 'Åpningstider', 'Slå sider av/på', 'Tekster', 'Bilder'];
+    const antAv = alle.filter(n => av[n]).length;
+    return {
+      grupper,
+      lagretTekst: this.state.lagret ? 'Lagret ' + this.state.lagret.toLocaleTimeString('nb-NO') : 'Alt lagres automatisk mens du jobber',
+      tilleggRader: tilleggStd.map(([n, p, a]) => ({
+        navn: n,
+        ikon: tAv[n] ? 'check_box_outline_blank' : 'check_box',
+        farge: tAv[n] ? '#9fa0a3' : '#cc0000',
+        vipp: () => this.lagre({ tilleggAv: { ...tAv, [n]: !tAv[n] } }),
+        pris: String((tPris[n] || {}).pris ?? p),
+        alene: String((tPris[n] || {}).alene ?? a),
+        settPris: e => this.lagre({ tilleggPris: { ...tPris, [n]: { ...(tPris[n] || {}), pris: e.target.value } } }),
+        settAlene: e => this.lagre({ tilleggPris: { ...tPris, [n]: { ...(tPris[n] || {}), alene: e.target.value } } })
+      })),
+      kampValg: ['Keramisk Coating Light', 'Kepler lakkforsegling', 'Fluid Film Express', 'Ingen popup'].map(n => ({
+        navn: n,
+        farge: kampValgt === n ? '#fff' : '#595b61',
+        bg: kampValgt === n ? '#cc0000' : '#fff',
+        ramme: kampValgt === n ? '#cc0000' : '#d6d6d8',
+        velg: () => this.lagre({ kamp: n })
+      })),
+      kampAktiv: kampValgt !== 'Ingen popup',
+      kampPris: String(d.kampPris ?? 4490),
+      kampFoer: String(d.kampFoer ?? 5990),
+      settKampPris: e => this.lagre({ kampPris: e.target.value }),
+      settKampFoer: e => this.lagre({ kampFoer: e.target.value }),
+      mobilRader: mobilStd.map(([n, std]) => {
+        const paa = mobil[n] === undefined ? std : mobil[n];
+        return {
+          navn: n,
+          ikon: paa ? 'check_box' : 'check_box_outline_blank',
+          farge: paa ? '#cc0000' : '#9fa0a3',
+          vipp: () => this.lagre({ mobil: { ...mobil, [n]: !paa } })
+        };
+      }),
+      adminRader: admStd.map(n => {
+        const paa = adm[n] === undefined ? true : adm[n];
+        return {
+          navn: n,
+          ikon: paa ? 'check_circle' : 'radio_button_unchecked',
+          farge: paa ? '#2e7d32' : '#9fa0a3',
+          tekstFarge: paa ? '#1f1914' : '#9fa0a3',
+          bg: paa ? '#f4faf4' : '#fff',
+          ramme: paa ? '#2e7d32' : '#d6d6d8',
+          vipp: () => this.lagre({ admin: { ...adm, [n]: !paa } })
+        };
+      }),
+      notat: d.notat || '',
+      settNotat: e => this.lagre({ notat: e.target.value }),
+      oppsummering: antAv ? antAv + ' tjenester slått av · endringer lagret lokalt' : 'Alle tjenester vises · endringer lagret lokalt',
+      ferdig: () => this.setState({ sendt: true }),
+      ferdigLabel: this.state.sendt ? 'Registrert! Si fra til Claude i chatten' : 'Ferdig',
+      ferdigBg: this.state.sendt ? '#2e7d32' : '#cc0000'
+    };
+  }
+}
+</script>
+</body>
+</html>
