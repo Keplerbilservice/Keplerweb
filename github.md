@@ -2,12 +2,13 @@ repo: Keplerbilservice/Keplerweb
 branch: main
 
 ## Last sync
-date: 2026-08-18T05:48:30Z
+date: 2026-08-18T06:05:00Z
 ### Updated in this project
-- Opplasting til repoet verifisert — hele prosjektet ligger i repo-roten på main
-- Med i denne versjonen: ny tjenesteside-layout, alternative tjenester ved bestillingskortet, dedikert skadeside (#/skade), kategorikort (Vask og pleie inn, Skader ut), bilsalg-lenke, 3-stegs bestilling, inline tilbakeknapper
+- Lagt til .nojekyll i prosjektroten — skrur av Jekyll på GitHub Pages (fikser ødelagte CSS-variabler og blokkerte mapper)
+- Ny zip klargjort for opplasting med bilder og 110 %-skalering
 
 ## Sync history
+- 2026-08-18T05:48:30Z: Opplasting verifisert; ny tjenesteside-layout, alternative tjenester, skadeside, kategorikort, 3-stegs bestilling
 - 2026-08-17T10:22:28Z: Koblet prosjektet til repoet (opplastet kopi)
 
 ## Screen map

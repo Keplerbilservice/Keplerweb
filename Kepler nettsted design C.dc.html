@@ -403,7 +403,7 @@ image-slot{display:block;width:100%;height:100%}
 
     <sc-if value="{{ ikkeMobil }}" hint-placeholder-val="{{ true }}">
     <section style="background:var(--ink-900);position:relative;overflow:hidden">
-      <img loading="lazy" src="assets/photos/handtork-solvbil.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.85">
+      <img loading="lazy" src="assets/photos/hero-skumvask-kepler.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.85">
       <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,36,32,.32) 0%,rgba(19,36,32,.52) 100%)"></div>
       <div style="position:relative;max-width:1200px;margin:0 auto;padding:{{ L.heroLuft }} {{ L.sideluft }};text-align:center">
         <div style="font-family:'Hanken Grotesk',sans-serif;font-size:20px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--chrome-300)">Bilpleie · Lakkbeskyttelse · Antirust</div>
@@ -3762,10 +3762,10 @@ class Component extends DCLogic {
       }));
     const valgt = this.state.omraade || 'lakk';
     const omr = [
-      { id: 'lakk', navn: 'Beskytt lakken', tekst: 'Beskytt bilen mot slitasje, vær og verdifall med profesjonell bilpleie, polering, lakkforsegling og keramisk coating.', img: 'assets/photos/polering-frontrute.jpg', merke: 'XPEL' },
-      { id: 'rust', navn: 'Antirust', tekst: 'Forleng bilens levetid med effektiv rustbeskyttelse og understellsbehandling tilpasset norske forhold.', img: 'assets/photos/smart-repair-front.jpg', merke: 'Fluid Film' },
+      { id: 'lakk', navn: 'Beskytt lakken', tekst: 'Beskytt bilen mot slitasje, vær og verdifall med profesjonell bilpleie, polering, lakkforsegling og keramisk coating.', img: 'assets/photos/lakk-coating-kepler.jpg', merke: 'XPEL' },
+      { id: 'rust', navn: 'Antirust', tekst: 'Forleng bilens levetid med effektiv rustbeskyttelse og understellsbehandling tilpasset norske forhold.', img: 'assets/photos/antirust-understell-lift.jpg', merke: 'Fluid Film' },
       { id: 'bilpleie', navn: 'Vask og pleie', tekst: 'Utvendig og innvendig vask, rens, skinnbehandling og dashbordbeskyttelse — bilen ren og velholdt ute og inne.', img: 'assets/photos/klargjoring-hvit-bil.jpg', merke: '' },
-      { id: 'bilsalg', navn: 'Bilsalg', tekst: 'Vi selger bilen for deg. Enklere, tryggere og med mål om best mulig pris.', img: 'assets/photos/klargjoring-hvit-bil.jpg', merke: '' }
+      { id: 'bilsalg', navn: 'Bilsalg', tekst: 'Vi selger bilen for deg. Enklere, tryggere og med mål om best mulig pris.', img: 'assets/photos/bilsalg-handtrykk.jpg', merke: '' }
     ];
     const kat = {
       bilpleie: [
@@ -5992,7 +5992,7 @@ class Component extends DCLogic {
       fhOmraader: (() => {
         const liste = [
           { id: 'lakk', navn: 'Beskytte lakken', tekst: 'Coating, forsegling og PPF-folie som mersalg i salgsprosessen.', bilde: 'assets/photos/polering-frontrute.jpg' },
-          { id: 'rust', navn: 'Antirust', tekst: 'Importbehandling, del 2 og komplette understellsbehandlinger.', bilde: 'assets/photos/handtork-solvbil.jpg' },
+          { id: 'rust', navn: 'Antirust', tekst: 'Importbehandling, del 2 og komplette understellsbehandlinger.', bilde: 'assets/photos/antirust-understell-lift.jpg' },
           { id: 'skade', navn: 'Skader', tekst: 'Smart Repair og mottakskontroll — små skader før de koster.', bilde: 'assets/photos/smart-repair-front.jpg' },
           { id: 'bilsalg', navn: 'Bilsalg', tekst: 'Klargjøring for foto, visning og levering — med henting og bringing.', bilde: 'assets/photos/klargjoring-hvit-bil.jpg' }
         ];
