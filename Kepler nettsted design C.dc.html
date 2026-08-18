@@ -3676,7 +3676,7 @@ class Component extends DCLogic {
     const mob = b < 760, nett = b < 1180, tett = b >= 1180 && b < 1720;
     // Settes i adminpanelet under Utseende, ikke av besøkende
     const naaSk = this.props.skala || 'normal';
-    const sk = ({ normal: 0.62, stor: 0.8, xl: 1 }[naaSk] || 1) * 1.35;
+    const sk = ({ normal: 0.62, stor: 0.8, xl: 1 }[naaSk] || 1) * 1.16;
     const L = {
       sideluft: mob ? '20px' : (nett ? '40px' : '72px'),
       hodeGap: tett ? '16px' : '30px', navMarg: tett ? '4px' : '20px',
