@@ -163,14 +163,14 @@ class Component extends DCLogic {
     const bet = d.bet || {};          // {tjeneste: [avhengigheter]}
     const kat = {
       bilpleie: ['Utvendig vask', 'Innvendig vask', 'Utvendig og innvendig vask', 'Innvendig vask og rens', 'Skinnbehandling', 'Keramisk dashboardbeskyttelse'],
-      lakk: ['Lakkrens', 'Keramisk Coating Light', 'Kepler lakkforsegling', 'Kepler Pure Grade', 'Graphene Keramisk coating', 'Evershine Felg Coating', 'Evershine Glass Coating', 'Solfilm'],
+      lakk: ['Lakkrens', 'Keramisk Coating Light', 'Zenith lakkforsegling', 'Zenith Pure Grade', 'Zenith Graphene', 'Evershine Felg Coating', 'Evershine Glass Coating', 'Solfilm'],
       rust: ['Gratis rustsjekk', 'Fluid Film Express', 'Fluid Film Pluss', 'Kepler Premium antirust'],
       skade: ['PDR bulkoppretting', 'Spot Paint', 'Felgreparasjon', 'Lyktefornyelse', 'Retting og lakkering'],
       bilsalg: ['Salgsklargjøring', 'Dekorfjerning', 'Vi kjøper bilen', 'Vi selger for deg']
     };
-    const stdPris = { 'Utvendig vask': 590, 'Innvendig vask': 690, 'Utvendig og innvendig vask': 2990, 'Innvendig vask og rens': 6190, 'Skinnbehandling': 1790, 'Keramisk dashboardbeskyttelse': 1490, 'Lakkrens': 3590, 'Keramisk Coating Light': 5990, 'Kepler lakkforsegling': 3990, 'Kepler Pure Grade': 15990, 'Graphene Keramisk coating': 12990, 'Evershine Felg Coating': 2490, 'Evershine Glass Coating': 1490, 'Solfilm': 3190, 'Gratis rustsjekk': 0, 'Fluid Film Express': 3990, 'Fluid Film Pluss': 5990, 'Kepler Premium antirust': 11990, 'PDR bulkoppretting': 2890, 'Spot Paint': 3590, 'Felgreparasjon': 2990, 'Lyktefornyelse': 2290, 'Retting og lakkering': '', 'Salgsklargjøring': 6990, 'Dekorfjerning': 2990, 'Vi kjøper bilen': '', 'Vi selger for deg': '' };
-    const stdTid = { 'Utvendig vask': '1 time', 'Innvendig vask': '1 time', 'Utvendig og innvendig vask': '3–4 timer', 'Innvendig vask og rens': '1 dag', 'Skinnbehandling': '2 timer', 'Keramisk dashboardbeskyttelse': '2 timer', 'Lakkrens': '1 dag', 'Keramisk Coating Light': '1 dag', 'Kepler lakkforsegling': '1 dag', 'Kepler Pure Grade': '2 dager', 'Graphene Keramisk coating': '2 dager', 'Evershine Felg Coating': '4 timer', 'Evershine Glass Coating': '2 timer', 'Solfilm': '4 timer', 'Gratis rustsjekk': '20 min', 'Fluid Film Express': '1 dag', 'Fluid Film Pluss': '1–2 dager', 'Kepler Premium antirust': '2 dager', 'PDR bulkoppretting': '1 dag', 'Spot Paint': '1 dag', 'Felgreparasjon': '1–2 dager', 'Lyktefornyelse': '3 timer', 'Retting og lakkering': 'Etter befaring', 'Salgsklargjøring': '1–2 dager', 'Dekorfjerning': '4 timer', 'Vi kjøper bilen': 'Etter befaring', 'Vi selger for deg': 'Etter avtale' };
-    const stdBet = { 'Lakkrens': ['Kepler lakkforsegling', 'Graphene Keramisk coating', 'Keramisk Coating Light'] };
+    const stdPris = { 'Utvendig vask': 590, 'Innvendig vask': 690, 'Utvendig og innvendig vask': 2990, 'Innvendig vask og rens': 6190, 'Skinnbehandling': 1790, 'Keramisk dashboardbeskyttelse': 1490, 'Lakkrens': 3590, 'Keramisk Coating Light': 5990, 'Zenith lakkforsegling': 3990, 'Zenith Pure Grade': 15990, 'Zenith Graphene': 12990, 'Evershine Felg Coating': 2490, 'Evershine Glass Coating': 1490, 'Solfilm': 3190, 'Gratis rustsjekk': 0, 'Fluid Film Express': 3990, 'Fluid Film Pluss': 5990, 'Kepler Premium antirust': 11990, 'PDR bulkoppretting': 2890, 'Spot Paint': 3590, 'Felgreparasjon': 2990, 'Lyktefornyelse': 2290, 'Retting og lakkering': '', 'Salgsklargjøring': 6990, 'Dekorfjerning': 2990, 'Vi kjøper bilen': '', 'Vi selger for deg': '' };
+    const stdTid = { 'Utvendig vask': '1 time', 'Innvendig vask': '1 time', 'Utvendig og innvendig vask': '3–4 timer', 'Innvendig vask og rens': '1 dag', 'Skinnbehandling': '2 timer', 'Keramisk dashboardbeskyttelse': '2 timer', 'Lakkrens': '1 dag', 'Keramisk Coating Light': '1 dag', 'Zenith lakkforsegling': '1 dag', 'Zenith Pure Grade': '2 dager', 'Zenith Graphene': '2 dager', 'Evershine Felg Coating': '4 timer', 'Evershine Glass Coating': '2 timer', 'Solfilm': '4 timer', 'Gratis rustsjekk': '20 min', 'Fluid Film Express': '1 dag', 'Fluid Film Pluss': '1–2 dager', 'Kepler Premium antirust': '2 dager', 'PDR bulkoppretting': '1 dag', 'Spot Paint': '1 dag', 'Felgreparasjon': '1–2 dager', 'Lyktefornyelse': '3 timer', 'Retting og lakkering': 'Etter befaring', 'Salgsklargjøring': '1–2 dager', 'Dekorfjerning': '4 timer', 'Vi kjøper bilen': 'Etter befaring', 'Vi selger for deg': 'Etter avtale' };
+    const stdBet = { 'Lakkrens': ['Zenith lakkforsegling', 'Zenith Graphene', 'Keramisk Coating Light'] };
     const alle = Object.values(kat).flat();
     const navn = { bilpleie: 'Bilpleie & Vask', lakk: 'Lakkbeskyttelse', rust: 'Antirust', skade: 'Smart Repair & Skade', bilsalg: 'Bilsalg' };
     const ikoner = { bilpleie: 'local_car_wash', lakk: 'shield', rust: 'water_drop', skade: 'build', bilsalg: 'sell' };
@@ -218,7 +218,7 @@ class Component extends DCLogic {
         })
       };
     });
-    const tilleggStd = [['Felg coating', 1990, 2490], ['Glass coating', 1190, 1490], ['Skinnbehandling', 1390, 1790], ['Lyktefornyelse', 2290, 2990], ['Lakkrens', 3590, 3590], ['Fluid Film Express', 3990, 4990], ['Graphene Keramisk coating', 12990, 12990]];
+    const tilleggStd = [['Felg coating', 1990, 2490], ['Glass coating', 1190, 1490], ['Skinnbehandling', 1390, 1790], ['Lyktefornyelse', 2290, 2990], ['Lakkrens', 3590, 3590], ['Fluid Film Express', 3990, 4990], ['Zenith Graphene', 12990, 12990]];
     const tAv = d.tilleggAv || {};
     const tPris = d.tilleggPris || {};
     const kampValgt = d.kamp || 'Keramisk Coating Light';
@@ -240,7 +240,7 @@ class Component extends DCLogic {
         settPris: e => this.lagre({ tilleggPris: { ...tPris, [n]: { ...(tPris[n] || {}), pris: e.target.value } } }),
         settAlene: e => this.lagre({ tilleggPris: { ...tPris, [n]: { ...(tPris[n] || {}), alene: e.target.value } } })
       })),
-      kampValg: ['Keramisk Coating Light', 'Kepler lakkforsegling', 'Fluid Film Express', 'Ingen popup'].map(n => ({
+      kampValg: ['Keramisk Coating Light', 'Zenith lakkforsegling', 'Fluid Film Express', 'Ingen popup'].map(n => ({
         navn: n,
         farge: kampValgt === n ? '#fff' : '#595b61',
         bg: kampValgt === n ? '#cc0000' : '#fff',

@@ -22,7 +22,7 @@ export const detaljer = {
     prosess: ['Grundig utvendig vask og klargjøring', 'Fjerning av overflateforurensning', 'Påføring av keramisk coating', 'Kontroll og herding'],
     forvent: ['Økt glans og vannavvisende overflate', 'Enklere vedlikehold og vask', 'Du vedlikeholder bilen som normalt, uten kontrollvasker', 'På brukte biler kan lakkrens eller polering være nødvendig først — avtales på forhånd'],
     passer: ['Nye biler eller biler med lakk i god stand', 'Deg som vil ha en enkel og rimelig vei til keramisk lakkbeskyttelse'],
-    heller: [['Graphene Keramisk coating', 'hvis du vil ha flere års beskyttelse'], ['Kepler lakkforsegling', 'hvis du foretrekker årlig vedlikehold til lavere pris']]
+    heller: [['Zenith Graphene', 'hvis du vil ha flere års beskyttelse'], ['Zenith lakkforsegling', 'hvis du foretrekker årlig vedlikehold til lavere pris']]
   },
   'pdr': {
     lang: `PDR står for Paintless Dent Removal. Metoden går ut på å presse og massere bulken ut fra baksiden av panelet, i mange små steg, til metallet er tilbake i sin opprinnelige form. Ingen sliping, ingen sparkel, ingen lakk.
@@ -209,7 +209,7 @@ Vedlikehold. Vask med pH-nøytral sjampo. Automatvask med børster sliter på fo
     prosess: ['Nedvask og avfetting', 'Clay og lett polering', 'Forseglingen legges på i to lag', 'Herding og sluttkontroll i lyshall'],
     forvent: ['Bilen blir enklere å vaske, og skitt sitter dårligere fast', 'Tydelig glans, men ikke den dybden en full coating gir', 'Bør gjentas årlig'],
     passer: ['Bruksbil du vil ha beskyttet uten å bruke mye', 'Årlig vedlikehold'],
-    heller: [['Graphene Keramisk coating', 'hvis du vil ha flere års beskyttelse i én omgang'], ['Kepler Pure Grade', 'hvis du vil ha maksimal finish']]
+    heller: [['Zenith Graphene', 'hvis du vil ha flere års beskyttelse i én omgang'], ['Zenith Pure Grade', 'hvis du vil ha maksimal finish']]
   },
   'pure': {
     produkter: [
@@ -222,7 +222,7 @@ Vedlikehold. Vask med pH-nøytral sjampo. Automatvask med børster sliter på fo
     prosess: ['Full nedvask, avfetting og clay', 'Flertrinns lakkorreksjon i lyshall', 'Coating legges i flere lag', 'Kontrollert herding og dokumentasjon med bilder'],
     forvent: ['Det beste resultatet vi kan levere på lakk', 'Lakken blir dypere enn den var da bilen var ny', 'Krever årlig kontroll for at garantien skal løpe'],
     passer: ['Nye biler og biler med lakk i god stand', 'Eiere som vil ha maksimal finish'],
-    heller: [['Graphene Keramisk coating', 'hvis du vil ha beskyttelsen, men ikke full korreksjon']]
+    heller: [['Zenith Graphene', 'hvis du vil ha beskyttelsen, men ikke full korreksjon']]
   },
   'coating': {
     lang: `Graphene Keramisk Coating er et hardt, kjemisk bundet lag som legger seg på lakken og blir der i flere år. Forskjellen fra en forsegling er at coatingen ikke ligger oppå som et offerlag, men binder seg til lakken.
@@ -245,7 +245,7 @@ Vedlikehold. pH-nøytral sjampo, ingen voks oppå, og årlig kontroll hos oss fo
     prosess: ['Nedvask, avfetting og clay', 'Lakkrens og polering', 'Coating legges på panel for panel', 'Herding under kontrollerte forhold'],
     forvent: ['Vann perler av, og bilen holder seg ren lenger', 'Vesentlig færre vaskeriper over tid', 'Coating hindrer ikke steinsprut — det gjør lakkfilm'],
     passer: ['Biler under to–tre år', 'Eiere som vasker bilen selv og vil ha det enkelt'],
-    heller: [['Kepler lakkforsegling', 'hvis budsjettet er stramt eller bilen skal selges snart'], ['Kepler Pure Grade', 'hvis lakken trenger korreksjon først']]
+    heller: [['Zenith lakkforsegling', 'hvis budsjettet er stramt eller bilen skal selges snart'], ['Zenith Pure Grade', 'hvis lakken trenger korreksjon først']]
   },
   'felgcoat': {
     produkter: [

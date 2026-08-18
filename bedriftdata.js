@@ -132,7 +132,7 @@ export const bdDetaljer = {
     ikkeInkludert: ['Utbedring av lakkskader som avdekkes under folien', 'Ny folie og dekor'],
     merk: 'Lakk under gammel folie kan ha annen glans enn resten av bilen. Vi sier fra hvis polering ikke jevner det ut.'
   },
-  'Klargjøring for leasingretur': {
+  'Klargjøring til innlevering': {
     hva: 'Gjennomgang og utbedring før innlevering. Det som koster noen tusen hos oss, koster ofte mangedobbelt i trekk.',
     inngar: ['Gjennomgang mot leasingselskapets krav', 'Prioritert liste med anslag', 'Utbedring av det dere godkjenner', 'Full vask og klargjøring'],
     ikkeInkludert: ['Tekniske reparasjoner', 'Dekk og felger utover reparasjon', 'Garanti mot at leasingselskapet ikke gjør trekk'],
@@ -150,7 +150,7 @@ export const bdDetaljer = {
     ikkeInkludert: ['Garanti om markedspris — vi kjøper til innbyttepris'],
     merk: 'Kom innom for en uforpliktende vurdering. Vi sier fra hvis dere får mer ved å selge selv.'
   },
-  'Vi selger for dere': {
+  'Salg av bil': {
     hva: 'Vi tar hånd om klargjøring, annonsering og salg, så slipper dere jobben.',
     inngar: ['Klargjøring og fotografering', 'Annonsering', 'Visninger og kundekontakt', 'Kontrakt og oppgjør'],
     ikkeInkludert: ['Garanti om salgstid eller pris'],

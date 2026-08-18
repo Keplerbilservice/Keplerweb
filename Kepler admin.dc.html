@@ -563,7 +563,7 @@ image-slot{display:block;width:100%;height:100%}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1600}}">
 class Component extends DCLogic {
-  state = { side: 'dashboard', av: {}, filter: {}, verdier: {}, rediger: null };
+  state = { side: 'dashboard', av: (() => { try { return JSON.parse(localStorage.getItem('kepler_admin_av') || '{}'); } catch (e) { return {}; } })(), filter: {}, verdier: {}, rediger: null };
 
   componentDidMount() {
     this.maal = () => this.setState({ bredde: window.innerWidth });
@@ -594,7 +594,21 @@ class Component extends DCLogic {
       på, paa: på,
       bryterBg: på ? 'var(--green-500)' : 'var(--ink-200)',
       bryterX: på ? '25px' : '3px',
-      vipp: () => this.setState(s => ({ av: { ...s.av, [noekkel]: !på }, endret: true }))
+      vipp: () => this.setState(s => {
+        const av = { ...s.av, [noekkel]: !på };
+        try {
+          localStorage.setItem('kepler_admin_av', JSON.stringify(av));
+          const hent = (k, std) => av[k] === undefined ? std : av[k];
+          localStorage.setItem('kepler_innstillinger', JSON.stringify({
+            poeng: hent('poeng0-0', true),
+            verv: hent('poeng1-0', true), vervForside: hent('poeng1-2', true), vervMinside: hent('poeng1-3', true),
+            bedrift: hent('sesong0-0', true), forhandler: hent('sesong0-1', true),
+            bat: hent('sesong1-0', true), bobil: hent('sesong2-0', true)
+          }));
+        } catch (e) {}
+        this.adminLogg('Innstilling «' + noekkel + '» satt til ' + (!på ? 'på' : 'av'));
+        return { av, endret: true };
+      })
     };
   }
 
@@ -604,7 +618,7 @@ class Component extends DCLogic {
     const sider = {
       privat: [
         ['Hero med registreringsnummer', 'Overskrift, ingress, bilde og oppslag', 'view_carousel', true],
-        ['Kampanjebånd', '1 aktiv kampanje: Kepler lakkforsegling', 'local_offer', true],
+        ['Kampanjebånd', '1 aktiv kampanje: Zenith lakkforsegling', 'local_offer', true],
         ['Fire områdekort', 'Vask og pleie, Beskytte lakken, Hindre rust, Fikse en skade', 'grid_view', true],
         ['Tjenesteliste', 'Bra, bedre, best på Beskytte lakken og Hindre rust', 'list', true],
         ['Legg til mens bilen er inne', '8 tilleggstjenester', 'add_circle', true],
@@ -727,15 +741,15 @@ class Component extends DCLogic {
       ['Skinnbehandling', 'Rens og næring til setene', 'kr. 1.790,-'],
       ['Lyktefornyelse', 'Matte lykter blir klare', 'kr. 2.990,-']
     ] : r.type === 'tillegg' ? [
-      ['Kepler lakkforsegling', 'Beskytte lakken · Bra', 'kr. 3.990,-'],
+      ['Zenith lakkforsegling', 'Beskytte lakken · Bra', 'kr. 3.990,-'],
       ['Graphene coating', 'Beskytte lakken · Bedre', 'kr. 12.990,-'],
-      ['Kepler Pure Grade', 'Beskytte lakken · Best', 'kr. 15.990,-'],
+      ['Zenith Pure Grade', 'Beskytte lakken · Best', 'kr. 15.990,-'],
       ['Fluid Film Pluss', 'Hindre rust · Bedre', 'kr. 7.990,-'],
       ['Kepler Premium antirust', 'Hindre rust · Best', 'kr. 11.990,-'],
       ['Utvendig og innvendig vask', 'Vask og pleie', 'kr. 2.990,-']
     ] : [
       ['Lakkrens', 'Rekkefølge 40 · 1 dag', 'kr. 3.590,-'],
-      ['Kepler lakkforsegling', 'Rekkefølge 50 · 1 dag', 'kr. 3.990,-'],
+      ['Zenith lakkforsegling', 'Rekkefølge 50 · 1 dag', 'kr. 3.990,-'],
       ['Graphene coating', 'Rekkefølge 52 · 2 dager', 'kr. 12.990,-'],
       ['Felg coating', 'Rekkefølge 60 · 1 dag', 'kr. 2.490,-'],
       ['Glass coating', 'Rekkefølge 61 · 4 timer', 'kr. 1.490,-'],
@@ -956,7 +970,7 @@ class Component extends DCLogic {
       tjenester: [
         ['Om tjenesten', '', '1fr 1fr', [
           F('artnr', 'Artikkelnummer', 'CER-001', { plass: 'CER-001', hjelp: 'Vises kun i interne e-poster, aldri for kunden.' }),
-          F('navn', 'Navn', n, { bred: false, plass: 'Kepler lakkforsegling' }),
+          F('navn', 'Navn', n, { bred: false, plass: 'Zenith lakkforsegling' }),
           F('kort', 'Kort beskrivelse', 'Ett årlig lag beskyttelse. Enklere vask hele vinteren.', { omraade: true, bred: true, hjelp: 'Vises i tjenestelisten. Én til to setninger.' }),
           F('lang', 'Utfyllende beskrivelse', 'Kepler Lakkforsegling er programmet vi anbefaler til de fleste bruksbiler…', { omraade: true, bred: true, hjelp: 'Vises bak «Les mer». Kan være flere avsnitt.' }),
           F('pris', 'Pris', '3990', { plass: '3990', hjelp: 'Kroner, uten mva-tillegg for bedrift.' }),
@@ -1125,14 +1139,14 @@ class Component extends DCLogic {
           harOrdre: grp[5] === 'ordre',
           erProd: grp[5] === 'prod',
           ordre: grp[5] === 'ordre' ? [
-            { artnr: 'CER-001', navn: 'Kepler lakkforsegling', ant: '1', pris: '3.990', sum: '3.990' },
+            { artnr: 'CER-001', navn: 'Zenith lakkforsegling', ant: '1', pris: '3.990', sum: '3.990' },
             { artnr: 'PRE-004', navn: 'Lakkrens', ant: '1', pris: '3.590', sum: '3.590' },
             { artnr: 'ADD-012', navn: 'Felg coating', ant: '4', pris: '620', sum: '2.480' }
           ] : [],
           ordreSum: 'kr. 10.060,-',
           harKoblinger: (!!grp[4] || grp[5] === 'bruk' || grp[5] === 'prod') && grp[5] !== 'ordre',
           koblinger: grp[5] === 'bruk' ? [
-            { navn: 'Kepler lakkforsegling', info: 'Tjeneste · hovedbilde', pris: 'Åpne', ikon: 'build', ikonFarge: 'var(--ink-600)', ramme: 'var(--ink-100)', bg: '#fff', vipp: () => this.setState({ side: 'tjenester', rediger: null }) },
+            { navn: 'Zenith lakkforsegling', info: 'Tjeneste · hovedbilde', pris: 'Åpne', ikon: 'build', ikonFarge: 'var(--ink-600)', ramme: 'var(--ink-100)', bg: '#fff', vipp: () => this.setState({ side: 'tjenester', rediger: null }) },
             { navn: 'Vask og pleie', info: 'Privatsiden · områdekort', pris: 'Åpne', ikon: 'grid_view', ikonFarge: 'var(--ink-600)', ramme: 'var(--ink-100)', bg: '#fff', vipp: () => this.setState({ side: 'privat', rediger: null }) },
             { navn: 'Kepler fyller 20 år', info: 'Nyhet · hovedbilde', pris: 'Åpne', ikon: 'article', ikonFarge: 'var(--ink-600)', ramme: 'var(--ink-100)', bg: '#fff', vipp: () => this.setState({ side: 'nyheter', rediger: null }) },
             { navn: 'Hero med registreringsnummer', info: 'Bedriftssiden · bakgrunn', pris: 'Åpne', ikon: 'view_carousel', ikonFarge: 'var(--ink-600)', ramme: 'var(--ink-100)', bg: '#fff', vipp: () => this.setState({ side: 'bedrift', rediger: null }) }
@@ -1288,14 +1302,14 @@ class Component extends DCLogic {
         { label: 'Åpningstider', ikon: 'schedule', go: () => this.gaaTil('apningstider') }
       ],
       henvendelser: [
-        { gruppe: 'Privat', gruppeBg: 'var(--red-500)', navn: 'Ola Nordmann', tjeneste: 'Kepler lakkforsegling + lakkrens', tid: '09:42', go: aapneHenv('Ola Nordmann') },
+        { gruppe: 'Privat', gruppeBg: 'var(--red-500)', navn: 'Ola Nordmann', tjeneste: 'Zenith lakkforsegling + lakkrens', tid: '09:42', go: aapneHenv('Ola Nordmann') },
         { gruppe: 'Forhandler', gruppeBg: 'var(--ink-800)', navn: 'Forhandlernavn AS', tjeneste: 'Bruktbilklargjøring · AB 12345', tid: '09:10', go: aapneHenv('Forhandlernavn AS') },
         { gruppe: 'Bedrift', gruppeBg: 'var(--ink-600)', navn: 'Bedriftsnavn AS', tjeneste: 'Bedriftsavtale, 14 kjøretøy', tid: 'I går', go: aapneHenv('Bedriftsnavn AS') },
         { gruppe: 'Privat', gruppeBg: 'var(--red-500)', navn: 'Kristin B.', tjeneste: 'Innvendig vask og rens', tid: 'I går', go: aapneHenv('Kristin B.') },
         { gruppe: 'Privat', gruppeBg: 'var(--red-500)', navn: 'Tor Arne H.', tjeneste: 'Skadebeskrivelse, PDR', tid: 'I går', go: aapneHenv('Tor Arne H.') }
       ],
       varsler: [
-        { ikon: 'warning', farge: 'var(--amber-500)', bg: 'var(--amber-050)', ramme: 'var(--amber-500)', tekst: 'Kampanjen «Kepler lakkforsegling» utløper om 22 dager. Forleng eller la den avsluttes.', go: () => { this.setState({ side: 'kampanjer', rediger: { type: 'kampanjer', navn: 'Kepler lakkforsegling', ny: false, aktiv: true, tittel: 'Kampanjer' } }); window.scrollTo(0, 0); } },
+        { ikon: 'warning', farge: 'var(--amber-500)', bg: 'var(--amber-050)', ramme: 'var(--amber-500)', tekst: 'Kampanjen «Zenith lakkforsegling» utløper om 22 dager. Forleng eller la den avsluttes.', go: () => { this.setState({ side: 'kampanjer', rediger: { type: 'kampanjer', navn: 'Zenith lakkforsegling', ny: false, aktiv: true, tittel: 'Kampanjer' } }); window.scrollTo(0, 0); } },
         { ikon: 'image', farge: 'var(--ink-600)', bg: 'var(--ink-050)', ramme: 'var(--ink-100)', tekst: '4 tjenester mangler bilde. De vises med standardbilde inntil videre.', go: () => this.gaaTil('tjenester') },
         { ikon: 'article', farge: 'var(--ink-600)', bg: 'var(--ink-050)', ramme: 'var(--ink-100)', tekst: 'Siste nyhet ble publisert for 2 måneder siden.', go: () => this.gaaTil('nyheter') },
         { ikon: 'star', farge: 'var(--ink-600)', bg: 'var(--ink-050)', ramme: 'var(--ink-100)', tekst: '3 nye Google-omtaler venter på godkjenning.', go: () => this.gaaTil('privat') }
@@ -1307,9 +1321,9 @@ class Component extends DCLogic {
         sok: 'Søk i tjenester', ny: 'Ny tjeneste',
         filtre: ['Alle', 'Privat', 'Bedrift', 'Forhandler', 'Skjulte'],
         rader: [
-          ['Kepler lakkforsegling', 'Beskytte lakken · Bra', 'kr. 3.990,-', 'polering-frontrute.jpg', true, [['Kampanje', 'var(--red-500)'], ['Privat', 'var(--ink-600)']]],
-          ['Graphene Keramisk coating', 'Beskytte lakken · Bedre', 'kr. 12.990,-', 'polering-frontrute.jpg', true, [['Privat', 'var(--ink-600)'], ['Bedrift', 'var(--ink-600)']]],
-          ['Kepler Pure Grade', 'Beskytte lakken · Best', 'kr. 15.990,-', 'polering-frontrute.jpg', true, [['Privat', 'var(--ink-600)']]],
+          ['Zenith lakkforsegling', 'Beskytte lakken · Bra', 'kr. 3.990,-', 'polering-frontrute.jpg', true, [['Kampanje', 'var(--red-500)'], ['Privat', 'var(--ink-600)']]],
+          ['Zenith Graphene', 'Beskytte lakken · Bedre', 'kr. 12.990,-', 'polering-frontrute.jpg', true, [['Privat', 'var(--ink-600)'], ['Bedrift', 'var(--ink-600)']]],
+          ['Zenith Pure Grade', 'Beskytte lakken · Best', 'kr. 15.990,-', 'polering-frontrute.jpg', true, [['Privat', 'var(--ink-600)']]],
           ['Lakkrens', 'Kun som tillegg til coating og forsegling', 'kr. 3.590,-', 'polering-frontrute.jpg', true, [['Tillegg', 'var(--ink-800)']]],
           ['Fluid Film Express', 'Hindre rust · Bra', 'kr. 3.990,-', 'handtork-solvbil.jpg', true, [['Kampanje', 'var(--red-500)'], ['Privat', 'var(--ink-600)']]],
           ['Kepler Premium antirust', 'Hindre rust · Best', 'kr. 11.990,-', 'handtork-solvbil.jpg', true, [['Privat', 'var(--ink-600)'], ['Bedrift', 'var(--ink-600)']]],
@@ -1394,7 +1408,7 @@ class Component extends DCLogic {
         sok: 'Søk i kampanjer', ny: 'Ny kampanje',
         filtre: ['Alle', 'Aktive', 'Planlagte', 'Avsluttede'],
         rader: [
-          ['Kepler lakkforsegling', 'Gjelder til 31. august · Forside og booking', 'fra 3.990,-', 'polering-frontrute.jpg', true, [['Aktiv', 'var(--green-500)'], ['Forside', 'var(--ink-600)']]],
+          ['Zenith lakkforsegling', 'Gjelder til 31. august · Forside og booking', 'fra 3.990,-', 'polering-frontrute.jpg', true, [['Aktiv', 'var(--green-500)'], ['Forside', 'var(--ink-600)']]],
           ['Fluid Film Express', 'Gjelder til 30. september', 'fra 3.990,-', 'handtork-solvbil.jpg', true, [['Aktiv', 'var(--green-500)']]],
           ['AC service', 'Startet 1. mai, avsluttet 30. juni', 'fra 1.990,-', 'handtork-solvbil.jpg', false, [['Avsluttet', 'var(--ink-400)']]],
           ['Skinnbehandling høst', 'Starter 1. oktober', 'kr. 1.790,-', 'klargjoring-hvit-bil.jpg', false, [['Planlagt', 'var(--ink-600)']]]
@@ -1503,6 +1517,12 @@ class Component extends DCLogic {
           ['Kroner per poeng ved innløsning', 'tekst', '1 poeng = 1 kr rabatt'],
           ['Minste saldo for å bruke poeng', 'tekst', '500 poeng'],
           ['Poeng utløper etter', 'tekst', '2 år']
+        ]],
+        ['Vervekampanje', 'Kunden deler sin personlige vervekode. Kun ververen får rabatt, og først når den vervedes første time er gjennomført. Slår du kampanjen av, forsvinner båndet fra forsiden og vervekortet fra Min side.', [
+          ['Vervekampanje på', 'bryter', true],
+          ['Beløp til ververen', 'tekst', 'kr 500'],
+          ['Vis bånd på forsiden', 'bryter', true],
+          ['Vis vervekort på Min side', 'bryter', true]
         ]]
       ],
       sesong: [
