@@ -44,6 +44,7 @@ img[src$=".svg"]{object-fit:contain}
 image-slot{display:block;width:100%;height:100%}
 </style>
 <script src="./image-slot.js"></script>
+<script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/a1beef49cbef3f3b005665f1f/a5b9b892a5bdbc4879c71fa1f.js");</script>
 </helmet>
 
 <div style="min-height:100vh;display:flex;flex-direction:column;background:#f3f0e9;padding-bottom:124px;zoom:{{ zoom }};--mw:{{ mwFaktor }}">
@@ -2079,30 +2080,7 @@ image-slot{display:block;width:100%;height:100%}
         </section>
 
 
-        <sc-if value="{{ bdKampanje.aktiv }}" hint-placeholder-val="{{ true }}">
-          <section style="background:var(--ink-900);position:relative;overflow:hidden">
-            <img loading="lazy" src="assets/photos/handtork-solvbil.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.22;object-position:center 60%">
-            <div style="position:absolute;inset:0;background:linear-gradient(100deg,rgba(22,23,27,.97) 0%,rgba(22,23,27,.86) 52%,rgba(22,23,27,.5) 100%)"></div>
-            <div style="position:relative;max-width:min(96%,2000px);margin:0 auto;padding:{{ L.bandLuft }} {{ L.sideluft }};display:grid;grid-template-columns:{{ L.band }};gap:44px;align-items:center">
-              <div>
-                <div style="display:flex;align-items:center;gap:12px">
-                  <div style="width:34px;height:3px;background:var(--chrome-400)"></div>
-                  <div style="font-family:'Hanken Grotesk',sans-serif;font-size:17px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--chrome-300)">{{ bdKampanje.merke }}</div>
-                </div>
-                <div style="font-family:'Hanken Grotesk',sans-serif;font-size:{{ L.bandTittel }};line-height:1.1;font-weight:800;letter-spacing:-.025em;color:#fff;margin-top:16px;max-width:calc(30ch * var(--mw,1))">{{ bdKampanje.tittel }}</div>
-                <div style="font-size:23px;line-height:1.6;color:var(--ink-300);margin-top:14px;max-width:calc(66ch * var(--mw,1))">{{ bdKampanje.tekst }}</div>
-              </div>
-              <div style="display:flex;flex-direction:column;gap:14px;justify-self:{{ L.bandJust }};min-width:250px">
-                <div style="border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:26px 28px;background:rgba(255,255,255,.05);backdrop-filter:blur(6px)">
-                  <div style="font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--chrome-300)">{{ bdKampanje.prisMerke }}</div>
-                  <div style="font-family:'Hanken Grotesk',sans-serif;font-size:44px;font-weight:800;letter-spacing:-.03em;color:#fff;margin-top:6px;line-height:1">{{ bdKampanje.pris }}</div>
-                  <div style="font-size:19px;color:var(--ink-400);margin-top:6px">{{ bdKampanje.frist }}</div>
-                </div>
-                <div onClick="{{ goAvtaleBedriftKamp }}" style="cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:800;color:var(--ink-900);background:#fff;padding:18px 30px;border-radius:8px">{{ bdKampanje.knapp }}<span class="material-symbols-outlined" style="font-size:28px">arrow_forward</span></div>
-              </div>
-            </div>
-          </section>
-        </sc-if>
+        
 
         <section id="bd-tjenester" style="max-width:min(96%,2000px);margin:0 auto;padding:{{ L.seksjon }} {{ L.sideluft }} {{ L.seksjon }}">
           <div style="display:flex;gap:10px;flex-wrap:wrap;margin:0 0 28px">
@@ -2290,31 +2268,58 @@ image-slot{display:block;width:100%;height:100%}
           <div style="font-family:'Hanken Grotesk',sans-serif;font-size:20px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-500)">Referansekunder</div>
           <h2 style="font-family:'Hanken Grotesk',sans-serif;font-size:{{ L.h2 }};font-weight:800;letter-spacing:-.025em;color:var(--ink-900);margin:12px 0 0">Bedrifter som bruker oss fast</h2>
           <p style="font-size:{{ L.ingress }};line-height:1.55;color:var(--ink-600);margin:14px 0 36px;max-width:calc(70ch * var(--mw,1))">Håndverkere, servicebedrifter og entreprenører i Vestfold. Vi setter deg gjerne i kontakt med en av dem.</p>
-          <div style="display:grid;grid-template-columns:{{ L.kort4 }};gap:16px">
+          <div style="display:grid;grid-template-columns:{{ L.kort2 }};gap:16px">
             <sc-for list="{{ bdReferanser }}" as="r" hint-placeholder-count="4">
-              <div style="border:2px solid var(--ink-100);border-radius:12px;padding:26px 28px;display:flex;flex-direction:column;gap:12px">
-                <div style="width:64px;height:64px;border-radius:10px;background:var(--ink-050);border:2px dashed var(--ink-200);display:flex;align-items:center;justify-content:center;flex:none">
-                  <span class="material-symbols-outlined" style="font-size:28px;color:var(--ink-300)">image</span>
+              <div style="background:#fff;border:2px solid var(--ink-100);border-radius:12px;padding:26px 28px;display:flex;align-items:center;gap:20px">
+                <div style="width:120px;height:76px;border-radius:10px;background-color:#fff;flex:none;background-image:url('{{ r.logo }}');background-size:contain;background-repeat:no-repeat;background-position:center" role="img" aria-label="{{ r.navn }}"></div>
+                <div style="min-width:0">
+                  <div style="font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);line-height:1.2">{{ r.navn }}</div>
+                  <div style="font-size:20px;color:var(--ink-600);margin-top:4px">{{ r.type }}</div>
                 </div>
-                <div style="font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);line-height:1.2">{{ r.navn }}</div>
-                <div style="font-size:20px;color:var(--ink-600)">{{ r.type }}</div>
-                <div style="font-family:'IBM Plex Mono',monospace;font-size:17px;line-height:1.45;color:var(--ink-400)">{{ r.detalj }}</div>
               </div>
             </sc-for>
           </div>
-          <div style="display:grid;grid-template-columns:{{ L.kort2 }};gap:20px;margin-top:24px">
-            <sc-for list="{{ bdSitater }}" as="q" hint-placeholder-count="2">
-              <div style="background:var(--ink-900);border-radius:12px;padding:34px 36px;display:flex;flex-direction:column;gap:18px">
-                <span class="material-symbols-outlined" style="font-size:44px;color:var(--chrome-400)">format_quote</span>
-                <div style="font-family:'Hanken Grotesk',sans-serif;font-size:26px;line-height:1.4;font-weight:700;letter-spacing:-.01em;color:#fff;text-wrap:pretty">{{ q.tekst }}</div>
-                <div style="margin-top:auto;padding-top:14px;border-top:1px solid rgba(255,255,255,.15)">
-                  <div style="font-family:'Hanken Grotesk',sans-serif;font-size:22px;font-weight:800;color:#fff">{{ q.navn }}</div>
-                  <div style="font-size:20px;color:var(--ink-300);margin-top:3px">{{ q.rolle }}</div>
-                </div>
+          <div style="background:var(--ink-900);border-radius:12px;padding:44px 48px;margin-top:24px;display:grid;grid-template-columns:{{ L.todelt }};gap:40px;align-items:center">
+            <div>
+              <span class="material-symbols-outlined" style="font-size:52px;color:var(--chrome-400)">format_quote</span>
+              <div style="font-family:'Hanken Grotesk',sans-serif;font-size:26px;line-height:1.45;font-weight:700;letter-spacing:-.01em;color:#fff;margin-top:8px;max-width:calc(52ch * var(--mw,1));text-wrap:pretty">{{ bdSitat.tekst }}</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:18px">
+              <div style="width:72px;height:72px;border-radius:999px;background:rgba(255,255,255,.08);border:2px dashed rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;flex:none">
+                <span class="material-symbols-outlined" style="font-size:32px;color:var(--ink-400)">person</span>
               </div>
-            </sc-for>
+              <div>
+                <div style="font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:800;color:#fff">{{ bdSitat.navn }}</div>
+                <div style="font-size:21px;color:var(--ink-300);margin-top:4px">{{ bdSitat.rolle }}</div>
+              </div>
+            </div>
           </div>
         </section>
+
+        <sc-if value="{{ bdKampanje.aktiv }}" hint-placeholder-val="{{ true }}">
+          <section style="background:var(--ink-900);position:relative;overflow:hidden">
+            <img loading="lazy" src="assets/photos/handtork-solvbil.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.22;object-position:center 60%">
+            <div style="position:absolute;inset:0;background:linear-gradient(100deg,rgba(22,23,27,.97) 0%,rgba(22,23,27,.86) 52%,rgba(22,23,27,.5) 100%)"></div>
+            <div style="position:relative;max-width:min(96%,2000px);margin:0 auto;padding:{{ L.bandLuft }} {{ L.sideluft }};display:grid;grid-template-columns:{{ L.band }};gap:44px;align-items:center">
+              <div>
+                <div style="display:flex;align-items:center;gap:12px">
+                  <div style="width:34px;height:3px;background:var(--chrome-400)"></div>
+                  <div style="font-family:'Hanken Grotesk',sans-serif;font-size:17px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--chrome-300)">{{ bdKampanje.merke }}</div>
+                </div>
+                <div style="font-family:'Hanken Grotesk',sans-serif;font-size:{{ L.bandTittel }};line-height:1.1;font-weight:800;letter-spacing:-.025em;color:#fff;margin-top:16px;max-width:calc(30ch * var(--mw,1))">{{ bdKampanje.tittel }}</div>
+                <div style="font-size:23px;line-height:1.6;color:var(--ink-300);margin-top:14px;max-width:calc(66ch * var(--mw,1))">{{ bdKampanje.tekst }}</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:14px;justify-self:{{ L.bandJust }};min-width:250px">
+                <div style="border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:26px 28px;background:rgba(255,255,255,.05);backdrop-filter:blur(6px)">
+                  <div style="font-family:'Hanken Grotesk',sans-serif;font-size:16px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--chrome-300)">{{ bdKampanje.prisMerke }}</div>
+                  <div style="font-family:'Hanken Grotesk',sans-serif;font-size:44px;font-weight:800;letter-spacing:-.03em;color:#fff;margin-top:6px;line-height:1">{{ bdKampanje.pris }}</div>
+                  <div style="font-size:19px;color:var(--ink-400);margin-top:6px">{{ bdKampanje.frist }}</div>
+                </div>
+                <div onClick="{{ goAvtaleBedriftKamp }}" style="cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:800;color:var(--ink-900);background:#fff;padding:18px 30px;border-radius:8px">{{ bdKampanje.knapp }}<span class="material-symbols-outlined" style="font-size:28px">arrow_forward</span></div>
+              </div>
+            </div>
+          </section>
+        </sc-if>
 
         <section style="background:var(--ink-050);border-top:2px solid var(--ink-100)">
           <div style="max-width:min(96%,2000px);margin:0 auto;padding:{{ L.seksjon }} {{ L.sideluft }};display:grid;grid-template-columns:{{ L.todelt }};gap:48px;align-items:start">
@@ -2386,7 +2391,7 @@ image-slot{display:block;width:100%;height:100%}
     <sc-if value="{{ visForhandler }}" hint-placeholder-val="{{ false }}">
       <div>
         <section style="background:var(--ink-900);position:relative;overflow:hidden">
-          <div style="position:absolute;inset:0;opacity:.85"><image-slot id="hero-forhandler" shape="rect" src="assets/photos/smart-repair-front.jpg" placeholder="Slipp et passende hero-forhandler-bilde her"></image-slot></div>
+          <div style="position:absolute;inset:0;opacity:.85"><image-slot id="hero-forhandler" shape="rect" src="assets/photos/forhandler-hero.jpg" placeholder="Slipp et passende hero-forhandler-bilde her"></image-slot></div>
           <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(19,36,32,.72) 0%,rgba(19,36,32,.5) 60%,rgba(19,36,32,.28) 100%);pointer-events:none"></div>
           <div style="position:relative;max-width:{{ L.heroBredde }};margin:0 auto;padding:{{ L.heroLuft }} {{ L.sideluft }};display:grid;grid-template-columns:{{ fhHeroKol }};gap:48px;align-items:center">
             <div>
@@ -2408,25 +2413,14 @@ image-slot{display:block;width:100%;height:100%}
               <span class="material-symbols-outlined" style="font-size:28px;color:var(--chrome-300)">groups</span>Flere av regionens bilforhandlere benytter Kepler som samarbeidspartner.
             </div>
             </div>
-            <div style="display:flex;flex-direction:column;gap:16px">
-              <div style="font-family:'Hanken Grotesk',sans-serif;font-size:17px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--chrome-300)">Gå direkte til</div>
-              <sc-for list="{{ fhBiltyper }}" as="b" hint-placeholder-count="2">
-                <div onClick="{{ b.go }}" style="cursor:pointer;border:1px solid rgba(255,255,255,.22);border-radius:12px;background:rgba(255,255,255,.06);backdrop-filter:blur(6px);padding:24px 26px;display:flex;flex-direction:column;gap:10px" style-hover="border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.1)">
-                  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
-                    <div style="font-family:'Hanken Grotesk',sans-serif;font-size:30px;font-weight:800;letter-spacing:-.02em;color:#fff">{{ b.navn }}</div>
-                    <span class="material-symbols-outlined" style="font-size:30px;color:var(--chrome-300)">arrow_forward</span>
-                  </div>
-                  <div style="font-size:21px;line-height:1.5;color:var(--ink-300)">{{ b.tekst }}</div>
-                </div>
-              </sc-for>
-            </div>
           </div>
         </section>
 
+        <sc-if value="{{ fhVelger }}" hint-placeholder-val="{{ true }}">
         <section id="fh-omraader" style="max-width:min(96%,2000px);margin:0 auto;padding:{{ L.seksjon }} {{ L.sideluft }} 24px">
-          <h2 style="font-family:'Hanken Grotesk',sans-serif;font-size:{{ L.h2 }};font-weight:800;letter-spacing:-.025em;color:var(--ink-900);margin:0">Velg det dere trenger hjelp med</h2>
-          <p style="font-size:{{ L.ingress }};line-height:1.55;color:var(--ink-600);margin:14px 0 40px;max-width:calc(72ch * var(--mw,1))">Fire områder. Velg ett, så viser vi tjenestene under.</p>
-          <div style="display:grid;grid-template-columns:{{ L.kort4 }};gap:20px">
+          <h2 style="font-family:'Hanken Grotesk',sans-serif;font-size:{{ L.h2 }};font-weight:800;letter-spacing:-.025em;color:var(--ink-900);margin:0">Hva slags biler skal klargjøres?</h2>
+          <p style="font-size:{{ L.ingress }};line-height:1.55;color:var(--ink-600);margin:14px 0 40px;max-width:calc(72ch * var(--mw,1))">Velg én, så viser vi tjenestene under.</p>
+          <div style="display:grid;grid-template-columns:{{ L.kort2 }};gap:20px">
             <sc-for list="{{ fhOmraader }}" as="o" hint-placeholder-count="5">
               <div onClick="{{ o.go }}" style="cursor:pointer;border:3px solid {{ o.ramme }};border-radius:12px;overflow:hidden;background:{{ o.bg }};display:flex;flex-direction:column">
                 <div style="height:{{ L.bildehoyde }};background:{{ o.bakgrunn }};background-color:var(--ink-050)"></div>
@@ -2439,12 +2433,14 @@ image-slot{display:block;width:100%;height:100%}
             </sc-for>
           </div>
         </section>
+        </sc-if>
 
-        <section id="fh-tjenester" style="max-width:min(96%,2000px);margin:0 auto;padding:24px {{ L.sideluft }} {{ L.seksjon }}">
+        <sc-if value="{{ fhBiltypeAktiv }}" hint-placeholder-val="{{ false }}">
+        <section id="fh-tjenester" style="max-width:min(96%,2000px);margin:0 auto;padding:{{ L.seksjon }} {{ L.sideluft }} {{ L.seksjon }}">
           <sc-if value="{{ fhBiltypeAktiv }}" hint-placeholder-val="{{ false }}">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px">
               <h2 style="font-family:'Hanken Grotesk',sans-serif;font-size:34px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);margin:0">{{ fhBiltypeTittel }}</h2>
-              <div onClick="{{ fhBiltypeNull }}" style="cursor:pointer;font-family:'Hanken Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--ink-700);border-bottom:2px solid var(--ink-300);padding-bottom:2px">Vis alle områder</div>
+              <div onClick="{{ fhBiltypeNull }}" style="cursor:pointer;display:flex;align-items:center;gap:8px;font-family:'Hanken Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--ink-700);border-bottom:2px solid var(--ink-300);padding-bottom:2px"><span class="material-symbols-outlined" style="font-size:26px">arrow_back</span>Tilbake til valget</div>
             </div>
           </sc-if>
           <sc-if value="{{ fhTilbud.aktiv }}" hint-placeholder-val="{{ true }}">
@@ -2460,7 +2456,7 @@ image-slot{display:block;width:100%;height:100%}
               <div onClick="{{ goAvtale }}" style="cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:800;color:#fff;background:var(--ink-900);padding:18px 30px;border-radius:8px;white-space:nowrap;justify-self:{{ L.bandJust }}">{{ fhTilbud.knapp }}<span class="material-symbols-outlined" style="font-size:28px">arrow_forward</span></div>
             </div>
           </sc-if>
-          <div style="display:grid;grid-template-columns:{{ L.kort3 }};gap:20px;align-items:start">
+          <div style="display:grid;grid-template-columns:{{ L.kort3 }};gap:20px">
             <sc-for list="{{ fhListe }}" as="t" hint-placeholder-count="4">
               <div style="border:2px solid var(--ink-100);border-radius:16px;background:#fff;padding:{{ L.kortluft }};display:flex;flex-direction:column;gap:16px;min-width:0" style-hover="border-color:var(--ink-300);box-shadow:0 12px 32px rgba(0,0,0,.08)">
                 <div style="font-family:'Hanken Grotesk',sans-serif;font-size:{{ L.tjenesteNavn }};font-weight:800;letter-spacing:-.02em;color:var(--ink-900);line-height:1.1">{{ t.navn }}</div>
@@ -2514,6 +2510,7 @@ image-slot{display:block;width:100%;height:100%}
             <div style="font-size:21px;line-height:1.5;color:var(--ink-700)">{{ fhListeMerknad }}</div>
           </div>
         </section>
+        </sc-if>
 
         <sc-if value="{{ fhKampanje.aktiv }}" hint-placeholder-val="{{ true }}">
           <section style="background:var(--ink-700);position:relative;overflow:hidden">
@@ -2546,16 +2543,13 @@ image-slot{display:block;width:100%;height:100%}
             <div style="font-family:'Hanken Grotesk',sans-serif;font-size:20px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-500)">Referansekunder</div>
             <h2 style="font-family:'Hanken Grotesk',sans-serif;font-size:{{ L.h2 }};font-weight:800;letter-spacing:-.025em;color:var(--ink-900);margin:12px 0 0">Forhandlere som bruker oss</h2>
             <p style="font-size:{{ L.ingress }};line-height:1.55;color:var(--ink-600);margin:14px 0 36px;max-width:calc(70ch * var(--mw,1))">Flere av regionens bilforhandlere har brukt oss i mange år. Vi setter deg gjerne i kontakt med en av dem.</p>
-            <div style="display:grid;grid-template-columns:{{ L.kort3 }};gap:16px">
-              <sc-for list="{{ fhReferanser }}" as="r" hint-placeholder-count="6">
+            <div style="display:grid;grid-template-columns:{{ L.kort2 }};gap:16px">
+              <sc-for list="{{ fhReferanser }}" as="r" hint-placeholder-count="4">
                 <div style="background:#fff;border:2px solid var(--ink-100);border-radius:12px;padding:26px 28px;display:flex;align-items:center;gap:20px">
-                  <div style="width:76px;height:76px;border-radius:10px;background:var(--ink-050);border:2px dashed var(--ink-200);display:flex;align-items:center;justify-content:center;flex:none">
-                    <span class="material-symbols-outlined" style="font-size:32px;color:var(--ink-300)">image</span>
-                  </div>
+                  <div style="width:120px;height:76px;border-radius:10px;background-color:{{ r.logoBg }};flex:none;background-image:url('{{ r.logo }}');background-size:contain;background-repeat:no-repeat;background-position:center;background-origin:content-box;padding:10px;box-sizing:border-box" role="img" aria-label="{{ r.navn }}"></div>
                   <div style="min-width:0">
                     <div style="font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);line-height:1.2">{{ r.navn }}</div>
                     <div style="font-size:20px;color:var(--ink-600);margin-top:4px">{{ r.type }}</div>
-                    <div style="font-family:'IBM Plex Mono',monospace;font-size:17px;color:var(--ink-400);margin-top:4px">{{ r.siden }}</div>
                   </div>
                 </div>
               </sc-for>
@@ -2564,12 +2558,10 @@ image-slot{display:block;width:100%;height:100%}
             <div style="background:var(--ink-900);border-radius:12px;padding:44px 48px;margin-top:24px;display:grid;grid-template-columns:{{ L.todelt }};gap:40px;align-items:center">
               <div>
                 <span class="material-symbols-outlined" style="font-size:52px;color:var(--chrome-400)">format_quote</span>
-                <div style="font-family:'Hanken Grotesk',sans-serif;font-size:32px;line-height:1.35;font-weight:700;letter-spacing:-.02em;color:#fff;margin-top:8px;max-width:calc(34ch * var(--mw,1));text-wrap:pretty">{{ fhSitat.tekst }}</div>
+                <div style="font-family:'Hanken Grotesk',sans-serif;font-size:26px;line-height:1.45;font-weight:700;letter-spacing:-.01em;color:#fff;margin-top:8px;max-width:calc(52ch * var(--mw,1));text-wrap:pretty">{{ fhSitat.tekst }}</div>
               </div>
               <div style="display:flex;align-items:center;gap:18px">
-                <div style="width:72px;height:72px;border-radius:999px;background:rgba(255,255,255,.08);border:2px dashed rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;flex:none">
-                  <span class="material-symbols-outlined" style="font-size:32px;color:var(--ink-400)">person</span>
-                </div>
+                <div style="width:72px;height:72px;border-radius:999px;overflow:hidden;flex:none"><img src="assets/photos/alexander-sveinung.jpg" alt="Alexander Sveinung" style="width:100%;height:100%;object-fit:cover"></div>
                 <div>
                   <div style="font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:800;color:#fff">{{ fhSitat.navn }}</div>
                   <div style="font-size:21px;color:var(--ink-300);margin-top:4px">{{ fhSitat.rolle }}</div>
@@ -2689,7 +2681,7 @@ image-slot{display:block;width:100%;height:100%}
           </div>
         </section>
 
-        <section style="max-width:min(96%,2000px);margin:0 auto;padding:{{ L.seksjon }} {{ L.sideluft }};display:grid;grid-template-columns:{{ L.kort2 }};gap:24px">
+        <section style="max-width:min(96%,2000px);margin:0 auto;padding:{{ L.seksjon }} {{ L.sideluft }};display:grid;gap:24px">
           <div style="border:3px solid var(--ink-800);border-radius:12px;padding:{{ L.kortluft }}">
             <div style="font-family:'Hanken Grotesk',sans-serif;font-size:20px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-700)">Coating som mersalg</div>
             <h2 style="font-family:'Hanken Grotesk',sans-serif;font-size:34px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);margin:12px 0 0">Øk fortjenesten per bil</h2>
@@ -2702,12 +2694,6 @@ image-slot{display:block;width:100%;height:100%}
                 </div>
               </sc-for>
             </div>
-          </div>
-          <div style="border:2px solid var(--ink-200);border-radius:12px;padding:{{ L.kortluft }}">
-            <div style="font-family:'Hanken Grotesk',sans-serif;font-size:20px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-500)">Produkter med egen logo</div>
-            <h2 style="font-family:'Hanken Grotesk',sans-serif;font-size:34px;font-weight:800;letter-spacing:-.02em;color:var(--ink-900);margin:12px 0 0">Styrk merkevaren etter levering</h2>
-            <p style="font-size:{{ L.brod }};line-height:1.55;color:var(--ink-600);margin:14px 0 0">Vi kan levere utvalgte bilpleieprodukter med bilforhandlerens egen logo.</p>
-            <p style="font-size:{{ L.brod }};line-height:1.55;color:var(--ink-600);margin:14px 0 0">Perfekt som del av kundeopplevelsen ved utlevering.</p>
           </div>
         </section>
 
@@ -3014,6 +3000,11 @@ image-slot{display:block;width:100%;height:100%}
               <div style="display:flex;flex-direction:column;gap:10px">
                 <label style="font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:700;color:var(--ink-900)">Telefonnummer <span style="color:var(--red-500)">*</span></label>
                 <input value="{{ skjema.tlf.verdi }}" onChange="{{ skjema.tlf.sett }}" onKeyDown="{{ enterFullfor }}" placeholder="900 00 000" style="font-family:'IBM Plex Mono',monospace;font-size:26px;padding:18px 20px;border:2px solid {{ skjema.tlf.ramme }};border-radius:8px;outline:none">
+              </div>
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <label style="font-family:'Hanken Grotesk',sans-serif;font-size:24px;font-weight:700;color:var(--ink-900)">E-post <span style="font-weight:600;color:var(--ink-500)">(valgfritt)</span></label>
+                <input value="{{ skjema.epost.verdi }}" onChange="{{ skjema.epost.sett }}" onKeyDown="{{ enterFullfor }}" placeholder="navn@epost.no" style="font-family:'Hanken Grotesk',sans-serif;font-size:26px;padding:18px 20px;border:2px solid {{ skjema.epost.ramme }};border-radius:8px;outline:none">
+                <sc-if value="{{ skjema.epost.harFeil }}" hint-placeholder-val="{{ false }}"><div style="font-size:20px;color:var(--red-600)">{{ skjema.epost.feil }}</div></sc-if>
               </div>
             </div>
           <div style="display:flex;flex-direction:column;gap:16px;margin-top:24px">
@@ -3535,6 +3526,7 @@ class Component extends DCLogic {
         fetch('/api/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
           customer: { name: (data.kunde || {}).navn || '', phone: (data.kunde || {}).tlf || '', email: (data.kunde || {}).epost || '' },
           items: (data.tjenester || []).map(t => ({ productId: t, quantity: 1, price: 0 })),
+          newsletter: !!data.nyhetsbrev,
           source: 'nettsted'
         }) }).catch(() => {});
       } catch (e) {}
@@ -3572,7 +3564,7 @@ class Component extends DCLogic {
     const items = ((ekstra || {}).valgte || this.state.valgte || []).slice();
     this.lagreOrdre('bestilling', {
       kunde: { navn: f.navn || '', tlf: f.tlf || '', epost: f.epost || '', regnr: (this.state.regNr || f.regnr || '').toUpperCase() },
-      tjenester: items, dato: this.state.dato || '', noekkelboks: !!f.noekkelboks, faktura: !!f.faktura, bedrift: !!this.state.erBedriftBestilling,
+      tjenester: items, dato: this.state.dato || '', nyhetsbrev: !!f.nyhetsbrev, noekkelboks: !!f.noekkelboks, faktura: !!f.faktura, bedrift: !!this.state.erBedriftBestilling,
       vervekode: (this.state.vervInn || '').trim().toUpperCase() || undefined
     });
     this.setState(Object.assign({ steg: 'kvittering', kvitFase: 1, visKampanjePopup: false }, ekstra || {}));
@@ -3660,6 +3652,9 @@ class Component extends DCLogic {
   slaaOppBil(reg) {
     const r = reg.replace(/\s/g, '').toUpperCase();
     if (r.length < 7) return null;
+    const ekte = (this._bilCache || {})[r];
+    if (ekte) return ekte; // ekte data fra Statens vegvesen (via serveren)
+    this.hentBilFraSvv(r); // hentes i bakgrunnen; demo-oppslaget under vises imens
     const moerkeFarger = ['Sort', 'Mørk blå', 'Mørk grå', 'Mørk grønn'];
     const lyse = ['Hvit', 'Sølv', 'Beige'];
     const merker = [['Volvo', 'XC60', 'suv'], ['Toyota', 'Yaris', 'liten'], ['Volkswagen', 'Passat', 'personbil'], ['Skoda', 'Octavia', 'personbil'], ['BMW', 'X5', 'stor']];
@@ -3670,6 +3665,24 @@ class Component extends DCLogic {
     const moerk = sum % 3 !== 0;
     const farge = moerk ? moerkeFarger[sum % moerkeFarger.length] : lyse[sum % lyse.length];
     return { merke: m[0], modell: m[1], aar, farge, moerk, klasse: m[2] };
+  }
+  // Ekte kjøretøydata fra Statens vegvesen via serverens /api/kjoretoy (nøkkelen ligger i server/.env).
+  // Uten server (f.eks. GitHub Pages) feiler kallet stille og demo-oppslaget beholdes.
+  hentBilFraSvv(r) {
+    this._bilCache = this._bilCache || {}; this._bilHenter = this._bilHenter || {};
+    if (this._bilHenter[r]) return;
+    this._bilHenter[r] = true;
+    fetch('/api/kjoretoy/' + encodeURIComponent(r)).then(x => (x.ok ? x.json() : null)).then(b => {
+      if (!b || !b.merke) return;
+      this._bilCache[r] = b;
+      const rens = v => String(v || '').replace(/\s/g, '').toUpperCase();
+      if (this.state.bil && rens(this.state.regNr) === r) this.setState({ bil: b });
+      if (this.state.bobilOppslag && rens(this.state.bobilReg) === r) this.setState({ bobilOppslag: b.merke + ' ' + b.modell + (b.aar ? ', ' + b.aar : ''), meter: b.lengde ? (b.lengde / 1000).toFixed(1) : this.state.meter });
+      if (this.state.bdBil && rens(this.state.bdReg) === r) {
+        const alder = new Date().getFullYear() - (b.aar || new Date().getFullYear());
+        this.setState({ bdBil: b, bdOmraade: alder >= 7 ? 'bilsalg' : 'lakk' });
+      }
+    }).catch(() => {});
   }
   renderVals() {
     const b = this.state.bredde || 1440;
@@ -3753,7 +3766,7 @@ class Component extends DCLogic {
       .map(([id, label]) => ({
         label,
         go: egneSider[id]
-          ? () => { this.setState({ steg: id, meny: false, erForhandler: id === 'forhandler', erBedrift: id === 'bedrift' }); window.scrollTo(0, 0); }
+          ? () => { this.setState({ steg: id, meny: false, erForhandler: id === 'forhandler', erBedrift: id === 'bedrift', fhBiltype: id === 'forhandler' ? null : this.state.fhBiltype }); window.scrollTo(0, 0); }
           : til(id),
         color: p === id ? 'var(--ink-900)' : 'var(--ink-600)',
         navFarge: p === id || (id === 'bedrift' && (['bdDetalj','bdForslag'].includes(p) || (['avtale','avtaleKvittering'].includes(p) && this.state.avtaleBedriftType))) || (id === 'forhandler' && (['hurtig','hurtigKvittering','oppdrag','oppdragKvittering'].includes(p) || (['avtale','avtaleKvittering'].includes(p) && !this.state.avtaleBedriftType))) ? '#fff' : 'var(--ink-700)',
@@ -4117,7 +4130,7 @@ class Component extends DCLogic {
           [['båt', 'bat', 'seilbåt', 'motorbåt'], () => ({ steg: 'bat' })],
           [['bobil', 'caravan', 'campingvogn'], () => ({ steg: 'bobil' })],
           [['bedrift', 'firmabil', 'bilpark'], () => ({ steg: 'bedrift', erBedrift: true })],
-          [['forhandler', 'bilforhandler'], () => ({ steg: 'forhandler', erForhandler: true })],
+          [['forhandler', 'bilforhandler'], () => ({ steg: 'forhandler', erForhandler: true, fhBiltype: null })],
           [['kampanje', 'tilbud'], () => ({ steg: 'kampanjer' })],
           [['min side', 'minside'], () => ({ steg: 'minside' })],
           [['bilsalg', 'selge bil', 'salg'], () => ({ steg: 'bilsalg' })],
@@ -4592,7 +4605,7 @@ class Component extends DCLogic {
         { navn: 'Kampanjer', gaa: til('kampanjer') },
         { navn: 'Aktuelt', gaa: til('nyheter') },
         { navn: 'For bedriftskunder', mobSkjul: true, gaa: () => { this.setState({ steg: 'bedrift', meny: false, erBedrift: true }); window.scrollTo(0, 0); } },
-        { navn: 'For bilforhandlere', mobSkjul: true, gaa: () => { this.setState({ steg: 'forhandler', meny: false, erForhandler: true }); window.scrollTo(0, 0); } },
+        { navn: 'For bilforhandlere', mobSkjul: true, gaa: () => { this.setState({ steg: 'forhandler', meny: false, erForhandler: true, fhBiltype: null }); window.scrollTo(0, 0); } },
         { navn: 'Kontakt oss', gaa: til('kontakt') },
         { navn: 'Min side', gaa: () => { this.setState({ steg: 'minside', meny: false }); window.scrollTo(0, 0); } },
         { navn: 'Personvern', gaa: til('kontakt') },
@@ -5224,14 +5237,15 @@ class Component extends DCLogic {
         const feil = {
           navn: !f.navn || f.navn.trim().length < 2 ? 'Skriv inn navnet ditt' : '',
           tlf: !/^[\d\s+]{8,}$/.test((f.tlf || '').trim()) ? 'Skriv inn et gyldig telefonnummer' : '',
-          epost: '',
+          epost: f.nyhetsbrev && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test((f.epost || '').trim()) ? 'Skriv inn e-post for å motta nyhetsbrev'
+            : (f.epost || '').trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.epost.trim()) ? 'Skriv inn en gyldig e-postadresse' : '',
           reg: '',
           dato: !this.state.dato ? 'Velg en ønsket dato' : '',
           tjeneste: !iRekkefolge.length && !antall ? 'Velg minst én tjeneste' : '',
           samtykke: !f.samtykke ? 'Du må samtykke til personvernerklæringen' : ''
         };
         const antallFeil = Object.values(feil).filter(Boolean).length;
-        const feilNavn = { navn: 'navn', tlf: 'telefonnummer', dato: 'dato', tjeneste: 'tjeneste', samtykke: 'samtykke' };
+        const feilNavn = { navn: 'navn', tlf: 'telefonnummer', epost: 'e-post', dato: 'dato', tjeneste: 'tjeneste', samtykke: 'samtykke' };
         const mangler = Object.keys(feil).filter(k => feil[k]).map(k => feilNavn[k] || k);
         const felt = (n) => ({
           verdi: f[n] || '',
@@ -5561,15 +5575,12 @@ class Component extends DCLogic {
         });
       })(),
       bdReferanser: [
-        { navn: 'Bedriftsnavn', type: 'Elektriker · Tønsberg', detalj: '14 servicebiler · fast vask hver 14. dag' },
-        { navn: 'Bedriftsnavn', type: 'Rørlegger · Sandefjord', detalj: '8 varebiler · månedlig avtale' },
-        { navn: 'Bedriftsnavn', type: 'Entreprenør · Vestfold', detalj: '22 kjøretøy · vask og rustbeskyttelse' },
-        { navn: 'Bedriftsnavn', type: 'Vaktmestertjeneste · Larvik', detalj: '11 biler · fast vask ukentlig' }
+        { navn: 'FKA', type: 'Bedriftskunde', logo: 'assets/logos/fka.svg' },
+        { navn: 'Lede', type: 'Bedriftskunde', logo: 'assets/logos/lede.png' },
+        { navn: 'PEC', type: 'Bedriftskunde', logo: 'assets/logos/pec.jpg' },
+        { navn: 'Emergency Norway AS', type: 'Bedriftskunde', logo: 'assets/logos/emergency-norway.webp' }
       ],
-      bdSitater: [
-        { tekst: 'Vi hadde ikke tid til å vaske bilene selv, og det syntes. Nå går de innom Kepler fast, og vi slipper å tenke på det.', navn: 'Navn Navnesen', rolle: 'Daglig leder, Bedriftsnavn' },
-        { tekst: 'Guttene setter pris på å komme til en ren bil om morgenen. Det høres lite ut, men det betyr noe over tid.', navn: 'Navn Navnesen', rolle: 'Driftsleder, Bedriftsnavn' }
-      ],
+      bdSitat: { tekst: 'Det er alltid hyggelig å komme til Kepler, og de holder bilene våre rene og pene hele året.', navn: 'Bedriftskunde', rolle: '' },
       bdRegNr: this.state.bdReg || '',
       bdSettReg: e => this.setState({ bdReg: e.target.value.toUpperCase() }),
       bdSlaaOpp: () => {
@@ -5763,7 +5774,6 @@ class Component extends DCLogic {
           'PPF-folie, frontpakke': ['Keramisk coating', 'Lakkrens og polering'],
           'PPF-folie, full innpakning': ['Keramisk coating', 'Lakkrens og polering'],
           'Lakkrens og polering': ['Keramisk coating', 'Bruktbilklargjøring'],
-          'Produkter med egen logo': ['Keramisk coating'],
           'Importbehandling': ['Nybilklargjøring', 'Keramisk coating'],
           'Del 2-behandling': ['Keramisk coating', 'Bruktbilklargjøring'],
           'Komplett understellsbehandling': ['Keramisk coating', 'Bruktbilklargjøring'],
@@ -5987,16 +5997,15 @@ class Component extends DCLogic {
         }, 60);
       } })),
       fhBiltypeAktiv: !!this.state.fhBiltype,
-      fhBiltypeTittel: this.state.fhBiltype === 'nye' ? 'Tjenester for nye biler' : 'Tjenester for brukte biler',
-      fhBiltypeNull: () => this.setState({ fhBiltype: null }),
+      fhVelger: !this.state.fhBiltype,
+      fhBiltypeTittel: (this.state.fhBiltype || 'nye') === 'nye' ? 'Tjenester for nye biler' : 'Tjenester for brukte biler',
+      fhBiltypeNull: () => { this.setState({ fhBiltype: null }); window.scrollTo({ top: 0, behavior: 'smooth' }); },
       fhOmraader: (() => {
         const liste = [
-          { id: 'lakk', navn: 'Beskytte lakken', tekst: 'Coating, forsegling og PPF-folie som mersalg i salgsprosessen.', bilde: 'assets/photos/polering-frontrute.jpg' },
-          { id: 'rust', navn: 'Antirust', tekst: 'Importbehandling, del 2 og komplette understellsbehandlinger.', bilde: 'assets/photos/antirust-understell-lift.jpg' },
-          { id: 'skade', navn: 'Skader', tekst: 'Smart Repair og mottakskontroll — små skader før de koster.', bilde: 'assets/photos/smart-repair-front.jpg' },
-          { id: 'bilsalg', navn: 'Bilsalg', tekst: 'Klargjøring for foto, visning og levering — med henting og bringing.', bilde: 'assets/photos/klargjoring-hvit-bil.jpg' }
+          { id: 'nye', navn: 'Nye biler', tekst: 'Nybilklargjøring, importbehandling, coating og PPF før levering.', bilde: 'assets/photos/forhandler-nybil.jpg' },
+          { id: 'brukte', navn: 'Brukte biler', tekst: 'Bruktbilklargjøring, Smart Repair, polering og fotoklargjøring.', bilde: 'assets/photos/forhandler-bruktbil.jpg' }
         ];
-        const v = this.state.fhBiltype ? null : (this.state.fhOmraade || 'lakk');
+        const v = this.state.fhBiltype;
         return liste.map(o => ({
           navn: o.navn, tekst: o.tekst,
           bakgrunn: "url('" + o.bilde + "') center/cover no-repeat",
@@ -6006,11 +6015,8 @@ class Component extends DCLogic {
           tekstFarge: v === o.id ? 'var(--ink-300)' : 'var(--ink-600)',
           lenkeFarge: v === o.id ? 'var(--chrome-300)' : 'var(--ink-700)',
           go: () => {
-            this.setState({ fhOmraade: o.id, fhBiltype: null });
-            setTimeout(() => {
-              const el = document.getElementById('fh-tjenester');
-              if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - 128, behavior: 'smooth' });
-            }, 60);
+            this.setState({ fhBiltype: o.id });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
           }
         }));
       })(),
@@ -6034,8 +6040,7 @@ class Component extends DCLogic {
             { navn: 'PPF-folie, utsatte områder', tekst: 'Lastekant, dørterskler, innstegsområder og håndtakssoner. Alle trenger ikke full innpakning.', tid: '1 dag' },
             { navn: 'PPF-folie, frontpakke', tekst: 'Beskyttelse av panser, front og speil mot steinsprut.', tid: '1–2 dager' },
             { navn: 'PPF-folie, full innpakning', tekst: 'Hele bilen. Vi sier fra når det lønner seg.', tid: '3–4 dager' },
-            { navn: 'Lakkrens og polering', tekst: 'Reduserer synligheten av vaskeriper og overfladiske defekter. Ikke alle riper forsvinner.', tid: '1 dag' },
-            { navn: 'Produkter med egen logo', tekst: 'Utvalgte bilpleieprodukter med deres logo, som følger bilen ved levering.', tid: 'Etter avtale' }
+            { navn: 'Lakkrens og polering', tekst: 'Reduserer synligheten av vaskeriper og overfladiske defekter. Ikke alle riper forsvinner.', tid: '1 dag' }
           ],
           rust: [
             { navn: 'Importbehandling', tekst: 'Rustbeskyttelse av nye biler, integrert i leveringsprosessen. Bilen leveres ferdig behandlet til kunden.', tid: '1 dag' },
@@ -6050,9 +6055,7 @@ class Component extends DCLogic {
           brukte: ['Bruktbilklargjøring', 'Smart Repair', 'Lakkrens og polering', 'Fotoklargjøring', 'Del 2-behandling', 'Dekorfjerning']
         };
         const alleT = [...kat.bilsalg, ...kat.skade, ...kat.lakk, ...kat.rust];
-        const valgtListe = this.state.fhBiltype
-          ? btNavn[this.state.fhBiltype].map(n => alleT.find(t => t.navn === n)).filter(Boolean)
-          : (kat[this.state.fhOmraade || 'lakk'] || kat.lakk);
+        const valgtListe = btNavn[this.state.fhBiltype || 'nye'].map(n => alleT.find(t => t.navn === n)).filter(Boolean);
         return valgtListe.map(t => ({
           ...t,
           aapen: (this.state.fhAapen || []).includes(t.navn),
@@ -6080,23 +6083,17 @@ class Component extends DCLogic {
           }
         }));
       })(),
-      fhListeMerknad: this.state.fhBiltype
-        ? 'Utvalg tilpasset ' + (this.state.fhBiltype === 'nye' ? 'nye' : 'brukte') + ' biler. Priser avtales i bedriftsavtalen — ta kontakt for et tilbud.'
-        : (this.state.fhOmraade || 'lakk') === 'bilsalg'
-        ? 'Henting og levering er tilleggstjenester som faktureres separat.'
-        : 'Priser avtales i bedriftsavtalen. Ta kontakt for et tilbud tilpasset volumet deres.',
+      fhListeMerknad: 'Utvalg tilpasset ' + ((this.state.fhBiltype || 'nye') === 'nye' ? 'nye' : 'brukte') + ' biler. Priser avtales i bedriftsavtalen — ta kontakt for et tilbud.',
       fhReferanser: [
-        { navn: 'Forhandlernavn', type: 'Merkeforhandler · Tønsberg', siden: 'Kunde siden 2018' },
-        { navn: 'Forhandlernavn', type: 'Bruktbilforhandler · Sandefjord', siden: 'Kunde siden 2020' },
-        { navn: 'Forhandlernavn', type: 'Merkeforhandler · Larvik', siden: 'Kunde siden 2021' },
-        { navn: 'Forhandlernavn', type: 'Leasingselskap · Vestfold', siden: 'Kunde siden 2022' },
-        { navn: 'Forhandlernavn', type: 'Bruktbilforhandler · Horten', siden: 'Kunde siden 2023' },
-        { navn: 'Forhandlernavn', type: 'Merkeforhandler · Sem', siden: 'Kunde siden 2024' }
+        { id: 'bilia', navn: 'Bilia', type: 'Merkeforhandler · Tønsberg', logo: 'assets/logos/bilia.svg', logoBg: '#fff' },
+        { id: 'autostrada', navn: 'Autostrada Tønsberg', type: 'Merkeforhandler · Tønsberg', logo: 'assets/logos/autostrada.svg', logoBg: '#fff' },
+        { id: 'toyota-bilia', navn: 'Toyota Bilia', type: 'Merkeforhandler', logo: 'assets/logos/toyota-bilia.jpg', logoBg: '#fff' },
+        { id: 'gjermundsen', navn: 'Gjermundsen Auto', type: 'Bilforhandler', logo: 'assets/logos/gjermundsen.png', logoBg: '#fff' }
       ],
       fhSitat: {
-        tekst: 'Vi slipper å ha egne folk på klargjøring, og bilene står klare når vi har avtalt. Det er den forutsigbarheten vi betaler for.',
-        navn: 'Navn Navnesen',
-        rolle: 'Bruktbilsjef, Forhandlernavn'
+        tekst: 'Kepler har vært en samarbeidspartner for oss i mange år. Vi vet at bilene blir levert til avtalt tid, og vi har et godt utvalg av antirustbehandlinger og lakkbeskyttelser vi kan tilby våre kunder. På bruktbiler leverer Kepler raskt og med god kvalitet, noe som gjør at vi kan legge bilene ut for salg raskere – samtidig som vi kan bruke tiden vår på andre viktige oppgaver.',
+        navn: 'Alexander Sveinung',
+        rolle: 'Plassjef, Bilia'
       },
       fhLogistikk: ['Henting etter avtale', 'Levering etter avtale', 'Tidlig morgenlevering ved behov', 'Tilbakelevering til ønsket tidspunkt'],
       fhLogistikkFordeler: ['Spar tid', 'Frigjør plass', 'Reduser intern belastning', 'Bilen tilbake når du trenger den'],
@@ -6113,7 +6110,6 @@ class Component extends DCLogic {
         { sp: 'Kan dere utføre mottakskontroll av nye biler?', sv: 'Ja. Vi kan utføre mottakskontroll av nye biler og dokumentere eventuelle transportskader, kosmetiske avvik eller andre forhold som bør avdekkes før bilen leveres til kunde.' },
         { sp: 'Kan dere hjelpe oss med å øke verdien på bruktbilene våre?', sv: 'Ja. Gjennom klargjøring, lakkrens, Smart Repair, coating og rustbeskyttelse kan vi bidra til at bilen fremstår mer attraktiv og bedre vedlikeholdt.' },
         { sp: 'Kan dere levere coating som en del av bilsalget?', sv: 'Ja. Vi tilbyr både premium coatinger og prisgunstige løsninger som enkelt kan integreres i salgsprosessen.' },
-        { sp: 'Kan vi få produkter med egen logo?', sv: 'Ja. Vi kan levere utvalgte bilpleieprodukter med deres logo som kan følge med bilen ved levering.' },
         { sp: 'Kan dere utføre importbehandling?', sv: 'Ja. Vi utfører importbehandling av nye biler og kan integrere dette i leveringsprosessen.' },
         { sp: 'Kan dere utføre del 2-behandling på biler behandlet av andre?', sv: 'Ja. Vi kan utføre del 2-behandling på alle typer importbehandlede biler og utsteder ny garanti til bileier etter utført behandling.' },
         { sp: 'Tilbyr dere komplette understellsbehandlinger?', sv: 'Ja. Vi utfører komplette understellsbehandlinger på personbiler, varebiler, lastebiler, traktorer og andre nyttekjøretøy.' }

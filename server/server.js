@@ -8,6 +8,14 @@ const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
 
+// Miljøvariabler fra server/.env (én KEY=verdi per linje). Filen er gitignorert — hemmeligheter skal aldri i git.
+try {
+  fs.readFileSync(path.join(__dirname, '.env'), 'utf8').split('\n').forEach(l => {
+    const m = l.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*?)\s*$/);
+    if (m && !process.env[m[1]]) process.env[m[1]] = m[2];
+  });
+} catch (e) {}
+
 const app = express();
 const { lagEpost } = require('./epost-maler');
 const EPOST_FRA = (process.env.EMAIL_FROM_NAME || 'Kepler Bilservice') + ' <' + (process.env.EMAIL_FROM_ADDRESS || process.env.SMTP_FRA || 'post@kepler.no') + '>';
@@ -218,6 +226,99 @@ app.get(['/admin', '/admin/:side'], (req, res) => {
   res.send(html);
 });
 
+// ---------- Mailchimp (nyhetsbrev) ----------
+// Nøkkelen ligger KUN i server/.env (MAILCHIMP_API_KEY) — aldri i klientkoden.
+// Datasenteret leses fra nøkkelens suffiks (f.eks. -us21). Krever Node 18+ (global fetch).
+const MC_NOKKEL = process.env.MAILCHIMP_API_KEY || '';
+let MC_LISTE = process.env.MAILCHIMP_AUDIENCE_ID || '';
+const MC_DC = MC_NOKKEL.split('-')[1] || '';
+// Uten MAILCHIMP_AUDIENCE_ID i .env hentes kontoens første audience automatisk ved oppstart
+if (MC_NOKKEL && MC_DC && !MC_LISTE) {
+  fetch('https://' + MC_DC + '.api.mailchimp.com/3.0/lists?count=1', {
+    headers: { Authorization: 'Basic ' + Buffer.from('kepler:' + MC_NOKKEL).toString('base64') }
+  }).then(r => r.json()).then(svar => {
+    const liste = (svar.lists || [])[0];
+    if (liste) { MC_LISTE = liste.id; console.log('Mailchimp: bruker audience "' + liste.name + '" (' + liste.id + ')'); }
+    else console.warn('Mailchimp: fant ingen audience — ' + (svar.detail || 'sjekk nøkkelen i server/.env'));
+  }).catch(err => console.warn('Mailchimp: klarte ikke hente audience — ' + err.message));
+}
+function meldPaaNyhetsbrev(db, epost, navn, kilde) {
+  epost = String(epost || '').trim().toLowerCase();
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(epost)) return false;
+  db.nyhetsbrev = db.nyhetsbrev || [];
+  if (db.nyhetsbrev.some(r => r.epost === epost)) return true; // allerede registrert
+  const rad = { epost, navn: navn || '', kilde: kilde || '', tid: new Date().toISOString(),
+    status: MC_NOKKEL && MC_LISTE ? 'sender' : 'fanget lokalt (sett MAILCHIMP_API_KEY og MAILCHIMP_AUDIENCE_ID i server/.env)' };
+  db.nyhetsbrev.unshift(rad);
+  loggfør(db, 'Nyhetsbrev-påmelding: ' + epost + ' (' + rad.kilde + ')');
+  if (!MC_NOKKEL || !MC_LISTE || !MC_DC) return true;
+  const settStatus = status => { const d2 = lesDb(); const r2 = (d2.nyhetsbrev || []).find(x => x.epost === epost); if (r2) { r2.status = status; skrivDb(d2); } };
+  // PUT med md5(epost) = idempotent upsert. status_if_new 'pending' gir dobbel opt-in-epost fra Mailchimp;
+  // eksisterende abonnenter nedgraderes ikke.
+  const md5 = crypto.createHash('md5').update(epost).digest('hex');
+  fetch('https://' + MC_DC + '.api.mailchimp.com/3.0/lists/' + MC_LISTE + '/members/' + md5, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', Authorization: 'Basic ' + Buffer.from('kepler:' + MC_NOKKEL).toString('base64') },
+    body: JSON.stringify({ email_address: epost, status_if_new: 'pending',
+      merge_fields: navn ? { FNAME: String(navn).split(' ')[0], LNAME: String(navn).split(' ').slice(1).join(' ') } : {},
+      tags: kilde ? [kilde] : [] })
+  }).then(r => r.json())
+    .then(svar => settStatus(svar.status && svar.status !== 400 ? 'mailchimp: ' + svar.status : 'feilet: ' + (svar.detail || svar.title || 'ukjent feil')))
+    .catch(err => settStatus('feilet: ' + err.message));
+  return true;
+}
+app.post('/api/newsletter', (req, res) => {
+  const db = lesDb();
+  const ok = meldPaaNyhetsbrev(db, (req.body || {}).email, (req.body || {}).name || '', 'nettsted-skjema');
+  if (!ok) return res.status(400).json({ error: 'Oppgi en gyldig e-postadresse.' });
+  skrivDb(db);
+  res.status(201).json({ ok: true, melding: 'Takk! Sjekk innboksen din for å bekrefte påmeldingen.' });
+});
+app.get('/api/newsletter', (req, res) => { if (!krevAdminTidlig(req, res)) return; res.json(lesDb().nyhetsbrev || []); });
+function krevAdminTidlig(req, res) { const b = sesjonFra(req); if (!b) { res.status(401).json({ error: 'Krever innlogging.' }); return null; } return b; }
+
+// ---------- Statens vegvesen (kjøretøyoppslag) ----------
+// Nøkkelen ligger KUN i server/.env (SVV_API_KEY). Enkeltoppslag-API-et har døgnkvote, så svar caches i minnet i 24 t.
+const SVV_NOKKEL = process.env.SVV_API_KEY || '';
+const svvCache = new Map(); // regnr -> { tid, data }
+// "VOLVO" -> "Volvo", men "BMW" og "XC60" beholdes
+const pent = s => String(s || '').split(' ').map(w => (/^[A-ZÆØÅ-]{4,}$/.test(w) ? w[0] + w.slice(1).toLowerCase() : w)).join(' ');
+app.get('/api/kjoretoy/:regnr', (req, res) => {
+  const regnr = String(req.params.regnr || '').replace(/\s/g, '').toUpperCase();
+  if (!/^[A-ZÆØÅ]{2}\d{4,5}$/.test(regnr)) return res.status(400).json({ error: 'Ugyldig registreringsnummer.' });
+  const c = svvCache.get(regnr);
+  if (c && Date.now() - c.tid < 864e5) return res.json(c.data);
+  if (!SVV_NOKKEL) return res.status(503).json({ error: 'SVV_API_KEY mangler i server/.env.' });
+  fetch('https://akfell-datautlevering.atlas.vegvesen.no/enkeltoppslag/kjoretoydata?kjennemerke=' + encodeURIComponent(regnr), {
+    headers: { 'SVV-Authorization': 'Apikey ' + SVV_NOKKEL }
+  }).then(r => { if (!r.ok) throw new Error('SVV svarte ' + r.status); return r.json(); }).then(svar => {
+    const k = (svar.kjoretoydataListe || [])[0];
+    const tg = ((k || {}).godkjenning || {}).tekniskGodkjenning || {};
+    const t = tg.tekniskeData || {};
+    const merke = (((t.generelt || {}).merke || [])[0] || {}).merke || '';
+    if (!merke) return res.status(404).json({ error: 'Fant ikke kjøretøyet.' });
+    const farge = ((((t.karosseriOgLasteplan || {}).rFarge || [])[0] || {}).kodeNavn) || '';
+    const klasseTekst = ((tg.kjoretoyklassifisering || {}).beskrivelse || '') + ' ' + (((tg.kjoretoyklassifisering || {}).tekniskKode || {}).kodeNavn || '');
+    const data = {
+      regnr,
+      merke: pent(merke),
+      modell: ((t.generelt || {}).handelsbetegnelse || [])[0] || '',
+      aar: parseInt(String((k.forstegangsregistrering || {}).registrertForstegangNorgeDato || '').slice(0, 4), 10) || null,
+      farge: pent(farge),
+      moerk: /sort|svart|mørk|blå|grå|brun|grønn/i.test(farge) && !/lys/i.test(farge),
+      drivstoff: pent((((((t.miljodata || {}).miljoOgdrivstoffGruppe || [])[0] || {}).drivstoffKodeMiljodata || {}).kodeNavn) || ''),
+      lengde: (t.dimensjoner || {}).lengde || null, // mm
+      klasse: /buss|M2|M3/i.test(klasseTekst) ? 'stor' : (/varebil|N1|N2|N3/i.test(klasseTekst) ? 'varebil' : 'personbil'),
+      kilde: 'Statens vegvesen'
+    };
+    svvCache.set(regnr, { tid: Date.now(), data });
+    res.json(data);
+  }).catch(err => {
+    const db = lesDb(); loggfør(db, 'SVV-oppslag feilet for ' + regnr + ': ' + err.message); skrivDb(db);
+    res.status(502).json({ error: 'Klarte ikke hente kjøretøydata nå.' });
+  });
+});
+
 // ---------- Ordre-API ----------
 app.post('/api/orders', (req, res) => {
   const { customer, items, total } = req.body || {};
@@ -245,6 +346,7 @@ app.post('/api/orders', (req, res) => {
     varsle(db, 'epost', ADMIN_EPOST, mA.emne, mA.tekst, mA.html);
     if (customer.phone) varsle(db, 'sms', customer.phone, 'Ordrebekreftelse', fyllMal(db, 'smsOrdre', { navn: customer.name, ref: order.orderNumber }));
     if (ADMIN_SMS) varsle(db, 'sms', ADMIN_SMS, 'Ny ordre', fyllMal(db, 'smsAdminOrdre', { ref: order.orderNumber, navn: customer.name }));
+    if (req.body.newsletter && customer.email) meldPaaNyhetsbrev(db, customer.email, customer.name, 'bestilling');
   }
   skrivDb(db);
   res.status(201).json(order);
@@ -276,6 +378,7 @@ app.post('/api/bookings', (req, res) => {
     varsle(db, 'epost', ADMIN_EPOST, bA.emne, bA.tekst, bA.html);
     if (customer.phone) varsle(db, 'sms', customer.phone, 'Bookingbekreftelse', fyllMal(db, 'smsBooking', { navn: customer.name, ref: dataB.ref, detaljer: serviceId + ' ' + date + (req.body.time ? ' kl. ' + req.body.time : '') }));
     if (ADMIN_SMS) varsle(db, 'sms', ADMIN_SMS, 'Ny booking', fyllMal(db, 'smsAdminBooking', { ref: dataB.ref, navn: customer.name, detaljer: serviceId + ' ' + date }));
+    if (req.body.newsletter && customer.email) meldPaaNyhetsbrev(db, customer.email, customer.name, 'booking');
   }
   skrivDb(db);
   res.status(201).json(booking);

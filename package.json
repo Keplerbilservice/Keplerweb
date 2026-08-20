@@ -11,11 +11,13 @@
     "test:backend:report": "playwright show-report",
     "test:backend:proto": "playwright test tests/backend/backend-launch.ui.spec.ts"
   },
-  "devDependencies": {
-    "@playwright/test": "^1.46.0",
+  "dependencies": {
     "express": "^4.19.2",
     "nodemailer": "^6.9.14",
-    "twilio": "^5.2.0",
+    "twilio": "^5.2.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.46.0",
     "sharp": "^0.33.4",
     "cross-env": "^7.0.3",
     "http-server": "^14.1.1",
