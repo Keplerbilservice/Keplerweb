@@ -28,3 +28,4 @@ npm run test:backend # backend-testsuite
 
 ## Kontakt
 Prosjektet er laget i Claude; spørsmål om designintensjon rettes til bestiller.
+
