@@ -1,5 +1,13 @@
 // Utfyllende informasjon per tjeneste. Utkast — fakta må kvalitetssikres av Kepler.
 export const detaljer = {
+  'klima': {
+    hva: 'Service av bilens klimaanlegg. Vi kontrollerer funksjonen, etterfyller kjølemedium og renser anlegget, slik at AC-en gir kald og frisk luft og virker som den skal når du trenger den.',
+    varighet: '1 time', garanti: '',
+    prosess: ['Funksjonstest av klimaanlegget', 'Kontroll og etterfylling av kjølemedium', 'Rens av anlegget mot lukt og bakterier', 'Sluttkontroll av temperatur og effekt'],
+    forvent: ['Kaldere og friskere luft i kupeen', 'Bedre effekt og jevnere drift av AC-en', 'Mindre lukt fra anlegget', 'Avdekker vi lekkasje eller feil, sier vi fra før noe utbedres'],
+    passer: ['Biler der AC-en kjøler dårlig eller lukter', 'Anlegg som ikke har hatt service på 2–3 år'],
+    heller: [['Innvendig vask og rens', 'hvis lukten sitter i tekstiler og interiør, ikke i anlegget']]
+  },
   'vask-innv-lett': {
     hva: 'En rask vedlikeholdsvask innvendig som gir bilen et renere og triveligere innemiljø — perfekt mellom de mer omfattende bilpleiebehandlingene. Dette er ikke en grundig innvendig rens.',
     varighet: '1 time', garanti: '',

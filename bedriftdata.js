@@ -126,6 +126,18 @@ export const bdDetaljer = {
     ikkeInkludert: ['Utbedring, bestilles ut fra rapporten', 'Teknisk kontroll'],
     merk: 'Passer bilparker på ti kjøretøy og oppover. Avtales som del av bedriftsavtalen.'
   },
+  'Årlig Shine': {
+    hva: 'Den årlige oppfriskningen: utvendig vask og polering, og innvendig vask og rens — bilen representativ ute og inne.',
+    inngar: ['Utvendig håndvask', 'Maskinpolering', 'Innvendig vask og rens', 'Kontroll i lyshall'],
+    ikkeInkludert: ['Dype riper gjennom klarlakken', 'Coating og forsegling — bestilles separat'],
+    merk: 'Passer som fast årlig avtale per bil i bilparken.'
+  },
+  'Fjerning av folie': {
+    hva: 'Skånsom fjerning av folie, dekor og firmalogo — før tilbakelevering eller ny profilering. Prisen settes etter medgåtte timer og varer — ta kontakt for pris.',
+    inngar: ['Oppvarming og fjerning av folie', 'Fjerning av limrester', 'Kontroll av lakken under', 'Lett polering av området'],
+    ikkeInkludert: ['Utbedring av lakkskader som avdekkes under folien', 'Ny folie og dekor'],
+    merk: 'Lakk under gammel folie kan ha annen glans enn resten av bilen. Vi sier fra hvis polering ikke jevner det ut.'
+  },
   'Dekorfjerning': {
     hva: 'Trygg fjerning av folie, dekor og firmalogo før tilbakelevering eller videresalg.',
     inngar: ['Oppvarming og fjerning av folie', 'Fjerning av limrester', 'Kontroll av lakken under', 'Lett polering av området'],
